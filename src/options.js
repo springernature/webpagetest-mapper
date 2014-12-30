@@ -1,4 +1,3 @@
-/*jshint nomen:false */
 /*globals require, module */
 
 'use strict';
