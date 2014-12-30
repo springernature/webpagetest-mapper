@@ -20,6 +20,7 @@ defaultConfig = '.wptrc';
 
 module.exports = {
     cli: [
+        // TODO: Option to set the base URI for the WebPageTest instance (defaults to www.webpagetest.org)
         {
             format: '-k, --key <key>',
             description: 'the WebPageTest API key'
