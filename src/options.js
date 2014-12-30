@@ -9,6 +9,15 @@ check = require('check-types');
 path = require('path');
 fs = require('fs');
 
+defaults = {
+    location: 'Dulles:Chrome',
+    connection: 'Native Connection',
+    tests: 'tests.json',
+    count: 9
+};
+
+defaultConfig = '.wptrc';
+
 module.exports = {
     cli: [
         {
@@ -25,7 +34,7 @@ module.exports = {
         },
         {
             format: '-t, --tests <path>',
-            description: 'path to the test definitions file, default is `' + defaults.tests + '`'
+            description: 'path to the test definitions file, default is `./' + defaults.tests + '`'
         },
         {
             format: '-n, --count <number>',
@@ -50,20 +59,11 @@ module.exports = {
         },
         {
             format: '-f, --config <path>',
-            description: 'read configuration options from a file, default is `' + defaultConfig + '`'
+            description: 'read configuration options from a file, default is `./' + defaultConfig + '`'
         }
     ],
     normalise: normalise
 };
-
-defaults = {
-    location: 'Dulles:Chrome',
-    connection: 'Native Connection',
-    tests: 'tests.json',
-    count: 9
-};
-
-defaultConfig = '.wptrc';
 
 function normalise (options) {
     populateObject(options, readJSON(options.config, defaultConfig));
@@ -79,8 +79,10 @@ function readJSON (jsonPath, defaultFileName) {
         jsonPath = defaultFileName;
     }
 
+    jsonPath = path.resolve(jsonPath);
+
     if (fs.existsSync(jsonPath) && fs.statSync(jsonPath).isFile()) {
-        return JSON.parse(fs.readFileSync(path.resolve(jsonPath)), { encoding: 'utf8' });
+        return JSON.parse(fs.readFileSync(jsonPath), { encoding: 'utf8' });
     }
 
     return {};
