@@ -14,11 +14,15 @@ mockery.registerAllowable(modulePath);
 mockery.registerAllowable('check-types');
 
 suite('options:', function () {
-    var log, results;
+    var log, results, mappers;
 
     setup(function () {
         log = {};
         results = {};
+        mappers = {
+            svg: {},
+            odf: {}
+        };
 
         mockery.enable({ useCleanCache: true });
         mockery.registerMock('path', spooks.obj({
@@ -36,6 +40,8 @@ suite('options:', function () {
             log: log,
             results: results
         }));
+        mockery.registerMock('./mappers/html-svg', mappers.svg);
+        mockery.registerMock('./mappers/odf-spreadsheet', mappers.odf);
 
         results.statSync = {
             isFile: spooks.fn({ name: 'isFile', log: log, results: results })
@@ -48,12 +54,14 @@ suite('options:', function () {
     });
 
     teardown(function () {
+        mockery.deregisterMock('./mappers/odf-spreadsheet');
+        mockery.deregisterMock('./mappers/html-svg');
         mockery.deregisterMock('get-off-my-log');
         mockery.deregisterMock('fs');
         mockery.deregisterMock('path');
         mockery.disable();
 
-        log = results = undefined;
+        log = results = mappers = undefined;
     });
 
     test('require does not throw', function () {
@@ -79,7 +87,7 @@ suite('options:', function () {
 
         test('cli array is exported', function () {
             assert.isArray(options.cli);
-            assert.lengthOf(options.cli, 13);
+            assert.lengthOf(options.cli, 14);
         });
 
         test('cli options seem correct', function () {
@@ -87,7 +95,7 @@ suite('options:', function () {
                 assert.isString(option.format);
                 assert.match(option.format, /^-[a-z], --[a-z]+( <[a-zA-Z]+>)?$/);
                 assert.isString(option.description);
-                assert.match(option.description, /^[a-z]+ [a-zA-Z0-9 ,`:\.\/]+$/);
+                assert.match(option.description, /^[a-z]+ [a-zA-Z0-9 ,`:\.\/-]+$/);
 
                 if (option.coercion !== undefined) {
                     assert.isFunction(option.coercion);
@@ -220,7 +228,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 9);
+                    assert.lengthOf(Object.keys(normalised), 10);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -252,6 +260,10 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.mapper is correct', function () {
+                    assert.strictEqual(normalised.mapper, mappers.svg);
                 });
 
                 test('normalised.silent is correct', function () {
@@ -308,7 +320,7 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 9);
+                        assert.lengthOf(Object.keys(normalised), 10);
                     });
 
                     test('normalised.foo is correct', function () {
@@ -340,6 +352,10 @@ suite('options:', function () {
 
                     test('normalised.count is correct', function () {
                         assert.strictEqual(normalised.count, 9);
+                    });
+
+                    test('normalised.mapper is correct', function () {
+                        assert.strictEqual(normalised.mapper, mappers.svg);
                     });
 
                     test('normalised.silent is correct', function () {
@@ -374,6 +390,7 @@ suite('options:', function () {
                         connection: 'baz',
                         tests: 'qux',
                         count: 'wibble',
+                        mapper: 'odf-spreadsheet',
                         silent: true,
                         foo: '',
                         something: 'else'
@@ -418,7 +435,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 11);
+                    assert.lengthOf(Object.keys(normalised), 12);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -450,6 +467,10 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 'wibble');
+                });
+
+                test('normalised.mapper is correct', function () {
+                    assert.strictEqual(normalised.mapper, mappers.odf);
                 });
 
                 test('normalised.silent is correct', function () {
@@ -522,7 +543,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 10);
+                    assert.lengthOf(Object.keys(normalised), 11);
                 });
 
                 test('normalised.config is correct', function () {
@@ -588,7 +609,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 7);
+                    assert.lengthOf(Object.keys(normalised), 8);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -610,6 +631,10 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.mapper is correct', function () {
+                    assert.strictEqual(normalised.mapper, mappers.svg);
                 });
 
                 test('normalised.silent is correct', function () {

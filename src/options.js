@@ -14,6 +14,7 @@ defaults = {
     connection: 'Native Connection',
     tests: 'tests.json',
     count: 9,
+    mapper: 'html-svg',
     log: { info: nop, warn: nop, error: nop }
 };
 
@@ -65,6 +66,10 @@ module.exports = {
             description: 'read intermediate results from a file, skips running the tests'
         },
         {
+            format: '-r, --mapper <path>',
+            description: 'the mapper to use, defaults to `' + defaults.mapper + '`'
+        },
+        {
             format: '-s, --silent',
             description: 'disable logging'
         },
@@ -85,12 +90,13 @@ function normalise (options) {
         populateObject(options, readJSON(options.config, defaultConfig));
 
         if (!options.silent) {
-            options.log = getLog(options);
+            options.log = getLog(options.syslog);
         }
 
         populateObject(options, defaults);
 
         options.tests = readJSON(options.tests, defaults.tests);
+        options.mapper = getMapper(options.mapper);
 
         options.normalised = true;
     }
@@ -123,9 +129,9 @@ function populateObject (object, defaultValues) {
     });
 }
 
-function getLog (options) {
-    if (options.syslog) {
-        initialiseSyslog(options.syslog);
+function getLog (syslog) {
+    if (syslog) {
+        initialiseSyslog(syslog);
         return console;
     }
 
@@ -148,6 +154,14 @@ function initialiseSyslog (facility) {
     } catch (e) {
         console.log('Failed to initialise syslog, exiting.');
         process.exit(1);
+    }
+}
+
+function getMapper (name) {
+    try {
+        return require('./mappers/' + name);
+    } catch (e) {
+        return require(name);
     }
 }
 
