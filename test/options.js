@@ -1,14 +1,12 @@
 'use strict';
 
-var assert, mockery, spooks, modulePath, nop;
+var assert, mockery, spooks, modulePath;
 
 assert = require('chai').assert;
 mockery = require('mockery');
 spooks = require('spooks');
 
 modulePath = '../src/options';
-
-nop = function () {};
 
 mockery.registerAllowable(modulePath);
 mockery.registerAllowable('check-types');
@@ -123,6 +121,36 @@ suite('options:', function () {
             test('normalise does not throw with empty options', function () {
                 assert.doesNotThrow(function () {
                     options.normalise({});
+                });
+            });
+
+            test('normalise throws with non-object log option', function () {
+                assert.throws(function () {
+                    options.normalise({ log: console.log });
+                });
+            });
+
+            test('normalise throws with missing log.info function', function () {
+                assert.throws(function () {
+                    options.normalise({ log: { warn: nop, error: nop } });
+                });
+            });
+
+            test('normalise throws with missing log.warn function', function () {
+                assert.throws(function () {
+                    options.normalise({ log: { info: nop, error: nop } });
+                });
+            });
+
+            test('normalise throws with missing log.error function', function () {
+                assert.throws(function () {
+                    options.normalise({ log: { info: nop, warn: nop } });
+                });
+            });
+
+            test('normalise does not throw valid log option', function () {
+                assert.doesNotThrow(function () {
+                    options.normalise({ log: { info: nop, warn: nop, error: nop } });
                 });
             });
 
@@ -392,6 +420,7 @@ suite('options:', function () {
                         count: 'wibble',
                         mapper: 'odf-spreadsheet',
                         silent: true,
+                        log: nop,
                         foo: '',
                         something: 'else'
                     };
@@ -681,5 +710,7 @@ suite('options:', function () {
             });
         });
     });
+
+    function nop () {};
 });
 

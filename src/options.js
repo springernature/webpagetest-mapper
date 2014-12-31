@@ -42,7 +42,7 @@ module.exports = {
         },
         {
             format: '-t, --tests <path>',
-            description: 'path to the test definitions file, default is `./' + defaults.tests + '`'
+            description: 'path to the test definitions file, default is `' + defaults.tests + '`'
         },
         {
             format: '-n, --count <number>',
@@ -79,7 +79,7 @@ module.exports = {
         },
         {
             format: '-f, --config <path>',
-            description: 'read configuration options from a file, default is `./' + defaultConfig + '`'
+            description: 'read configuration options from a file, default is `' + defaultConfig + '`'
         }
     ],
     normalise: normalise
@@ -142,6 +142,11 @@ function getLog (options) {
     }
 
     if (options.log) {
+        check.assert.object(options.log);
+        check.assert.function(options.log.info);
+        check.assert.function(options.log.warn);
+        check.assert.function(options.log.error);
+
         return options.log;
     }
 
