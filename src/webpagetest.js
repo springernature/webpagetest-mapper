@@ -1,4 +1,4 @@
-/*globals module, require, process */
+/*globals module, require */
 
 'use strict';
 
@@ -15,24 +15,30 @@ function runTests (options, callback) {
     log = options.log;
     wpt = initialise(options);
     count = 0;
-    results = new Array(tests.length);
+    results = new Array(options.tests.length);
     date = new Date();
 
     marshallTests(options, date).forEach(function (test, index) {
-        log.info('Testing ' + test.label);
+        log.info('testing ' + test.label);
 
         wpt.runTest(test.url, test, function (error, result) {
             if (error) {
-                log.error('Test ' + test.label + 'failed, ' + error.message);
+                log.error('failed test ' + test.label + ', ' + error.message);
             } else {
-                log.info('Completed test ' + test.label + ', result id is ' + getResultId(result));
-                results[index] = result;
+                log.info('completed test ' + test.label + ', result id is ' + result.response.data.testId);
+
+                results[index] = {
+                    name: test.name,
+                    type: test.type,
+                    label: test.label,
+                    id: result.response.data.testId
+                };
             }
 
             count += 1;
 
-            if (count === tests.length) {
-                callback(marshallResultIds(results));
+            if (count === options.tests.length) {
+                callback(results);
             }
         });
     });
@@ -48,9 +54,9 @@ function marshallTests (options, date) {
 
 function marshallTest (options, date, test, index) {
     return {
-        url: test.url,
         name: test.name,
         type: test.type,
+        url: test.url,
         key: options.key,
         location: options.location,
         runs: options.count,
@@ -98,37 +104,26 @@ function getTestLabel (date, name, index) {
     ].join('-');
 }
 
-function getResultId (result) {
-    return result.response.data.testId;
-}
+function getResults (options, resultIds, callback) {
+    var log, wpt, length, results, count;
 
-function marshallResultIds (results) {
-    return results.map(function (result, index) {
-        return {
-            name: tests[index].name,
-            type: tests[index].type,
-            id: getResultId(result)
-        };
-    });
-}
-
-function getResults (options, testIds, callback) {
-    var length, results, count;
-
-    length = testIds.length * medianMetrics.length;
-    results = new Array(testIds.length);
+    log = options.log;
+    wpt = initialise(options);
+    length = resultIds.length * medianMetrics.length;
+    results = new Array(resultIds.length);
     count = 0;
 
-    testIds.forEach(function (testId, index) {
+    resultIds.forEach(function (resultId, index) {
         results[index] = {
-            name: testId.name,
-            type: testId.type
+            name: resultId.name,
+            type: resultId.type,
+            label: resultId.label
         };
 
         medianMetrics.forEach(function (metric) {
-            log.info('Getting ' + metric + ' results for ' + testId.name);
+            log.info('fetching ' + metric + ' results for ' + resultId.label);
 
-            wpt.getTestResults(testId.id, {
+            wpt.getTestResults(resultId.id, {
                 key: options.key,
                 breakDown: true,
                 domains: true,
@@ -137,9 +132,10 @@ function getResults (options, testIds, callback) {
                 medianMetric: metric
             }, function (error, result) {
                 if (error) {
-                    log.error('Failed to get ' + metric + ' results for ' + testId.name + ': ' + error.message);
+                    log.error('failed ' + metric + ' fetch for ' + resultId.label + ': ' + error.message);
                 } else {
-                    log.info('Got ' + metric + ' results for ' + testId.name);
+                    log.info('completed ' + metric + ' fetch for ' + resultId.label);
+
                     results[index][metric] = result;
                 }
 
