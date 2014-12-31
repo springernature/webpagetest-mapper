@@ -9,20 +9,6 @@ module.exports = {
     getResults: getResults
 };
 
-/**
- *
- * @option uri
- * @option key
- * @option location
- * @option connection
- * @option tests
- * @option count
- * @option email
- * @option output
- * @option dump
- * @option results
- * @option log
- */
 function runTests (options, callback) {
     var log, wpt, count, results, date;
 
