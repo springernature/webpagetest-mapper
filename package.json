@@ -16,16 +16,18 @@
         "url": "https://github.com/nature/webpagetest-mapper.git"
     },
     "dependencies": {
-        "check-types": "2.1.x",
         "commander": "2.6.x",
+        "check-types": "2.1.x",
         "webpagetest": "0.3.x",
+        "get-off-my-log": "0.1.x",
         "handlebars": "2.0.x"
     },
     "devDependencies": {
         "jshint": "2.5.x",
         "mocha": "2.1.x",
         "chai": "1.10.x",
-        "mockery": "1.4.x"
+        "mockery": "1.4.x",
+        "spooks": "1.0.x"
     },
     "scripts": {
         "test": "mocha --ui tdd --reporter spec --recursive --colors test",

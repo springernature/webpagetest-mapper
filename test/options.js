@@ -4,6 +4,7 @@ var assert, mockery, spooks, modulePath, nop;
 
 assert = require('chai').assert;
 mockery = require('mockery');
+spooks = require('spooks');
 
 modulePath = '../src/options';
 
@@ -16,31 +17,31 @@ suite('options:', function () {
     var log, results;
 
     setup(function () {
-        log = {
-            counts: {},
-            these: {},
-            args: {}
-        };
-        results = {
-            statSync: {
-                isFile: mockFunction('isFile')
-            }
-        };
+        log = {};
+        results = {};
+
         mockery.enable({ useCleanCache: true });
-        mockery.registerMock('path', {
-            resolve: mockFunction('resolve')
-        });
-        mockery.registerMock('fs', {
-            existsSync: mockFunction('existsSync'),
-            statSync: mockFunction('statSync'),
-            readFileSync: mockFunction('readFileSync')
-        });
+        mockery.registerMock('path', spooks.obj({
+            archetype: { resolve: nop },
+            log: log,
+            results: results
+        }));
+        mockery.registerMock('fs', spooks.obj({
+            archetype: { existsSync: nop, statSync: nop, readFileSync: nop },
+            log: log,
+            results: results
+        }));
+
+        results.statSync = {
+            isFile: spooks.fn({ name: 'isFile', log: log, results: results })
+        };
     });
 
     teardown(function () {
         mockery.deregisterMock('fs');
         mockery.deregisterMock('path');
         mockery.disable();
+
         log = results = undefined;
     });
 
@@ -556,19 +557,5 @@ suite('options:', function () {
             });
         });
     });
-
-    function mockFunction (name) {
-        log.counts[name] = 0;
-        log.these[name] = [];
-        log.args[name] = [];
-
-        return function () {
-            log.counts[name] += 1;
-            log.these[name].push(this);
-            log.args[name].push(arguments);
-
-            return results[name];
-        }
-    }
 });
 
