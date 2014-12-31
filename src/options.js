@@ -89,14 +89,12 @@ function normalise (options) {
     if (!options.normalised) {
         populateObject(options, readJSON(options.config, defaultConfig));
 
-        if (!options.silent) {
-            options.log = getLog(options.syslog);
-        }
+        options.log = getLog(options);
 
         populateObject(options, defaults);
 
-        options.tests = readJSON(options.tests, defaults.tests);
-        options.mapper = getMapper(options.mapper);
+        options.tests = getTests(options);
+        options.mapper = getMapper(options);
 
         options.normalised = true;
     }
@@ -129,10 +127,22 @@ function populateObject (object, defaultValues) {
     });
 }
 
-function getLog (syslog) {
-    if (syslog) {
-        initialiseSyslog(syslog);
+function getTests (options) {
+    return readJSON(options.tests, defaults.tests);
+}
+
+function getLog (options) {
+    if (options.silent) {
+        return undefined;
+    }
+
+    if (options.syslog) {
+        initialiseSyslog(options.syslog);
         return console;
+    }
+
+    if (options.log) {
+        return options.log;
     }
 
     return require('get-off-my-log').initialise('webpagetest-mapper', console.log);
@@ -157,11 +167,11 @@ function initialiseSyslog (facility) {
     }
 }
 
-function getMapper (name) {
+function getMapper (options) {
     try {
-        return require('./mappers/' + name);
+        return require('./mappers/' + options.mapper);
     } catch (e) {
-        return require(name);
+        return require(options.mapper);
     }
 }
 
