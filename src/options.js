@@ -66,10 +66,13 @@ module.exports = {
 };
 
 function normalise (options) {
-    populateObject(options, readJSON(options.config, defaultConfig));
-    populateObject(options, defaults);
+    if (!options.normalised) {
+        populateObject(options, readJSON(options.config, defaultConfig));
+        populateObject(options, defaults);
 
-    options.tests = readJSON(options.tests, defaults.tests);
+        options.tests = readJSON(options.tests, defaults.tests);
+        options.normalised = true;
+    }
 }
 
 function readJSON (jsonPath, defaultFileName) {

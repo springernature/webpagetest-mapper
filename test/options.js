@@ -197,7 +197,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 6);
+                    assert.lengthOf(Object.keys(normalised), 7);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -229,6 +229,75 @@ suite('options:', function () {
 
                 test('normalised.config is undefined', function () {
                     assert.isUndefined(normalised.config);
+                });
+
+                test('normalised.normalised is true', function () {
+                    assert.isTrue(normalised.normalised);
+                });
+
+                suite('normalise:', function () {
+                    setup(function () {
+                        options.normalise(normalised);
+                    });
+
+                    test('path.resolve was not called', function () {
+                        assert.strictEqual(log.counts.resolve, 2);
+                    });
+
+                    test('fs.existsSync was not called', function () {
+                        assert.strictEqual(log.counts.existsSync, 2);
+                    });
+
+                    test('fs.statSync was not called', function () {
+                        assert.strictEqual(log.counts.statSync, 2);
+                    });
+
+                    test('stat.isFile was not called', function () {
+                        assert.strictEqual(log.counts.isFile, 2);
+                    });
+
+                    test('fs.readFileSync was not called', function () {
+                        assert.strictEqual(log.counts.readFileSync, 2);
+                    });
+
+                    test('normalised object has correct number of keys', function () {
+                        assert.lengthOf(Object.keys(normalised), 7);
+                    });
+
+                    test('normalised.foo is correct', function () {
+                        assert.strictEqual(normalised.foo, 'bar');
+                    });
+
+                    test('normalised.baz is correct', function () {
+                        assert.strictEqual(normalised.baz, 'qux');
+                    });
+
+                    test('normalised.location is correct', function () {
+                        assert.strictEqual(normalised.location, 'Dulles:Chrome');
+                    });
+
+                    test('normalised.connection is correct', function () {
+                        assert.strictEqual(normalised.connection, 'Native Connection');
+                    });
+
+                    test('normalised.tests is correct', function () {
+                        assert.isObject(normalised.tests);
+                        assert.lengthOf(Object.keys(normalised.tests), 2);
+                        assert.strictEqual(normalised.tests.foo, 'bar');
+                        assert.strictEqual(normalised.tests.baz, 'qux');
+                    });
+
+                    test('normalised.count is correct', function () {
+                        assert.strictEqual(normalised.count, 9);
+                    });
+
+                    test('normalised.config is undefined', function () {
+                        assert.isUndefined(normalised.config);
+                    });
+
+                    test('normalised.normalised is true', function () {
+                        assert.isTrue(normalised.normalised);
+                    });
                 });
             });
 
@@ -280,7 +349,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 7);
+                    assert.lengthOf(Object.keys(normalised), 8);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -312,6 +381,10 @@ suite('options:', function () {
 
                 test('normalised.something is correct', function () {
                     assert.strictEqual(normalised.something, 'else');
+                });
+
+                test('normalised.normalised is true', function () {
+                    assert.isTrue(normalised.normalised);
                 });
             });
 
@@ -356,11 +429,15 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 7);
+                    assert.lengthOf(Object.keys(normalised), 8);
                 });
 
                 test('normalised.config is correct', function () {
                     assert.strictEqual(normalised.config, 'mahumba');
+                });
+
+                test('normalised.normalised is true', function () {
+                    assert.isTrue(normalised.normalised);
                 });
             });
         });
@@ -414,7 +491,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 4);
+                    assert.lengthOf(Object.keys(normalised), 5);
                 });
 
                 test('normalised.location is correct', function () {
@@ -433,20 +510,32 @@ suite('options:', function () {
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
                 });
+
+                test('normalised.normalised is true', function () {
+                    assert.isTrue(normalised.normalised);
+                });
             });
         });
 
         suite('with non-JSON config:', function () {
+            var normalised;
+
             setup(function () {
                 results.resolve = 'wibble';
                 results.existsSync = results.isFile = true;
                 results.readFileSync = 'foo';
+                normalised = {};
             });
 
-            test('normalise throws with empty options', function () {
+            teardown(function () {
+                normalised = undefined;
+            });
+
+            test('normalise fails with empty options', function () {
                 assert.throws(function () {
                     options.normalise(normalised);
                 });
+                assert.isUndefined(normalised.normalised);
             });
         });
     });
