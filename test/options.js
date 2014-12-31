@@ -67,13 +67,13 @@ suite('options:', function () {
 
         test('cli array is exported', function () {
             assert.isArray(options.cli);
-            assert.lengthOf(options.cli, 10);
+            assert.lengthOf(options.cli, 11);
         });
 
         test('cli options seem correct', function () {
             options.cli.forEach(function (option) {
                 assert.isString(option.format);
-                assert.match(option.format, /^-[a-z], --[a-z]+ <[a-z]+>$/);
+                assert.match(option.format, /^-[a-z], --[a-z]+ <[a-zA-Z]+>$/);
                 assert.isString(option.description);
                 assert.match(option.description, /^[a-z]+ [a-zA-Z0-9 ,`:\.\/]+$/);
 
@@ -197,7 +197,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 7);
+                    assert.lengthOf(Object.keys(normalised), 8);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -206,6 +206,10 @@ suite('options:', function () {
 
                 test('normalised.baz is correct', function () {
                     assert.strictEqual(normalised.baz, 'qux');
+                });
+
+                test('normalised.uri is correct', function () {
+                    assert.strictEqual(normalised.uri, 'www.webpagetest.org');
                 });
 
                 test('normalised.location is correct', function () {
@@ -261,7 +265,7 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 7);
+                        assert.lengthOf(Object.keys(normalised), 8);
                     });
 
                     test('normalised.foo is correct', function () {
@@ -270,6 +274,10 @@ suite('options:', function () {
 
                     test('normalised.baz is correct', function () {
                         assert.strictEqual(normalised.baz, 'qux');
+                    });
+
+                    test('normalised.uri is correct', function () {
+                        assert.strictEqual(normalised.uri, 'www.webpagetest.org');
                     });
 
                     test('normalised.location is correct', function () {
@@ -306,10 +314,11 @@ suite('options:', function () {
 
                 setup(function () {
                     normalised = {
-                        location: 'foo',
-                        connection: 'bar',
-                        tests: 'baz',
-                        count: 'qux',
+                        uri: 'foo',
+                        location: 'bar',
+                        connection: 'baz',
+                        tests: 'qux',
+                        count: 'wibble',
                         foo: '',
                         something: 'else'
                     };
@@ -329,7 +338,7 @@ suite('options:', function () {
                 });
 
                 test('path.resolve was called correctly second time', function () {
-                    assert.strictEqual(log.args.resolve[1][0], 'baz');
+                    assert.strictEqual(log.args.resolve[1][0], 'qux');
                 });
 
                 test('fs.existsSync was called twice', function () {
@@ -349,7 +358,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 8);
+                    assert.lengthOf(Object.keys(normalised), 9);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -360,12 +369,16 @@ suite('options:', function () {
                     assert.strictEqual(normalised.baz, 'qux');
                 });
 
+                test('normalised.uri is correct', function () {
+                    assert.strictEqual(normalised.uri, 'foo');
+                });
+
                 test('normalised.location is correct', function () {
-                    assert.strictEqual(normalised.location, 'foo');
+                    assert.strictEqual(normalised.location, 'bar');
                 });
 
                 test('normalised.connection is correct', function () {
-                    assert.strictEqual(normalised.connection, 'bar');
+                    assert.strictEqual(normalised.connection, 'baz');
                 });
 
                 test('normalised.tests is correct', function () {
@@ -376,7 +389,7 @@ suite('options:', function () {
                 });
 
                 test('normalised.count is correct', function () {
-                    assert.strictEqual(normalised.count, 'qux');
+                    assert.strictEqual(normalised.count, 'wibble');
                 });
 
                 test('normalised.something is correct', function () {
@@ -429,7 +442,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 8);
+                    assert.lengthOf(Object.keys(normalised), 9);
                 });
 
                 test('normalised.config is correct', function () {
@@ -491,7 +504,11 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 5);
+                    assert.lengthOf(Object.keys(normalised), 6);
+                });
+
+                test('normalised.uri is correct', function () {
+                    assert.strictEqual(normalised.uri, 'www.webpagetest.org');
                 });
 
                 test('normalised.location is correct', function () {

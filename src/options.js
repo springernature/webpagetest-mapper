@@ -9,6 +9,7 @@ path = require('path');
 fs = require('fs');
 
 defaults = {
+    uri: 'www.webpagetest.org',
     location: 'Dulles:Chrome',
     connection: 'Native Connection',
     tests: 'tests.json',
@@ -19,7 +20,10 @@ defaultConfig = '.wptrc';
 
 module.exports = {
     cli: [
-        // TODO: Option to set the base URI for the WebPageTest instance (defaults to www.webpagetest.org)
+        {
+            format: '-u, --uri <URI>',
+            description: 'the base URI of the WebPageTest instance, default is `' + defaults.uri + '`'
+        },
         {
             format: '-k, --key <key>',
             description: 'the WebPageTest API key'
