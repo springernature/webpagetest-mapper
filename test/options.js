@@ -31,13 +31,24 @@ suite('options:', function () {
             log: log,
             results: results
         }));
+        mockery.registerMock('get-off-my-log', spooks.obj({
+            archetype: { initialise: nop },
+            log: log,
+            results: results
+        }));
 
         results.statSync = {
             isFile: spooks.fn({ name: 'isFile', log: log, results: results })
         };
+        results.initialise = spooks.obj({
+            archetype: { info: nop, warn: nop, error: nop },
+            log: log,
+            results: results
+        });
     });
 
     teardown(function () {
+        mockery.deregisterMock('get-off-my-log');
         mockery.deregisterMock('fs');
         mockery.deregisterMock('path');
         mockery.disable();
@@ -68,13 +79,13 @@ suite('options:', function () {
 
         test('cli array is exported', function () {
             assert.isArray(options.cli);
-            assert.lengthOf(options.cli, 11);
+            assert.lengthOf(options.cli, 13);
         });
 
         test('cli options seem correct', function () {
             options.cli.forEach(function (option) {
                 assert.isString(option.format);
-                assert.match(option.format, /^-[a-z], --[a-z]+ <[a-zA-Z]+>$/);
+                assert.match(option.format, /^-[a-z], --[a-z]+( <[a-zA-Z]+>)?$/);
                 assert.isString(option.description);
                 assert.match(option.description, /^[a-z]+ [a-zA-Z0-9 ,`:\.\/]+$/);
 
@@ -197,8 +208,19 @@ suite('options:', function () {
                     assert.strictEqual(log.args.readFileSync[1][0], 'wibble');
                 });
 
+                test('get-off-my-log.initialise was called once', function () {
+                    assert.strictEqual(log.counts.initialise, 1);
+                });
+
+                test('get-off-my-log.initialise was called correctly', function () {
+                    assert.strictEqual(log.these.initialise[0], require('get-off-my-log'));
+                    assert.lengthOf(log.args.initialise[0], 2);
+                    assert.strictEqual(log.args.initialise[0][0], 'webpagetest-mapper');
+                    assert.strictEqual(log.args.initialise[0][1], console.log);
+                });
+
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 8);
+                    assert.lengthOf(Object.keys(normalised), 9);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -230,6 +252,22 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.silent is correct', function () {
+                    assert.isUndefined(normalised.silent);
+                });
+
+                test('normalised.syslog is undefined', function () {
+                    assert.isUndefined(normalised.syslog);
+                });
+
+                test('normalised.log is correct', function () {
+                    assert.isObject(normalised.log);
+                    assert.lengthOf(Object.keys(normalised.log), 3);
+                    assert.isFunction(normalised.log.info);
+                    assert.isFunction(normalised.log.warn);
+                    assert.isFunction(normalised.log.error);
                 });
 
                 test('normalised.config is undefined', function () {
@@ -265,8 +303,12 @@ suite('options:', function () {
                         assert.strictEqual(log.counts.readFileSync, 2);
                     });
 
+                    test('get-off-my-log.initialise was not called', function () {
+                        assert.strictEqual(log.counts.initialise, 1);
+                    });
+
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 8);
+                        assert.lengthOf(Object.keys(normalised), 9);
                     });
 
                     test('normalised.foo is correct', function () {
@@ -300,6 +342,18 @@ suite('options:', function () {
                         assert.strictEqual(normalised.count, 9);
                     });
 
+                    test('normalised.silent is correct', function () {
+                        assert.isUndefined(normalised.silent);
+                    });
+
+                    test('normalised.syslog is undefined', function () {
+                        assert.isUndefined(normalised.syslog);
+                    });
+
+                    test('normalised.log is correct', function () {
+                        assert.isObject(normalised.log);
+                    });
+
                     test('normalised.config is undefined', function () {
                         assert.isUndefined(normalised.config);
                     });
@@ -320,6 +374,7 @@ suite('options:', function () {
                         connection: 'baz',
                         tests: 'qux',
                         count: 'wibble',
+                        silent: true,
                         foo: '',
                         something: 'else'
                     };
@@ -358,8 +413,12 @@ suite('options:', function () {
                     assert.strictEqual(log.counts.readFileSync, 2);
                 });
 
+                test('get-off-my-log.initialise was not called', function () {
+                    assert.strictEqual(log.counts.initialise, 0);
+                });
+
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 9);
+                    assert.lengthOf(Object.keys(normalised), 11);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -391,6 +450,22 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 'wibble');
+                });
+
+                test('normalised.silent is correct', function () {
+                    assert.isTrue(normalised.silent);
+                });
+
+                test('normalised.syslog is undefined', function () {
+                    assert.isUndefined(normalised.syslog);
+                });
+
+                test('normalised.log is correct', function () {
+                    assert.isObject(normalised.log);
+                    assert.lengthOf(Object.keys(normalised.log), 3);
+                    assert.isFunction(normalised.log.info);
+                    assert.isFunction(normalised.log.warn);
+                    assert.isFunction(normalised.log.error);
                 });
 
                 test('normalised.something is correct', function () {
@@ -442,8 +517,12 @@ suite('options:', function () {
                     assert.strictEqual(log.counts.readFileSync, 2);
                 });
 
+                test('get-off-my-log.initialise was called once', function () {
+                    assert.strictEqual(log.counts.initialise, 1);
+                });
+
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 9);
+                    assert.lengthOf(Object.keys(normalised), 10);
                 });
 
                 test('normalised.config is correct', function () {
@@ -504,8 +583,12 @@ suite('options:', function () {
                     assert.strictEqual(log.counts.readFileSync, 0);
                 });
 
+                test('get-off-my-log.initialise was called once', function () {
+                    assert.strictEqual(log.counts.initialise, 1);
+                });
+
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 6);
+                    assert.lengthOf(Object.keys(normalised), 7);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -527,6 +610,22 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.silent is correct', function () {
+                    assert.isUndefined(normalised.silent);
+                });
+
+                test('normalised.syslog is undefined', function () {
+                    assert.isUndefined(normalised.syslog);
+                });
+
+                test('normalised.log is correct', function () {
+                    assert.isObject(normalised.log);
+                    assert.lengthOf(Object.keys(normalised.log), 3);
+                    assert.isFunction(normalised.log.info);
+                    assert.isFunction(normalised.log.warn);
+                    assert.isFunction(normalised.log.error);
                 });
 
                 test('normalised.normalised is true', function () {

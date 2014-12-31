@@ -22,6 +22,9 @@
         "get-off-my-log": "0.1.x",
         "handlebars": "2.0.x"
     },
+    "optionalDependencies": {
+        "rconsole": "0.2.x"
+    },
     "devDependencies": {
         "jshint": "2.5.x",
         "mocha": "2.1.x",

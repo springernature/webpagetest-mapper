@@ -1,4 +1,4 @@
-/*globals require, module */
+/*globals require, module, console, process */
 
 'use strict';
 
@@ -13,8 +13,11 @@ defaults = {
     location: 'Dulles:Chrome',
     connection: 'Native Connection',
     tests: 'tests.json',
-    count: 9
+    count: 9,
+    log: { info: nop, warn: nop, error: nop }
 };
+
+function nop () {}
 
 defaultConfig = '.wptrc';
 
@@ -62,6 +65,14 @@ module.exports = {
             description: 'read intermediate results from a file, skips running the tests'
         },
         {
+            format: '-s, --silent',
+            description: 'disable logging'
+        },
+        {
+            format: '-y, --syslog <facility>',
+            description: 'send logs to syslog, with the specified facility level'
+        },
+        {
             format: '-f, --config <path>',
             description: 'read configuration options from a file, default is `./' + defaultConfig + '`'
         }
@@ -72,9 +83,15 @@ module.exports = {
 function normalise (options) {
     if (!options.normalised) {
         populateObject(options, readJSON(options.config, defaultConfig));
+
+        if (!options.silent) {
+            options.log = getLog(options);
+        }
+
         populateObject(options, defaults);
 
         options.tests = readJSON(options.tests, defaults.tests);
+
         options.normalised = true;
     }
 }
@@ -104,5 +121,33 @@ function populateObject (object, defaultValues) {
             object[key] = defaultValues[key];
         }
     });
+}
+
+function getLog (options) {
+    if (options.syslog) {
+        initialiseSyslog(options.syslog);
+        return console;
+    }
+
+    return require('get-off-my-log').initialise('webpagetest-mapper', console.log);
+}
+
+function initialiseSyslog (facility) {
+    try {
+        require('rconsole');
+
+        console.set({
+            facility: facility,
+            title: 'webpagetest-mapper',
+            stdout: true,
+            stderr: true,
+            showLine: false,
+            showFile: false,
+            showTime: true
+        });
+    } catch (e) {
+        console.log('Failed to initialise syslog, exiting.');
+        process.exit(1);
+    }
 }
 
