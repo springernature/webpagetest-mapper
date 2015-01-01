@@ -166,7 +166,8 @@ function initialiseSyslog (facility) {
             showFile: false,
             showTime: true
         });
-    } catch (e) {
+    } catch (error) {
+        console.log(error.message);
         console.log('Failed to initialise syslog, exiting.');
         process.exit(1);
     }
@@ -175,7 +176,7 @@ function initialiseSyslog (facility) {
 function getMapper (options) {
     try {
         return require('./mappers/' + options.mapper);
-    } catch (e) {
+    } catch (error) {
         return require(options.mapper);
     }
 }
