@@ -19,12 +19,16 @@ function runTests (options, callback) {
     date = new Date();
 
     marshallTests(options, date).forEach(function (test, index) {
-        log.info('testing ' + test.label);
+        var message;
+
+        message = 'test ' + index + '[' + test.name + ']';
+        log.info('running ' + message);
 
         wpt.runTest(test.url, test, function (error, result) {
             if (error) {
-                log.error('failed to test ' + test.label + ', ' + error.message);
+                log.error('failed to run ' + message + ', ' + error.message);
             } else {
+                log.info('finished running ' + message);
                 results[index] = {
                     name: test.name,
                     type: test.type,
@@ -97,6 +101,9 @@ function getTestLabel (date, name, index) {
         date.getFullYear(),
         date.getMonth() + 1,
         date.getDate(),
+        date.getHours(),
+        date.getMinutes(),
+        date.getSeconds(),
         index,
         name.toLowerCase().replace(' ', '-')
     ].join('-');
@@ -115,7 +122,10 @@ function getResults (options, resultIds, callback) {
         results[index] = resultId;
 
         medianMetrics.forEach(function (metric) {
-            log.info('fetching ' + metric + ' results for ' + resultId.label);
+            var message;
+
+            message = metric + ' result ' + resultId.id + '[' + name + ']';
+            log.info('fetching ' + message);
 
             wpt.getTestResults(resultId.id, {
                 key: options.key,
@@ -126,10 +136,9 @@ function getResults (options, resultIds, callback) {
                 medianMetric: metric
             }, function (error, result) {
                 if (error) {
-                    log.error('failed ' + metric + ' fetch for ' + resultId.label + ': ' + error.message);
+                    log.error('failed to fetch ' + message + ', ' + error.message);
                 } else {
-                    log.info('completed ' + metric + ' fetch for ' + resultId.label);
-
+                    log.info('finished fetching ' + message);
                     results[index][metric] = result;
                 }
 

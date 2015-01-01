@@ -13,8 +13,11 @@ function map (options, results) {
 function mapResult (log, result) {
     /*jshint camelcase:false */
 
+    var message;
+
     try {
-        log.info('mapping ' + result.label + '[' + result.id + ']');
+        message = 'result ' + result.id + '[' + result.name + ']';
+        log.info('mapping ' + message);
 
         return {
             name: result.name,
@@ -91,7 +94,7 @@ function mapResult (log, result) {
             }
         };
     } catch (error) {
-        log.error('failed to map ' + result.label + '[' + result.id + '], ' + error.message);
+        log.error('failed to map ' + message + ', ' + error.message);
         return result;
     }
 }
