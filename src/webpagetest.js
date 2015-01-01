@@ -2,7 +2,10 @@
 
 'use strict';
 
-var medianMetrics;
+var results, medianMetrics;
+
+results = require('./results');
+medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 
 module.exports = {
     runTests: runTests,
@@ -10,15 +13,14 @@ module.exports = {
 };
 
 function runTests (options, callback) {
-    var log, wpt, count, results, date;
+    var log, wpt, count, resultIds;
 
     log = options.log;
     wpt = initialise(options);
     count = 0;
-    results = new Array(options.tests.length);
-    date = new Date();
+    resultIds = new Array(options.tests.length);
 
-    marshallTests(options, date).forEach(function (test, index) {
+    marshallTests(options, new Date()).forEach(function (test, index) {
         var message;
 
         message = 'test ' + index + '[' + test.name + ']';
@@ -29,9 +31,10 @@ function runTests (options, callback) {
                 log.error('failed to run ' + message + ', ' + error.message);
             } else {
                 log.info('finished running ' + message);
-                results[index] = {
+                resultIds[index] = {
                     name: test.name,
                     type: test.type,
+                    url: test.url,
                     label: test.label,
                     id: result.response.data.testId
                 };
@@ -40,7 +43,7 @@ function runTests (options, callback) {
             count += 1;
 
             if (count === options.tests.length) {
-                callback(results);
+                callback(resultIds);
             }
         });
     });
@@ -110,21 +113,21 @@ function getTestLabel (date, name, index) {
 }
 
 function getResults (options, resultIds, callback) {
-    var log, wpt, length, results, count;
+    var log, wpt, length, unnormalised, count;
 
     log = options.log;
     wpt = initialise(options);
     length = resultIds.length * medianMetrics.length;
-    results = new Array(resultIds.length);
+    unnormalised = new Array(resultIds.length);
     count = 0;
 
     resultIds.forEach(function (resultId, index) {
-        results[index] = resultId;
+        unnormalised[index] = resultId;
 
         medianMetrics.forEach(function (metric) {
             var message;
 
-            message = metric + ' result ' + resultId.id + '[' + name + ']';
+            message = metric + ' result ' + resultId.id + '[' + resultId.name + ']';
             log.info('fetching ' + message);
 
             wpt.getTestResults(resultId.id, {
@@ -139,18 +142,16 @@ function getResults (options, resultIds, callback) {
                     log.error('failed to fetch ' + message + ', ' + error.message);
                 } else {
                     log.info('finished fetching ' + message);
-                    results[index][metric] = result;
+                    unnormalised[index][metric] = result;
                 }
 
                 count += 1;
 
                 if (count === length) {
-                    callback(options, results);
+                    callback(options, results.normalise(unnormalised, new Date()));
                 }
             });
         });
     });
 }
-
-medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 

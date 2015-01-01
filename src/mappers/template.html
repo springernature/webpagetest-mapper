@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="{{application}} {{version}}" />
+        <meta name="description" content="WebPageTest results, {{date}}" />
+
+        <title>WebPageTest results, {{date}}</title>
+
+        <style>
+            html, body, div, h1, h2, h3, p, a, abbr, ol, ul, li, table, caption, thead, tbody, tr, th, td, section, code
+            {
+                margin: 0;
+                padding: 0;
+                border: none;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+            }
+
+            html, body
+            {
+                height: 100%;
+            }
+
+            html
+            {
+                font-size: 100.01%;
+            }
+
+            body
+            {
+                padding: 0 64px;
+                font-family: helvetica, arial, sans-serif;
+                font-size: 62.5%;
+                line-height: 1.5;
+                color: #333;
+            }
+
+            .content
+            {
+                max-width: 720px;
+            }
+
+            h1, h2, h3
+            {
+                display: block;
+                font-weight: bold;
+            }
+
+            h1, h2
+            {
+                letter-spacing: 1px;
+            }
+
+            h1
+            {
+                margin: 2em 0 1em;
+                font-size: 3.2em;
+            }
+
+            h2
+            {
+                margin: 1em 0 0.5em;
+                font-size: 2.4em;
+            }
+
+            h3
+            {
+                margin: 0 0 0.4em;
+                font-size: 1.4em;
+            }
+
+            p, ol, ul
+            {
+                margin-bottom: 1.4em;
+                font-size: 1.6em;
+            }
+
+            ol, ul
+            {
+                margin-left: 3em;
+            }
+
+            ol li
+            {
+                list-style-type: decimal;
+            }
+
+            ul li
+            {
+                list-style-type: circle;
+            }
+
+            table
+            {
+                box-sizing: border-box;
+                width: {{chartWidth}}px;
+                margin: 2.4em 0;
+                border-bottom: 1px solid #d1c7b7;
+                border-right: 1px solid #d1c7b7;
+                border-spacing: 0;
+                page-break-inside: avoid;
+            }
+
+            thead, tfoot
+            {
+                background-color: #e5dfd6;
+            }
+
+            th, td
+            {
+                padding: 0.5em 0.7em;
+                border-top: 1px solid #d1c7b7;
+                border-left: 1px solid #d1c7b7;
+                font-size: 1.4em;
+                vertical-align: middle;
+            }
+
+            th
+            {
+                text-align: left;
+            }
+
+            thead th
+            {
+                text-align: center;
+                font-weight: bold;
+            }
+
+            td
+            {
+                text-align: right;
+            }
+
+            .table-row-home
+            {
+                background-color: #b22e40;
+            }
+
+            .table-row-away
+            {
+                background-color: #378bb2;
+            }
+
+            a
+            {
+                color: #378bb2;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            a:hover, a:active
+            {
+                color: #b22e40;
+            }
+
+            tr a, tr a:hover, tr a:active
+            {
+                color: #fff;
+            }
+
+            tr a:hover, tr a:active
+            {
+                border-bottom: 1px dotted #fff;
+            }
+
+            .table-data-good a
+            {
+                color: #9f9;
+            }
+
+            .table-data-okay a
+            {
+                color: #fe9;
+            }
+
+            .table-data-bad a
+            {
+                color: #f98;
+            }
+
+            code
+            {
+                display: inline-block;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 0.2em 0.25em 0 0.25em;
+                border-radius: 3px;
+                background-color: #e5dfd6;
+                font-family: Consolas, Monaco, Menlo, "Lucida Console", monospace;
+                font-size: 1em;
+            }
+
+            th code
+            {
+                background-color: #333;
+                color: #fff;
+            }
+
+            svg
+            {
+                margin: 1.2em 0;
+                page-break-inside: avoid;
+            }
+
+            .chart-axis
+            {
+                stroke-width: 2;
+                stroke: #000;
+            }
+
+            .chart-bar-home
+            {
+                fill: #b22e40;
+            }
+
+            .chart-bar-away
+            {
+                fill: #378bb2;
+            }
+
+            .chart-label
+            {
+                font-size: 1.4em;
+            }
+
+            .chart-bar-label
+            {
+                fill: #fff;
+            }
+
+            .visually-hidden
+            {
+                width: 1px;
+                height: 1px;
+                position: absolute;
+                clip: rect(1px 1px 1px 1px);
+                clip: rect(1px, 1px, 1px, 1px);
+                overflow: hidden;
+            }
+
+            abbr[title]
+            {
+                border-bottom: 1px dotted #333;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="content">
+            <h1>WebPageTest results, {{date}}</h1>
+
+            <ul>
+                <li><a href="#raw-data">Raw data</a></li>
+                <li><a href="#charts">Charts</a></li>
+                <li><a href="#optimisations">Optimisations</a></li>
+            </ul>
+
+            <section id="raw-data">
+                <h2>Raw data</h2>
+
+                <table cellspacing="0" cellpadding="0">
+                    <caption class="visually-hidden">Performance data</caption>
+                    <colgroup>
+                        <col />
+                    </colgroup>
+                    <colgroup>
+                        <col /><col /><col /><col /><col /><col /><col />
+                    </colgroup>
+                    <colgroup>
+                        <col /><col />
+                    </colgroup>
+                    <thead>
+                        <tr>
+                            <th />
+                            <th colspan="7" scope="colgroup">First view</th>
+                            <th colspan="2" scope="colgroup">Repeat view</th>
+                        </tr>
+                        <tr>
+                            <th scope="col">Page</th>
+                            <th scope="col">Speed index</th>
+                            <th scope="col">First byte</th>
+                            <th scope="col">Start render</th>
+                            <th scope="col">Load</th>
+                            <th scope="col">Bytes</th>
+                            <th scope="col">Requests</th>
+                            <th scope="col">Connections</th>
+                            <th scope="col">Speed index</th>
+                            <th scope="col">Load</th>
+                        </tr>
+                    </thead>
+                    <tfoot>
+                        <tr>
+                            <th />
+                            <th colspan="20" scope="col">
+                                Times are in milliseconds
+                                and are the median values
+                                from {{count}} test runs
+                                in WebPageTest.
+                                The test location
+                                was {{location}},
+                                the connection speed
+                                was set to {{{connection}}}
+                                and the user agent
+                                was {{userAgent}}.
+                                All measurements were taken
+                                between {{times.begin}}
+                                and {{times.end}}.
+                            </th>
+                        </tr>
+                    </tfoot>
+                    <tbody>
+{{#each results}}                        <tr class="table-row-{{type}}">
+                            <th scope="row"><a href="{{url}}">{{name}}</a></th>
+{{#with firstView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with firstByte}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with startRender}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with load}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with bytes}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with requests}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with connections}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{/with}}{{#with repeatView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{#with load}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{/with}}{{/with}}                        </tr>
+{{/each}}                    </tbody>
+                </table>
+
+                <p>
+                    Care should be taken
+                    when making comparisons
+                    between the figures
+                    for different pages,
+                    since each page contains
+                    a different amount of data
+                    and requires
+                    a different amount of work.
+                    Nonetheless,
+                    some comparisons can be made.
+                </p>
+            </section>
+
+            <section id="charts">
+                <h2>Charts</h2>
+
+{{#each charts}}
+                <section>
+                    <h3>{{title}}</h3>
+
+                    <svg width="{{../chartWidth}}px" height="{{height}}px">
+                        <title>{{title}}</title>
+
+                        <g transform="translate({{../chartMargin}}, 0)">
+                            <line x1="-3px" y1="0" x2="-3px" y2="{{yAxisHeight}}px" class="chart-axis" />
+{{#each tests}}
+                            <g transform="translate(0, {{offset}})">
+                                <title>{{name}}</title>
+                                <rect width="{{barWidth}}px" height="{{../../barHeight}}px" class="chart-bar chart-bar-{{type}}" />
+                                <g transform="translate(0, {{../../labelOffset}})">
+                                    <text text-anchor="{{textAnchor}}" x="{{barWidth}}px" dx="{{textOrientation}}4px" dy="6px" class="{{textClass}}">{{value}}</text>
+                                    <text x="-{{../../chartMargin}}px" dy="6px" class="chart-label">{{name}}</text>
+                                </g>
+                            </g>
+{{/each}}
+{{#with ../xAxis}}                            <g transform="translate(-2, {{offset}})">
+                                <line x1="0" y1="0" x2="{{width}}px" y2="0" class="chart-axis" />
+                                <text text-anchor="middle" x="{{labelPosition}}" dy="24px" class="chart-label">{{../label}}</text>
+                            </g>
+{{/with}}                        </g>
+                    </svg>
+                </section>
+{{/each}}            </section>
+
+            <section id="optimisations">
+                <h2>Optimisations</h2>
+
+                <table cellspacing="0" cellpadding="0">
+                    <caption class="visually-hidden">Performance optimisations</caption>
+                    <thead>
+                        <tr>
+                            <th scope="col">Page</th>
+                            <th scope="col">First byte</th>
+                            <th scope="col">Persistent connections</th>
+                            <th scope="col">GZIP compression</th>
+                            <th scope="col">Image compression</th>
+                            <th scope="col">Progressive JPEGs</th>
+                            <th scope="col">Browser caching</th>
+                            <th scope="col">Asset CDN</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+{{#each results}}                        <tr class="table-row-{{type}}">
+                            <th scope="row"><a href="{{url}}">{{name}}</a></th>
+{{#with firstView}}{{#with targetFirstByte}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#first_byte_time">{{value}}%</a></td>
+{{/with}}{{#with persistent}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#keep_alive_enabled">{{value}}%</a></td>
+{{/with}}{{#with gzip}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_text">{{value}}%</a></td>
+{{/with}}{{#with images}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_images">{{value}}%</a></td>
+{{/with}}{{#with progJpeg}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#progressive_jpeg">{{value}}%</a></td>
+{{/with}}{{#with caching}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#cache_static_content">{{value}}%</a></td>
+{{/with}}{{#with cdn}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#use_of_cdn">{{value}}%</a></td>
+{{/with}}{{/with}}                        </tr>
+{{/each}}                    </tbody>
+                </table>
+            </section>
+        </div>
+    </body>
+</html>
+

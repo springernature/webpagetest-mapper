@@ -1,12 +1,12 @@
-/*globals module, require, process */
+/*globals module */
 
 'use strict';
 
 module.exports = {
-    map: map
+    normalise: normalise
 };
 
-function map (options, results) {
+function normalise (options, results) {
     return results.map(mapResult.bind(null, options.log));
 }
 
@@ -22,7 +22,8 @@ function mapResult (log, result) {
         return {
             name: result.name,
             type: result.type,
-            url: result.SpeedIndex.response.data.testUrl,
+            url: result.url,
+            label: result.label,
             optimisationsUrl: getOptimisationsUrl(result, 'SpeedIndex', 'first'),
             firstView: {
                 speedIndex: {
