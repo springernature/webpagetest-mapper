@@ -23,10 +23,8 @@ function runTests (options, callback) {
 
         wpt.runTest(test.url, test, function (error, result) {
             if (error) {
-                log.error('failed test ' + test.label + ', ' + error.message);
+                log.error('failed to test ' + test.label + ', ' + error.message);
             } else {
-                log.info('completed test ' + test.label + ', result id is ' + result.response.data.testId);
-
                 results[index] = {
                     name: test.name,
                     type: test.type,
@@ -114,11 +112,7 @@ function getResults (options, resultIds, callback) {
     count = 0;
 
     resultIds.forEach(function (resultId, index) {
-        results[index] = {
-            name: resultId.name,
-            type: resultId.type,
-            label: resultId.label
-        };
+        results[index] = resultId;
 
         medianMetrics.forEach(function (metric) {
             log.info('fetching ' + metric + ' results for ' + resultId.label);
@@ -142,7 +136,7 @@ function getResults (options, resultIds, callback) {
                 count += 1;
 
                 if (count === length) {
-                    callback(results);
+                    callback(options, results);
                 }
             });
         });
