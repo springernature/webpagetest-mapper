@@ -1,0 +1,93 @@
+[
+    {
+        "name": "Homepage",
+        "url": "http://www.nature.com/",
+        "type": "home"
+    },
+    {
+        "name": "Nature homepage",
+        "url": "http://www.nature.com/nature/index.html",
+        "type": "home"
+    },
+    {
+        "name": "SciAm homepage",
+        "url": "http://www.scientificamerican.com/",
+        "type": "home"
+    },
+    {
+        "name": "Nature Jobs",
+        "url": "http://www.nature.com/naturejobs/science/",
+        "type": "home"
+    },
+    {
+        "name": "Search results",
+        "url": "http://www.nature.com/search/executeSearch?sp-q-1=&sp-q=higgs&sp-p=all&sp-c=25&sp-m=0&sp-s=&sp-a=sp1001702d&sp-sfvl-field=subject|ujournal&sp-x-1=ujournal&sp-p-1=phrase&submit=go",
+        "type": "home"
+    },
+    {
+        "name": "Legacy article",
+        "url": "http://www.nature.com/leu/journal/v20/n2/full/2404071a.html",
+        "type": "home"
+    },
+    {
+        "name": "AIP article",
+        "url": "http://www.nature.com/nature/journal/v507/n7492/full/nature12965.html",
+        "type": "home"
+    },
+    {
+        "name": "Polopoly article",
+        "url": "http://www.nature.com/news/cosmology-first-light-1.15213",
+        "type": "home"
+    },
+    {
+        "name": "Maestro article",
+        "url": "http://www.nature.com/articles/mtm201447",
+        "type": "home"
+    },
+    {
+        "name": "SciAm article",
+        "url": "http://www.scientificamerican.com/article/kuiper-belt-missions-could-reveal-the-solar-systems-origins/",
+        "type": "home"
+    },
+    {
+        "name": "Science homepage",
+        "url": "http://www.sciencemag.org/",
+        "type": "away"
+    },
+    {
+        "name": "Science article",
+        "url": "http://www.sciencemag.org/content/342/6163/1185.full",
+        "type": "away"
+    },
+    {
+        "name": "New Scientist homepage",
+        "url": "http://www.newscientist.com/",
+        "type": "away"
+    },
+    {
+        "name": "New Scientist article",
+        "url": "http://www.newscientist.com/article/dn26396-saturns-moon-mimas-might-have-its-own-subsurface-sea.html",
+        "type": "away"
+    },
+    {
+        "name": "Nautilus homepage",
+        "url": "http://nautil.us/",
+        "type": "away"
+    },
+    {
+        "name": "Nautilus article",
+        "url": "http://nautil.us/issue/17/big-bangs/the-unique-merger-that-made-you-and-ewe-and-yew",
+        "type": "away"
+    },
+    {
+        "name": "Guardian homepage",
+        "url": "http://www.theguardian.com/uk",
+        "type": "away"
+    },
+    {
+        "name": "Guardian article",
+        "url": "http://www.theguardian.com/science/2014/oct/20/funding-cuts-leave-earth-with-blind-spot-for-potentially-catastrophic-comets",
+        "type": "away"
+    }
+]
+
