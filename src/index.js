@@ -2,8 +2,9 @@
 
 'use strict';
 
-var options, wpt;
+var Prom, options, wpt;
 
+Prom = require('es6-promise');
 options = require('./options');
 wpt = require('./webpagetest');
 
@@ -16,7 +17,7 @@ module.exports = {
 /**
  * Public function `run`.
  *
- * Invokes WebPageTest then maps the result data.
+ * Invokes WebPageTest then maps the result data, returns an ES6 promise.
  *
  * @option uri        {string}  Base URI for the WebPageTest instance, defaults to
  *                              `www.webpagetest.org`.
@@ -35,19 +36,18 @@ module.exports = {
  *                              `log.warn()` and `log.error()`.
  * @option config     {string}  Load options from JSON config file.
  */
-function run (options, callback) {
+function run (options) {
     if (options.results) {
-        return map(options, callback);
+        return map(options);
     }
 
-    // TODO: convert to promises
-    fetch(options, map.bind(null, options));
+    return fetch(options).then(map.bind(null, options));
 }
 
 /**
  * Public function `fetch`.
  *
- * Invokes WebPageTest.
+ * Invokes WebPageTest, returns an ES6 promise.
  *
  * @option uri        {string}  Base URI for the WebPageTest instance, defaults to
  *                              `www.webpagetest.org`.
@@ -65,30 +65,31 @@ function run (options, callback) {
  *                              `log.warn()` and `log.error()`.
  * @option config     {string}  Load options from JSON config file.
  */
-function fetch (options, callback) {
-    var time;
+function fetch (options) {
+    var time, done;
 
     options.normalise(options);
 
     time = new Date();
 
-    // TODO: promises
-    wpt.runTests(options, function (resultIds) {
-        wpt.getResults(options, resultIds, function (results) {
-            results.times = {
-                begin: time,
-                end: new Date()
-            };
+    wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
 
-            callback(results);
-        });
-    });
+    return new Prom(function (resolve) { done = resolve; } );
+
+    function after (results) {
+        results.times = {
+            begin: time,
+            end: new Date()
+        };
+
+        done(results);
+    }
 }
 
 /**
  * Public function `map`.
  *
- * Maps WebPageTest result data to other formats.
+ * Maps WebPageTest result data to other formats, returns an ES6 promise.
  *
  * @option uri        {string}  Base URI for the WebPageTest instance, defaults to
  *                              `www.webpagetest.org`.
@@ -102,7 +103,11 @@ function fetch (options, callback) {
  *                              `log.warn()` and `log.error()`.
  * @option config     {string}  Load options from JSON config file.
  */
-function map (options) {
+function map (options, results) {
     options.normalise(options);
+
+    return new Prom(function (resolve) {
+        resolve(options.mapper.map(options, results || options.results));
+    });
 }
 

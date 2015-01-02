@@ -2,8 +2,9 @@
 
 'use strict';
 
-var results, medianMetrics;
+var Prom, results, medianMetrics;
 
+Prom = require('es6-promise');
 results = require('./results');
 medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 
@@ -12,52 +13,55 @@ module.exports = {
     getResults: getResults
 };
 
-function runTests (options, callback) {
-    var log, wpt, count, resultIds;
+function runTests (options) {
+    var log, wpt, resultIds, count, done;
 
     log = options.log;
     wpt = initialise(options);
-    count = 0;
     resultIds = new Array(options.tests.length);
+    count = 0;
 
-    marshallTests(options, new Date()).forEach(function (test, index) {
-        var message;
+    mapTests(options, new Date()).forEach(function (test, index) {
+        var message = 'test ' + index + '[' + test.name + ']';
 
-        message = 'test ' + index + '[' + test.name + ']';
         log.info('running ' + message);
 
-        wpt.runTest(test.url, test, function (error, result) {
-            if (error) {
-                log.error('failed to run ' + message + ', ' + error.message);
-            } else {
-                log.info('finished running ' + message);
-                resultIds[index] = {
-                    name: test.name,
-                    type: test.type,
-                    url: test.url,
-                    label: test.label,
-                    id: result.response.data.testId
-                };
-            }
-
-            count += 1;
-
-            if (count === options.tests.length) {
-                callback(resultIds);
-            }
-        });
+        wpt.runTest(test.url, test, after.bind(null, message, test, index));
     });
+
+    return new Prom(function (resolve) { done = resolve; });
+
+    function after (message, test, index, error, result) {
+        if (error) {
+            log.error('failed to run ' + message + ', ' + error.message);
+        } else {
+            log.info('finished running ' + message);
+            resultIds[index] = {
+                name: test.name,
+                type: test.type,
+                url: test.url,
+                label: test.label,
+                id: result.response.data.testId
+            };
+        }
+
+        count += 1;
+
+        if (count === options.tests.length) {
+            done(resultIds);
+        }
+    }
 }
 
 function initialise (options) {
     return new (require('webpagetest'))(options.uri);
 }
 
-function marshallTests (options, date) {
-    return options.tests.map(marshallTest.bind(null, options, date));
+function mapTests (options, date) {
+    return options.tests.map(mapTest.bind(null, options, date));
 }
 
-function marshallTest (options, date, test, index) {
+function mapTest (options, date, test, index) {
     return {
         name: test.name,
         type: test.type,
@@ -112,8 +116,8 @@ function getTestLabel (date, name, index) {
     ].join('-');
 }
 
-function getResults (options, resultIds, callback) {
-    var log, wpt, length, unnormalised, count;
+function getResults (options, resultIds) {
+    var log, wpt, length, unnormalised, count, done;
 
     log = options.log;
     wpt = initialise(options);
@@ -137,21 +141,25 @@ function getResults (options, resultIds, callback) {
                 pageSpeed: false,
                 requests: false,
                 medianMetric: metric
-            }, function (error, result) {
-                if (error) {
-                    log.error('failed to fetch ' + message + ', ' + error.message);
-                } else {
-                    log.info('finished fetching ' + message);
-                    unnormalised[index][metric] = result;
-                }
-
-                count += 1;
-
-                if (count === length) {
-                    callback(options, results.normalise(unnormalised, new Date()));
-                }
-            });
+            }, after.bind(null, message, index, metric));
         });
     });
+
+    return new Prom(function (resolve) { done = resolve; });
+
+    function after (message, index, metric, error, result) {
+        if (error) {
+            log.error('failed to fetch ' + message + ', ' + error.message);
+        } else {
+            log.info('finished fetching ' + message);
+            unnormalised[index][metric] = result;
+        }
+
+        count += 1;
+
+        if (count === length) {
+            done(results.normalise(options, unnormalised));
+        }
+    }
 }
 
