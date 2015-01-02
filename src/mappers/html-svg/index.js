@@ -64,22 +64,10 @@ charts = [
     },
     {
         view: 'first',
-        key: 'startRender',
-        title: 'Start render',
-        label: 'Time to start render (milliseconds)'
-    },
-    {
-        view: 'first',
         key: [ 'startRender', 'firstByte' ],
         derivative: 'difference',
         title: 'Start render, difference from first byte',
         label: 'Time from first byte until start render (milliseconds)'
-    },
-    {
-        view: 'first',
-        key: 'load',
-        title: 'Load',
-        label: 'Time to load event (milliseconds)'
     },
     {
         view: 'first',
