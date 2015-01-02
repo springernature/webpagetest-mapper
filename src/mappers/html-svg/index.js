@@ -1,9 +1,11 @@
 /*jshint nomen:false */
-/*globals require, __dirname, module, process */
+/*globals require, __dirname, module */
 
 'use strict';
 
-var path, fs, render;
+var path, fs, render, packageInfo, numbers, charts,
+    chartWidth, chartMargin, chartPadding,
+    barHeight, barPadding, labelOffset;
 
 path = require('path');
 fs = require('fs');
@@ -13,58 +15,7 @@ render = require('handlebars').compile(
     ),
     { encoding: 'utf8' }
 );
-
-module.exports = {
-    map: map
-};
-
-function map (options, results) {
-    return render(mapResult(options, results)));
-}
-
-function mapResults (options, results) {
-    var date, locationParts;
-
-    date = new Date();
-    locationParts = options.location.split(':');
-
-    return {
-        application: packageInfo.name,
-        version: packageInfo.version,
-        date: months[date.getMonth()] + ' ' + date.getFullYear(),
-        count: numbers[options.count],
-        location: locations[locationParts[0]],
-        connection: connections[options.connection],
-        userAgent: userAgents[locationParts[1]],
-        times: results.times,
-        results: results.map(mapResult),
-        charts: charts.map(mapChart.bind(null, results)),
-        chartWidth: chartWidth,
-        chartMargin: chartMargin,
-        barHeight: barHeight,
-        labelOffset: labelOffset,
-        xAxis: {
-            offset: results.length * (barHeight + barPadding) + 1,
-            width: chartWidth - chartMargin + 2,
-            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
-        }
-    };
-}
-
-months = [
-    'January',
-    'February',
-    'March',
-    'April',
-    'May',
-    'June',
-    'July',
-    'August',
-    'September',
-    'October',
-    'November',
-    'December'
-];
+packageInfo = require('../../../package.json');
 
 numbers = [
     'zero',
@@ -84,18 +35,6 @@ numbers = [
     'fourteen',
     'fifteen'
 ];
-
-locations = {
-    'Dulles': 'Dulles, VA'
-};
-
-connections = {
-    'DSL': '<code>DSL</code> (1.5 Mbps/384 Kbps, 50ms RTT)'
-};
-
-userAgents = {
-    'Chrome': 'Google Chrome'
-};
 
 charts = [
     {
@@ -153,11 +92,49 @@ charts = [
 
 chartWidth = 832;
 chartMargin = 140;
+chartPadding = 29;
 barHeight = 32;
+barPadding = 2;
 labelOffset = 16;
 
-function formatTime (date) {
-    return date.toLocaleTimeString() + ' on ' + date.toLocaleDateString();
+module.exports = {
+    map: map
+};
+
+function map (options, results) {
+    return render(mapResults(options, results));
+}
+
+function mapResults (options, results) {
+    var date, locationParts;
+
+    date = new Date();
+    locationParts = options.location.split(':');
+
+    return {
+        application: packageInfo.name,
+        version: packageInfo.version,
+        date: date.toLocaleDateString(),
+        count: numbers[options.count],
+        location: locationParts[0],
+        connection: options.connection,
+        userAgent: locationParts[1],
+        times: {
+            begin: results.times.begin.toLocaleTimeString(),
+            end: results.times.end.toLocaleTimeString() + ' on ' + results.times.end.toLocaleDateString()
+        },
+        results: results.map(mapResult),
+        charts: charts.map(mapChart.bind(null, results)),
+        chartWidth: chartWidth,
+        chartMargin: chartMargin,
+        barHeight: barHeight,
+        labelOffset: labelOffset,
+        xAxis: {
+            offset: results.length * (barHeight + barPadding) + 1,
+            width: chartWidth - chartMargin + 2,
+            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
+        }
+    };
 }
 
 function mapResult (result) {
@@ -211,25 +188,25 @@ function compareResults (view, chartKey, derivative, first, second) {
 
 function getValue (view, chartKey, derivative, result) {
     if (derivative) {
-        return getDerivativeValue[derivative](view, chartKey, result);
+        return getDerivativeValue(view, chartKey, result, derivative);
     }
 
     return getSimpleValue(view, chartKey, result);
 }
 
-getDerivativeValue = {
-    difference: function (view, chartKey, result) {
-        var operands = getDerivativeOperands(view, chartKey, result);
+function getDerivativeValue (view, chartKey, result, derivative) {
+    var operands = getDerivativeOperands(view, chartKey, result);
 
+    if (derivative === 'difference') {
         return operands.lhs.value - operands.rhs.value;
-    },
+    }
 
-    percentage: function (view, chartKey, result) {
-        var operands = getDerivativeOperands(view, chartKey, result);
-
+    if (derivative === 'percentage') {
         return Math.round((operands.lhs.value / operands.rhs.value) * 100);
     }
-};
+
+    throw new Error('unrecognised derivative `' + derivative + '`');
+}
 
 function getDerivativeOperands (view, chartKey, result) {
     var lhs, rhs;

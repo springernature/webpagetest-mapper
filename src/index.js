@@ -76,7 +76,7 @@ function fetch (options, callback) {
     wpt.runTests(options, function (resultIds) {
         wpt.getResults(options, resultIds, function (results) {
             results.times = {
-                begin: begin,
+                begin: time,
                 end: new Date()
             };
 
