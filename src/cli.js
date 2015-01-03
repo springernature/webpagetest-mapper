@@ -16,10 +16,11 @@ options.cli.forEach(function (option) {
 
 cli.parse(process.argv);
 
-try {
-    impl.run(cli);
-} catch (error) {
+impl.run(cli).then(function (result) {
+    console.log(result);
+}).catch(function (error) {
     console.log('Fatal error: ' + error.message);
+    console.log(error.stack);
     process.exit(1);
-}
+});
 

@@ -66,15 +66,21 @@ function run (options) {
  * @option config     {string}  Load options from JSON config file.
  */
 function fetch (options) {
-    var time, done;
-
-    normalise(options);
+    var time, promise, resolve, reject;
 
     time = new Date();
+    promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
 
-    wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
+    console.log(promise);
 
-    return new Promise(function (resolve) { done = resolve; } );
+    try {
+        normalise(options);
+        wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
+    } catch (error) {
+        reject(error);
+    }
+
+    return promise;
 
     function after (results) {
         results.times = {
@@ -83,7 +89,7 @@ function fetch (options) {
         };
         results.options = options;
 
-        done(results);
+        resolve(results);
     }
 }
 
@@ -105,10 +111,17 @@ function fetch (options) {
  * @option config     {string}  Load options from JSON config file.
  */
 function map (options, results) {
-    normalise(options);
+    var promise, resolve, reject;
 
-    return new Promise(function (resolve) {
+    promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
+
+    try {
+        normalise(options);
         resolve(options.mapper.map(options, results || options.results));
-    });
+    } catch (error) {
+        reject(error);
+    }
+
+    return promise;
 }
 
