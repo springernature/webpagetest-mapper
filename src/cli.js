@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-/*globals require */
+/*globals require, process */
 
 'use strict';
 
@@ -16,5 +16,10 @@ options.cli.forEach(function (option) {
 
 cli.parse(process.argv);
 
-impl.run(cli);
+try {
+    impl.run(cli);
+} catch (error) {
+    console.log('Fatal error: ' + error.message);
+    process.exit(1);
+}
 

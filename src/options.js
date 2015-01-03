@@ -1,8 +1,8 @@
-/*globals require, module, console, process */
+/*globals require, module, console */
 
 'use strict';
 
-var check, path, fs, defaults, defaultConfig, assertions;
+var check, path, fs, defaults, defaultConfig;
 
 check = require('check-types');
 path = require('path');
@@ -21,15 +21,6 @@ defaults = {
 function nop () {}
 
 defaultConfig = '.wptrc';
-
-assertions = {
-    uri: 'unemptyString',
-    location: 'unemptyString',
-    connection: 'unemptyString',
-    tests: 'array',
-    count: 'positive',
-    mapper: 'unemptyString'
-};
 
 module.exports = {
     cli: [
@@ -105,8 +96,6 @@ function normalise (options) {
         options.tests = getTests(options);
         options.mapper = getMapper(options);
 
-        verify(options);
-
         options.normalised = true;
     }
 }
@@ -128,8 +117,8 @@ function readJSON (jsonPath, defaultFileName) {
 }
 
 function populateObject (object, defaultValues) {
-    check.assert.object(object);
-    check.assert.object(defaultValues);
+    check.assert.object(object, 'Invalid options.');
+    check.assert.object(defaultValues, 'Invalid options.');
 
     Object.keys(defaultValues).forEach(function (key) {
         if (check.not.assigned(object[key])) {
@@ -139,7 +128,11 @@ function populateObject (object, defaultValues) {
 }
 
 function getTests (options) {
-    return readJSON(options.tests, defaults.tests);
+    var tests = readJSON(options.tests, defaults.tests);
+
+    check.assert.array(tests, 'Invalid option `tests`.');
+
+    return tests;
 }
 
 function getLog (options) {
@@ -153,10 +146,10 @@ function getLog (options) {
     }
 
     if (options.log) {
-        check.assert.object(options.log);
-        check.assert.function(options.log.info);
-        check.assert.function(options.log.warn);
-        check.assert.function(options.log.error);
+        check.assert.object(options.log, 'Invalid option `log`.');
+        check.assert.function(options.log.info, 'Invalid option `log`.');
+        check.assert.function(options.log.warn, 'Invalid option `log`.');
+        check.assert.function(options.log.error, 'Invalid option `log`.');
 
         return options.log;
     }
@@ -178,9 +171,7 @@ function initialiseSyslog (facility) {
             showTime: true
         });
     } catch (error) {
-        console.log(error.message);
-        console.log('Failed to initialise syslog, exiting.');
-        process.exit(1);
+        throw new Error('Failed to initialise syslog, ' + error.message);
     }
 }
 
@@ -190,11 +181,5 @@ function getMapper (options) {
     } catch (error) {
         return require(options.mapper);
     }
-}
-
-function verify (options) {
-    Object.keys(assertions).forEach(function (key) {
-        check.assert[assertions.key](options[key], 'Invalid option `' + key + '`.');
-    });
 }
 
