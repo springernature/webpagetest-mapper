@@ -2,7 +2,7 @@
 
 'use strict';
 
-var check, path, fs, defaults, defaultConfig;
+var check, path, fs, defaults, defaultConfig, assertions;
 
 check = require('check-types');
 path = require('path');
@@ -21,6 +21,15 @@ defaults = {
 function nop () {}
 
 defaultConfig = '.wptrc';
+
+assertions = {
+    uri: 'unemptyString',
+    location: 'unemptyString',
+    connection: 'unemptyString',
+    tests: 'array',
+    count: 'positive',
+    mapper: 'unemptyString'
+};
 
 module.exports = {
     cli: [
@@ -95,6 +104,8 @@ function normalise (options) {
 
         options.tests = getTests(options);
         options.mapper = getMapper(options);
+
+        verify(options);
 
         options.normalised = true;
     }
@@ -179,5 +190,11 @@ function getMapper (options) {
     } catch (error) {
         return require(options.mapper);
     }
+}
+
+function verify (options) {
+    Object.keys(assertions).forEach(function (key) {
+        check.assert[assertions.key](options[key], 'Invalid option `' + key + '`.');
+    });
 }
 
