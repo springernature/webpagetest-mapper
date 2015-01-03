@@ -2,7 +2,7 @@
     "name": "webpagetest-mapper",
     "version": "0.0.1",
     "private": true,
-    "description": "Map JSON result data from marcelduran/webpagetest-api to other formats like SVG bar charts or ODF spreadsheets.",
+    "description": "Map WebPageTest result data into human-readable document formats.",
     "homepage": "https://github.com/nature/webpagetest-mapper",
     "bugs": "https://github.com/nature/webpagetest-mapper/issues",
     "license": "Proprietary",
