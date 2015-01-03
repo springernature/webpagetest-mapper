@@ -2,10 +2,9 @@
 
 'use strict';
 
-var Prom, results, medianMetrics;
+var Prom, medianMetrics;
 
 Prom = require('es6-promise');
-results = require('./results');
 medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 
 module.exports = {
@@ -117,16 +116,16 @@ function getTestLabel (date, name, index) {
 }
 
 function getResults (options, resultIds) {
-    var log, wpt, length, unnormalised, count, done;
+    var log, wpt, length, results, count, done;
 
     log = options.log;
     wpt = initialise(options);
     length = resultIds.length * medianMetrics.length;
-    unnormalised = new Array(resultIds.length);
+    results = new Array(resultIds.length);
     count = 0;
 
     resultIds.forEach(function (resultId, index) {
-        unnormalised[index] = resultId;
+        results[index] = resultId;
 
         medianMetrics.forEach(function (metric) {
             var message;
@@ -152,13 +151,13 @@ function getResults (options, resultIds) {
             log.error('failed to fetch ' + message + ', ' + error.message);
         } else {
             log.info('finished fetching ' + message);
-            unnormalised[index][metric] = result;
+            results[index][metric] = result;
         }
 
         count += 1;
 
         if (count === length) {
-            done(results.normalise(options, unnormalised));
+            done(results);
         }
     }
 }

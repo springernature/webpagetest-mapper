@@ -81,6 +81,7 @@ function fetch (options) {
             begin: time,
             end: new Date()
         };
+        results.options = options;
 
         done(results);
     }
