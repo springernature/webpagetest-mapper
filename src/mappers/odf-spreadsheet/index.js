@@ -13,9 +13,9 @@ handlebars.registerHelper('add', function (a, b) {
 });
 render = handlebars.compile(
     fs.readFileSync(
-        path.join(__dirname, 'template.html')
-    ),
-    { encoding: 'utf8' }
+        path.join(__dirname, 'template.xml'),
+        { encoding: 'utf8' }
+    )
 );
 packageInfo = require('../../../package.json');
 
@@ -28,15 +28,20 @@ function map (options, results) {
 }
 
 function mapResults (options, results) {
-    var runs = (new Array(results.options.count)).map(mapRun);
-
     return {
         application: packageInfo.name,
         version: packageInfo.version,
-        results: (new Array(results.options.count)).map(mapResult.bind(null, results)),
+        results: results.map(mapResult)
     };
 }
 
-function mapResult (results, ignore, index) {
+function mapResult (result, index) {
+    return {
+        id: '' + index,
+        metrics: getMetrics(result)
+    };
+}
+
+function getMetrics (result) {
 }
 
