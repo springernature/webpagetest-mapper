@@ -2,10 +2,10 @@
 
 'use strict';
 
-var Prom, options, wpt;
+var Prom, normalise, wpt;
 
 Prom = require('es6-promise');
-options = require('./options');
+normalise = require('./options').normalise;
 wpt = require('./webpagetest');
 
 module.exports = {
@@ -68,7 +68,7 @@ function run (options) {
 function fetch (options) {
     var time, done;
 
-    options.normalise(options);
+    normalise(options);
 
     time = new Date();
 
@@ -105,7 +105,7 @@ function fetch (options) {
  * @option config     {string}  Load options from JSON config file.
  */
 function map (options, results) {
-    options.normalise(options);
+    normalise(options);
 
     return new Prom(function (resolve) {
         resolve(options.mapper.map(options, results || options.results));
