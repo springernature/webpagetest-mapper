@@ -66,7 +66,7 @@ module.exports = {
             description: 'read intermediate results from a file, skips running the tests'
         },
         {
-            format: '-r, --mapper <path>',
+            format: '-m, --mapper <path>',
             description: 'the mapper to use, defaults to `' + defaults.mapper + '`'
         },
         {
