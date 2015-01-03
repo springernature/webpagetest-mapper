@@ -117,8 +117,8 @@ function readJSON (jsonPath, defaultFileName) {
 }
 
 function populateObject (object, defaultValues) {
-    check.assert.object(object, 'Invalid options.');
-    check.assert.object(defaultValues, 'Invalid options.');
+    check.assert.object(object, 'invalid options');
+    check.assert.object(defaultValues, 'invalid options');
 
     Object.keys(defaultValues).forEach(function (key) {
         if (check.not.assigned(object[key])) {
@@ -130,7 +130,7 @@ function populateObject (object, defaultValues) {
 function getTests (options) {
     var tests = readJSON(options.tests, defaults.tests);
 
-    check.assert.array(tests, 'Invalid option `tests`.');
+    check.assert.array(tests, 'invalid option `tests`');
 
     return tests;
 }
@@ -146,10 +146,10 @@ function getLog (options) {
     }
 
     if (options.log) {
-        check.assert.object(options.log, 'Invalid option `log`.');
-        check.assert.function(options.log.info, 'Invalid option `log`.');
-        check.assert.function(options.log.warn, 'Invalid option `log`.');
-        check.assert.function(options.log.error, 'Invalid option `log`.');
+        check.assert.object(options.log, 'invalid option `log`');
+        check.assert.function(options.log.info, 'invalid option `log`');
+        check.assert.function(options.log.warn, 'invalid option `log`');
+        check.assert.function(options.log.error, 'invalid option `log`');
 
         return options.log;
     }
