@@ -28,7 +28,7 @@ function runTests (options) {
         wpt.runTest(test.url, test, after.bind(null, message, test, index));
     });
 
-    return new Prom(function (resolve) { done = resolve; });
+    return new Promise(function (resolve) { done = resolve; });
 
     function after (message, test, index, error, result) {
         if (error) {
@@ -144,7 +144,7 @@ function getResults (options, resultIds) {
         });
     });
 
-    return new Prom(function (resolve) { done = resolve; });
+    return new Promise(function (resolve) { done = resolve; });
 
     function after (message, index, metric, error, result) {
         if (error) {

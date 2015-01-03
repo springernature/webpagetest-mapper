@@ -1,10 +1,10 @@
-/*globals require, module */
+/*globals require, module, Promise */
 
 'use strict';
 
-var Prom, normalise, wpt;
+var normalise, wpt;
 
-Prom = require('es6-promise');
+require('es6-promise').polyfill();
 normalise = require('./options').normalise;
 wpt = require('./webpagetest');
 
@@ -74,7 +74,7 @@ function fetch (options) {
 
     wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
 
-    return new Prom(function (resolve) { done = resolve; } );
+    return new Promise(function (resolve) { done = resolve; } );
 
     function after (results) {
         results.times = {
@@ -107,7 +107,7 @@ function fetch (options) {
 function map (options, results) {
     normalise(options);
 
-    return new Prom(function (resolve) {
+    return new Promise(function (resolve) {
         resolve(options.mapper.map(options, results || options.results));
     });
 }
