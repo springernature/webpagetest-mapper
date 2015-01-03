@@ -7,7 +7,12 @@ module.exports = {
 };
 
 function normalise (options, results) {
-    return results.map(mapResult.bind(null, options.log));
+    var normalised;
+
+    normalised = results.map(mapResult.bind(null, options.log));
+    normalised.options = options;
+
+    return normalised;
 }
 
 function mapResult (log, result) {
