@@ -29,7 +29,7 @@ module.exports = {
  *                              to `tests.json`.
  * @option count      {number}  Number of times to run each test, defaults to `9`.
  * @option email      {string}  Email address to send notifications to.
- * @option mapper     {string}  Mapper to use.
+ * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,
@@ -101,7 +101,7 @@ function fetch (options) {
  * @option key        {string}  WebPageTest API key.
  *                              to `tests.json`.
  * @option results    {string}  WebPageTest results.
- * @option mapper     {string}  Mapper to use.
+ * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,
