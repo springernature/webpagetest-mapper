@@ -18,6 +18,7 @@
     xmlns:text="urn:oasis:names:tc:opendocument:xmlns:text:1.0"
     xmlns:style="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
 -->
+<?xml version="1.0" encoding="utf-8"?>
 <document
  xmlns="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
  xmlns:meta="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
@@ -33,25 +34,143 @@
     </meta>
     <body>
         <spreadsheet>
-            <tbl:consolidation
-             tbl:function=""
-             tbl:link-to-source-data=""
-             tbl:source-cell-range-addresses=""
-             tbl:target-cell-address=""
-             tbl:use-labels=""
-            />
             <tbl:label-ranges>
                 <tbl:label-range
-                 tbl:data-cell-range-address=""
-                 tbl:label-cell-range-address=""
-                 tbl:orientation=""
+                 tbl:label-cell-range-address="A1:I2"
+                 tbl:data-cell-range-address="A3:I{{add results.length 2}}"
+                 tbl:orientation="column"
+                />
+                <tbl:label-range
+                 tbl:label-cell-range-address="A{{add results.length 4}}:A{{add results.length 15}}"
+                 tbl:data-cell-range-address="B{{add results.length 4}}:I{{add results.length 15}}"
+                 tbl:orientation="row"
                 />
             </tbl:label-ranges>
-            <tbl:table id="" tbl:name="">
-                <tbl:table-row>
-                    <tbl:table-cell value="" formula="">
-                    </tbl:table-cell>
-                </tbl:table-row>
+            <tbl:table>
+                <tbl:table-header-columns>
+                    <tbl:table-column tbl:style-name="label"/>
+                </tbl:table-header-columns>
+                <tbl:table-columns>
+                    <tbl:table-column
+                     tbl:number-columns-repeated="8"
+                     tbl:style-name="value"
+                    />
+                </tbl:table-columns>
+                <tbl:table-header-rows>
+                    <tbl:table-row tbl:style-name="label">
+                        <tbl:table-cell/>
+                        <tbl:table-cell tbl:number-columns-spanned="4" string-value="First view"/>
+                        <tbl:covered-table-cell tbl:number-columns-repeated="3"/>
+                        <tbl:table-cell tbl:number-columns-spanned="4" string-value="Repeat view"/>
+                        <tbl:covered-table-cell tbl:number-columns-repeated="3"/>
+                    </tbl:table-row>
+                    <tbl:table-row tbl:style-name="label">
+                        <tbl:table-cell/>
+                        <tbl:table-cell string-value="First byte"/>
+                        <tbl:table-cell string-value="Start render"/>
+                        <tbl:table-cell string-value="Load"/>
+                        <tbl:table-cell string-value="Speed index"/>
+                        <tbl:table-cell string-value="First byte"/>
+                        <tbl:table-cell string-value="Start render"/>
+                        <tbl:table-cell string-value="Load"/>
+                        <tbl:table-cell string-value="Speed index"/>
+                    </tbl:table-row>
+                </tbl:table-header-rows>
+                <tbl:table-rows>
+{{#each results}}                    <tbl:table-row>
+                        <tbl:table-cell string-value="{{id}}"/>
+{{#each metrics}}                        <tbl:table-cell value="{{value}}"/>
+{{/each}}                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell tbl:number-columns-repeated="9"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="UPPER"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.B3:.B{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.C3:.C{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.D3:.D{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.E3:.E{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.F3:.F{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.G3:.G{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.H3:.H{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MAX([.I3:.I{{add results.length 2}}])"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="LOWER"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.B3:.B{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.C3:.C{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.D3:.D{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.E3:.E{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.F3:.F{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.G3:.G{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.H3:.H{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MIN([.I3:.I{{add results.length 2}}])"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell tbl:number-columns-repeated="9"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="90th PCT"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.B3:.B{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.C3:.C{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.D3:.D{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.E3:.E{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.F3:.F{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.G3:.G{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.H3:.H{{add results.length 2}}];0.9)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.I3:.I{{add results.length 2}}];0.9)"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="10th PCT"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.B3:.B{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.C3:.C{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.D3:.D{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.E3:.E{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.F3:.F{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.G3:.G{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.H3:.H{{add results.length 2}}];0.1)"/>
+                        <tbl:table-cell tbl:formula="of:=PERCENTILE([.I3:.I{{add results.length 2}}];0.1)"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell tbl:number-columns-repeated="9"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="MEAN"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.B3:.B{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.C3:.C{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.D3:.D{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.E3:.E{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.F3:.F{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.G3:.G{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.H3:.H{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=AVERAGE([.I3:.I{{add results.length 2}}])"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="STDEV"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.B3:.B{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.C3:.C{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.D3:.D{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.E3:.E{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.F3:.F{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.G3:.G{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.H3:.H{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=STDEV([.I3:.I{{add results.length 2}}])"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell tbl:number-columns-repeated="9"/>
+                    </tbl:table-row>
+                    <tbl:table-row>
+                        <tbl:table-cell string-value="MEDIAN"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.B3:.B{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.C3:.C{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.D3:.D{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.E3:.E{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.F3:.F{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.G3:.G{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.H3:.H{{add results.length 2}}])"/>
+                        <tbl:table-cell tbl:formula="of:=MEDIAN([.I3:.I{{add results.length 2}}])"/>
+                    </tbl:table-row>
+{{/each}}                </tbl:table-rows>
             </tbl:table>
         </spreadsheet>
     </body>
