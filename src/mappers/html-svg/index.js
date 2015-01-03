@@ -11,9 +11,9 @@ path = require('path');
 fs = require('fs');
 render = require('handlebars').compile(
     fs.readFileSync(
-        path.join(__dirname, 'template.html')
-    ),
-    { encoding: 'utf8' }
+        path.join(__dirname, 'template.html'),
+        { encoding: 'utf8' }
+    )
 );
 packageInfo = require('../../../package.json');
 
