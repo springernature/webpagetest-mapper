@@ -71,8 +71,6 @@ function fetch (options) {
     time = new Date();
     promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
 
-    console.log(promise);
-
     try {
         normalise(options);
         wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);

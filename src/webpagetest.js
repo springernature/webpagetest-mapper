@@ -21,7 +21,7 @@ function runTests (options) {
     count = 0;
 
     mapTests(options, new Date()).forEach(function (test, index) {
-        var message = 'test ' + index + '[' + test.name + ']';
+        var message = 'test ' + index + ' [' + test.name + ']';
 
         log.info('running ' + message);
 
@@ -31,17 +31,19 @@ function runTests (options) {
     return new Promise(function (resolve) { done = resolve; });
 
     function after (message, test, index, error, result) {
+        resultIds[index] = {
+            name: test.name,
+            type: test.type,
+            url: test.url,
+            label: test.label,
+        };
+
         if (error) {
             log.error('failed to run ' + message + ', ' + error.message);
+            resultIds[index].error = error;
         } else {
             log.info('finished running ' + message);
-            resultIds[index] = {
-                name: test.name,
-                type: test.type,
-                url: test.url,
-                label: test.label,
-                id: result.response.data.testId
-            };
+            resultIds[index].id = result.response.data.testId;
         }
 
         count += 1;
@@ -116,13 +118,14 @@ function getTestLabel (date, name, index) {
 }
 
 function getResults (options, resultIds) {
-    var log, wpt, length, results, count, done;
+    var log, wpt, length, results, count, promise, done;
 
     log = options.log;
     wpt = initialise(options);
     length = resultIds.length * medianMetrics.length;
     results = new Array(resultIds.length);
     count = 0;
+    promise = new Promise(function (resolve) { done = resolve; });
 
     resultIds.forEach(function (resultId, index) {
         results[index] = resultId;
@@ -130,8 +133,12 @@ function getResults (options, resultIds) {
         medianMetrics.forEach(function (metric) {
             var message;
 
-            message = metric + ' result ' + resultId.id + '[' + resultId.name + ']';
+            message = metric + ' result ' + resultId.id + ' [' + resultId.name + ']';
             log.info('fetching ' + message);
+
+            if (resultId.error) {
+                return after(message, index, metric, resultId.error);
+            }
 
             wpt.getTestResults(resultId.id, {
                 key: options.key,
@@ -144,7 +151,8 @@ function getResults (options, resultIds) {
         });
     });
 
-    return new Promise(function (resolve) { done = resolve; });
+
+    return promise;
 
     function after (message, index, metric, error, result) {
         if (error) {

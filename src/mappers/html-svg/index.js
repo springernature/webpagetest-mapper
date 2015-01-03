@@ -132,8 +132,12 @@ function mapResult (log, result) {
     var message;
 
     try {
-        message = 'result ' + result.id + '[' + result.name + ']';
+        message = 'result ' + result.id + ' [' + result.name + ']';
         log.info('mapping ' + message);
+
+        if (result.error) {
+            return result;
+        }
 
         return {
             name: result.name,
@@ -312,6 +316,14 @@ barPadding = 2;
 chartPadding = 29;
 
 function compareResults (view, chartKey, derivative, first, second) {
+    if (first.error) {
+        return 1;
+    }
+
+    if (second.error) {
+        return -1;
+    }
+
     return getValue(view, chartKey, derivative, first) - getValue(view, chartKey, derivative, second);
 }
 
@@ -368,7 +380,13 @@ function getSimpleValue (view, chartKey, result) {
 
 function getMaximumValue (view, chartKey, derivative, results) {
     return results.reduce(function (maximum, result) {
-        var current = getValue(view, chartKey, derivative, result);
+        var current;
+
+        if (result.error) {
+            return maximum;
+        }
+
+        current = getValue(view, chartKey, derivative, result);
 
         if (current > maximum) {
             return current;
@@ -380,6 +398,10 @@ function getMaximumValue (view, chartKey, derivative, results) {
 
 function mapChartResult (view, chartKey, derivative, millisecondsPerPixel, result, index) {
     var value, barWidth, textOrientation, textClass, textAnchor;
+
+    if (result.error) {
+        return result;
+    }
 
     value = getValue(view, chartKey, derivative, result);
     barWidth = value / millisecondsPerPixel;
