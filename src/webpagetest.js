@@ -1,4 +1,4 @@
-/*globals module, require */
+/*globals module, require, setTimeout */
 
 'use strict';
 
@@ -138,31 +138,37 @@ function getResults (options, resultIds) {
     resultIds.forEach(function (resultId, index) {
         results[index] = resultId;
 
-        medianMetrics.forEach(function (metric) {
-            var message;
-
-            message = metric + ' result ' + resultId.id + ' [' + resultId.name + ']';
-            log.info('fetching ' + message);
-
-            if (resultId.error) {
-                return after(message, index, metric, resultId.error);
-            }
-
-            wpt.getTestResults(resultId.id, {
-                key: options.key,
-                breakDown: true,
-                domains: true,
-                pageSpeed: false,
-                requests: false,
-                medianMetric: metric
-            }, after.bind(null, message, index, metric));
-        });
+        if (resultId.error) {
+            length -= medianMetrics.length;
+        } else {
+            medianMetrics.forEach(getResult.bind(null, resultId, index));
+        }
     });
-
 
     return promise;
 
-    function after (message, index, metric, error, result) {
+    function getResult (resultId, index, metric) {
+        var message;
+
+        message = metric + ' result ' + resultId.id + ' [' + resultId.name + ']';
+        log.info('fetching ' + message);
+
+        wpt.getTestResults(resultId.id, {
+            key: options.key,
+            breakDown: true,
+            domains: true,
+            pageSpeed: false,
+            requests: false,
+            medianMetric: metric
+        }, after.bind(null, message, resultId, index, metric));
+    }
+
+    function after (message, resultId, index, metric, error, result) {
+        if (result.statusCode === 100) {
+            log.info('still waiting for ' + message);
+            return setTimeout(getResult.bind(null, resultId, index, metric), 30000);
+        }
+
         if (error) {
             log.error('failed to fetch ' + message + ', ' + error.message);
         } else {
