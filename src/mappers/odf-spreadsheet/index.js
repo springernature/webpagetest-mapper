@@ -43,5 +43,7 @@ function mapResult (result, index) {
 }
 
 function getMetrics (result) {
+    console.log('odf-spreadsheet::getMetrics');
+    console.log(result);
 }
 
