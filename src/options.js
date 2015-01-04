@@ -87,6 +87,8 @@ module.exports = {
 
 function normalise (options) {
     if (!options.normalised) {
+        clean(options);
+
         populateObject(options, readJSON(options.config, defaultConfig));
 
         options.log = getLog(options);
@@ -99,6 +101,20 @@ function normalise (options) {
 
         options.normalised = true;
     }
+}
+
+function clean (options) {
+    var cruft = [ 'commands', 'options', 'rawArgs', 'args' ];
+
+    Object.keys(options).forEach(function (key) {
+        if (key[0] === '_') {
+            cruft.push(key);
+        }
+    });
+
+    cruft.forEach(function (key) {
+        delete options[key];
+    });
 }
 
 function readJSON (jsonPath, defaultFileName) {
