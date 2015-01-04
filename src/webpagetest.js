@@ -106,15 +106,23 @@ function mapTest (options, date, test, index) {
 
 function getTestLabel (date, name, index) {
     return [
-        date.getFullYear(),
-        date.getMonth() + 1,
-        date.getDate(),
-        date.getHours(),
-        date.getMinutes(),
-        date.getSeconds(),
-        index,
+        date.getFullYear() +
+            formatNumber(date.getMonth() + 1) +
+            formatNumber(date.getDate()),
+        formatNumber(date.getHours()) +
+            formatNumber(date.getMinutes()) +
+            formatNumber(date.getSeconds()),
+        formatNumber(index + 1),
         name.toLowerCase().replace(' ', '-')
     ].join('-');
+}
+
+function formatNumber (number) {
+    if (number < 10) {
+        return '0' + number;
+    }
+
+    return number;
 }
 
 function getResults (options, resultIds) {
