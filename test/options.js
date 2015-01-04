@@ -16,7 +16,14 @@ suite('options:', function () {
 
     setup(function () {
         log = {};
-        results = {};
+        results = {
+            resolve: [],
+            existsSync: [],
+            statSync: [],
+            isFile: [],
+            readFileSync: [],
+            initialise: []
+        };
         mappers = {
             svg: {},
             odf: {}
@@ -41,10 +48,10 @@ suite('options:', function () {
         mockery.registerMock('./mappers/html-svg', mappers.svg);
         mockery.registerMock('./mappers/odf-spreadsheet', mappers.odf);
 
-        results.statSync = {
-            isFile: spooks.fn({ name: 'isFile', log: log, results: results })
+        results.statSync[0] = {
+            isFile: spooks.fn({ name: 'isFile', log: log, results: results.isFile })
         };
-        results.initialise = spooks.obj({
+        results.initialise[0] = spooks.obj({
             archetype: { info: nop, warn: nop, error: nop },
             log: log,
             results: results
@@ -107,9 +114,10 @@ suite('options:', function () {
 
         suite('with JSON file config:', function () {
             setup(function () {
-                results.resolve = 'wibble';
-                results.existsSync = results.isFile = true;
-                results.readFileSync = '{"foo":"bar","baz":"qux"}';
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{"foo":"bar","baz":"qux"}';
+                results.readFileSync[1] = '["foo","bar","baz","qux"]';
             });
 
             test('normalise throws without options', function () {
@@ -219,12 +227,12 @@ suite('options:', function () {
                 });
 
                 test('stat.isFile was called correctly first time', function () {
-                    assert.strictEqual(log.these.isFile[0], results.statSync);
+                    assert.strictEqual(log.these.isFile[0], results.statSync[0]);
                     assert.lengthOf(log.args.isFile[0], 0);
                 });
 
                 test('stat.isFile was called correctly second time', function () {
-                    assert.strictEqual(log.these.isFile[1], results.statSync);
+                    assert.strictEqual(log.these.isFile[1], results.statSync[0]);
                     assert.lengthOf(log.args.isFile[1], 0);
                 });
 
@@ -256,7 +264,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 10);
+                    assert.lengthOf(Object.keys(normalised), 11);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -280,10 +288,12 @@ suite('options:', function () {
                 });
 
                 test('normalised.tests is correct', function () {
-                    assert.isObject(normalised.tests);
-                    assert.lengthOf(Object.keys(normalised.tests), 2);
-                    assert.strictEqual(normalised.tests.foo, 'bar');
-                    assert.strictEqual(normalised.tests.baz, 'qux');
+                    assert.isArray(normalised.tests);
+                    assert.lengthOf(normalised.tests, 4);
+                    assert.strictEqual(normalised.tests[0], 'foo');
+                    assert.strictEqual(normalised.tests[1], 'bar');
+                    assert.strictEqual(normalised.tests[2], 'baz');
+                    assert.strictEqual(normalised.tests[3], 'qux');
                 });
 
                 test('normalised.count is correct', function () {
@@ -348,7 +358,7 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 10);
+                        assert.lengthOf(Object.keys(normalised), 11);
                     });
 
                     test('normalised.foo is correct', function () {
@@ -372,10 +382,8 @@ suite('options:', function () {
                     });
 
                     test('normalised.tests is correct', function () {
-                        assert.isObject(normalised.tests);
-                        assert.lengthOf(Object.keys(normalised.tests), 2);
-                        assert.strictEqual(normalised.tests.foo, 'bar');
-                        assert.strictEqual(normalised.tests.baz, 'qux');
+                        assert.isArray(normalised.tests);
+                        assert.lengthOf(Object.keys(normalised.tests), 4);
                     });
 
                     test('normalised.count is correct', function () {
@@ -412,13 +420,13 @@ suite('options:', function () {
                 var normalised;
 
                 setup(function () {
+                    results.readFileSync[2] = '[{}]';
                     normalised = {
                         uri: 'foo',
                         location: 'bar',
                         connection: 'baz',
                         tests: 'qux',
                         count: 'wibble',
-                        results: 'wobble',
                         mapper: 'odf-spreadsheet',
                         silent: true,
                         log: nop,
@@ -465,7 +473,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 12);
+                    assert.lengthOf(Object.keys(normalised), 13);
                 });
 
                 test('normalised.foo is correct', function () {
@@ -489,10 +497,8 @@ suite('options:', function () {
                 });
 
                 test('normalised.tests is correct', function () {
-                    assert.isObject(normalised.tests);
-                    assert.lengthOf(Object.keys(normalised.tests), 2);
-                    assert.strictEqual(normalised.tests.foo, 'bar');
-                    assert.strictEqual(normalised.tests.baz, 'qux');
+                    assert.isArray(normalised.tests);
+                    assert.lengthOf(normalised.tests, 4);
                 });
 
                 test('normalised.count is correct', function () {
@@ -573,7 +579,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 11);
+                    assert.lengthOf(Object.keys(normalised), 12);
                 });
 
                 test('normalised.config is correct', function () {
@@ -588,10 +594,11 @@ suite('options:', function () {
 
         suite('with non-existent config:', function () {
             setup(function () {
-                results.resolve = 'the quick brown fox jumps over the lazy dog';
-                results.existsSync = false;
-                results.isFile = true;
-                results.readFileSync = '{"a":"b"}';
+                results.resolve[0] = 'the quick brown fox jumps over the lazy dog';
+                results.existsSync[0] = false;
+                results.existsSync[1] = true;
+                results.isFile[0] = true;
+                results.readFileSync[0] = '[]';
             });
 
             suite('normalise with empty options:', function () {
@@ -622,16 +629,16 @@ suite('options:', function () {
                     assert.strictEqual(log.args.existsSync[1][0], 'the quick brown fox jumps over the lazy dog');
                 });
 
-                test('fs.statSync was not called', function () {
-                    assert.strictEqual(log.counts.statSync, 0);
+                test('fs.statSync called once', function () {
+                    assert.strictEqual(log.counts.statSync, 1);
                 });
 
-                test('stat.isFile was not called', function () {
-                    assert.strictEqual(log.counts.isFile, 0);
+                test('stat.isFile was called once', function () {
+                    assert.strictEqual(log.counts.isFile, 1);
                 });
 
-                test('fs.readFileSync was not called', function () {
-                    assert.strictEqual(log.counts.readFileSync, 0);
+                test('fs.readFileSync was called once', function () {
+                    assert.strictEqual(log.counts.readFileSync, 1);
                 });
 
                 test('get-off-my-log.initialise was called once', function () {
@@ -639,7 +646,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 8);
+                    assert.lengthOf(Object.keys(normalised), 9);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -655,8 +662,8 @@ suite('options:', function () {
                 });
 
                 test('normalised.tests is correct', function () {
-                    assert.isObject(normalised.tests);
-                    assert.lengthOf(Object.keys(normalised.tests), 0);
+                    assert.isArray(normalised.tests);
+                    assert.lengthOf(normalised.tests, 0);
                 });
 
                 test('normalised.count is correct', function () {
@@ -693,9 +700,9 @@ suite('options:', function () {
             var normalised;
 
             setup(function () {
-                results.resolve = 'wibble';
-                results.existsSync = results.isFile = true;
-                results.readFileSync = 'foo';
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = 'foo';
                 normalised = {};
             });
 

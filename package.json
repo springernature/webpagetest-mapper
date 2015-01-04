@@ -31,7 +31,7 @@
         "mocha": "2.1.x",
         "chai": "1.10.x",
         "mockery": "1.4.x",
-        "spooks": "1.0.x"
+        "spooks": "2.0.x"
     },
     "scripts": {
         "test": "mocha --ui tdd --reporter spec --recursive --colors test",
