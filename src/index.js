@@ -64,8 +64,6 @@ function dump (options, results) {
     log = options.log;
     target = path.resolve(options.dump);
 
-    delete results.options.log;
-
     serialiseTimes(results);
 
     log.info('dumping intermediates to `' + target + '`');
