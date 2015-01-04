@@ -224,20 +224,18 @@ function getOptimisationsUrl (result, medianMetric, view) {
 }
 
 function getBaseUri (result, medianMetric, view) {
-    var median = getMedianRun(result, medianMetric, view);
+    var median, run;
 
-    if (!median || !Array.isArray(median.run) || median.run.length !== 2 || median.run[0] !== median.run[1]) {
-        throw new Error(
-            'weird data in getBaseUri: ' +
-                !!median + ', ' +
-                Array.isArray(median.run) + ', ' +
-                median.run.length + ', ' +
-                median.run[0] + ', ' +
-                median.run[1]
-        );
+    median = getMedianRun(result, medianMetric, view);
+
+    if (Array.isArray(median.run)) {
+        // TODO: Use whichever run has the greater value?
+        run = median.run[0];
+    } else {
+        run = median.run;
     }
 
-    return getData(result, medianMetric).summary + median.run[0] + '/';
+    return getData(result, medianMetric).summary + run + '/';
 }
 
 function getWaterfallUrl (result, medianMetric, view) {
