@@ -63,8 +63,8 @@ function dump (options, results) {
 
     log = options.log;
     target = path.resolve(options.dump);
-    serialiseDate(results.times, 'begin');
-    serialiseDate(results.times, 'end');
+
+    serialiseTimes(results);
 
     log.info('dumping intermediates to `' + target + '`');
 
@@ -77,6 +77,8 @@ function dump (options, results) {
                 log.error('failed to dump intermediates, ' + error.message);
             }
 
+            deserialiseTimes(results);
+
             done(results);
         }
     );
@@ -84,8 +86,20 @@ function dump (options, results) {
     return new Promise(function (resolve) { done = resolve; });
 }
 
-function serialiseDate(object, property) {
-    object[property] = object[property].toISOString();
+function serialiseTimes (results) {
+    forEachTime(results, function (object, key) {
+        object[key] = object[key].toISOString();
+    });
+}
+
+function forEachTime (results, action) {
+    [ 'begin', 'end' ].forEach(action.bind(null, results.times));
+}
+
+function deserialiseTimes (results) {
+    forEachTime(results, function (object, key) {
+        object[key] = new Date(object[key]);
+    });
 }
 
 /**
