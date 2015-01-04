@@ -418,6 +418,7 @@ suite('options:', function () {
                         connection: 'baz',
                         tests: 'qux',
                         count: 'wibble',
+                        results: 'wobble',
                         mapper: 'odf-spreadsheet',
                         silent: true,
                         log: nop,

@@ -94,6 +94,7 @@ function normalise (options) {
         populateObject(options, defaults);
 
         options.tests = getTests(options);
+        options.results = getResults(options);
         options.mapper = getMapper(options);
 
         options.normalised = true;
@@ -173,6 +174,20 @@ function initialiseSyslog (facility) {
     } catch (error) {
         throw new Error('Failed to initialise syslog, ' + error.message);
     }
+}
+
+function getResults (options) {
+    var results;
+
+    if (check.unemptyString(options.results)) {
+        results = readJSON(options.results, 'ignore');
+
+        check.assert.array(results, 'invalid option `results`');
+        check.assert.object(results.times, 'invalid option `results`');
+        check.assert.object(results.options, 'invalid option `results`');
+    }
+
+    return results;
 }
 
 function getMapper (options) {

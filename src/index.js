@@ -2,9 +2,11 @@
 
 'use strict';
 
-var normalise, wpt;
+var fs, path, normalise, wpt;
 
 require('es6-promise').polyfill();
+fs = require('fs');
+path = require('path');
 normalise = require('./options').normalise;
 wpt = require('./webpagetest');
 
@@ -29,6 +31,8 @@ module.exports = {
  *                              to `tests.json`.
  * @option count      {number}  Number of times to run each test, defaults to `9`.
  * @option email      {string}  Email address to send notifications to.
+ * @option dump       {string}  Dump intermediate results to file.
+ * @option results    {string}  Read intermediate results from file, skips tests.
  * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
@@ -41,7 +45,39 @@ function run (options) {
         return map(options);
     }
 
-    return fetch(options).then(map.bind(null, options));
+    return fetch(options).then(receive.bind(null, options));
+}
+
+function receive(options, results) {
+    if (options.dump) {
+        return dump(options, results).then(map);
+    }
+
+    return map(options);
+}
+
+function dump (options, results) {
+    var log, target, done;
+
+    log = options.log;
+    target = path.resolve(options.dump);
+
+    log.info('dumping intermediates to `' + target + '`');
+
+    fs.writeFile(
+        target,
+        JSON.stringify(results, null, '    '),
+        { encoding: 'utf8', mode: 420 },
+        function (error) {
+            if (error) {
+                log.error('failed to dump intermediates, ' + error.message);
+            }
+
+            done(options, results);
+        }
+    );
+
+    return new Promise(function (resolve) { done = resolve; });
 }
 
 /**
@@ -100,7 +136,7 @@ function fetch (options) {
  *                              `www.webpagetest.org`.
  * @option key        {string}  WebPageTest API key.
  *                              to `tests.json`.
- * @option results    {string}  WebPageTest results.
+ * @option results    {string}  Read WebPageTest results from file.
  * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
@@ -115,7 +151,7 @@ function map (options, results) {
 
     try {
         normalise(options);
-        resolve(options.mapper.map(options, results || options.results));
+        resolve(options.mapper.map(options, options.results || results));
     } catch (error) {
         reject(error);
     }
