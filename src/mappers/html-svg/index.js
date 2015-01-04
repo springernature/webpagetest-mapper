@@ -245,7 +245,7 @@ function getWaterfallUrl (result, medianMetric, view) {
 }
 
 function getData (result, metric) {
-    return result[metric].response.data;
+    return result[metric].data;
 }
 
 function getMedianRun (result, metric, view) {
