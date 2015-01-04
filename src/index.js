@@ -41,6 +41,8 @@ module.exports = {
  * @option config     {string}  Load options from JSON config file.
  */
 function run (options) {
+    options = normalise(options);
+
     if (options.results) {
         return map(options);
     }
@@ -50,10 +52,10 @@ function run (options) {
 
 function receive(options, results) {
     if (options.dump) {
-        return dump(options, results).then(map);
+        return dump(options, results).then(map.bind(null, options));
     }
 
-    return map(options);
+    return map(options, results);
 }
 
 function dump (options, results) {
@@ -75,7 +77,7 @@ function dump (options, results) {
                 log.error('failed to dump intermediates, ' + error.message);
             }
 
-            done(options, results);
+            done(results);
         }
     );
 
