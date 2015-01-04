@@ -166,8 +166,7 @@ suite('options:', function () {
                 var normalised;
 
                 setup(function () {
-                    normalised = {};
-                    options.normalise(normalised);
+                    normalised = options.normalise({});
                 });
 
                 teardown(function () {
@@ -264,15 +263,15 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 11);
+                    assert.lengthOf(Object.keys(normalised), 14);
                 });
 
-                test('normalised.foo is correct', function () {
-                    assert.strictEqual(normalised.foo, 'bar');
+                test('normalised.foo is undefined', function () {
+                    assert.isUndefined(normalised.foo);
                 });
 
-                test('normalised.baz is correct', function () {
-                    assert.strictEqual(normalised.baz, 'qux');
+                test('normalised.baz is undefined', function () {
+                    assert.isUndefined(normalised.baz);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -330,7 +329,7 @@ suite('options:', function () {
 
                 suite('normalise:', function () {
                     setup(function () {
-                        options.normalise(normalised);
+                        normalised = options.normalise(normalised);
                     });
 
                     test('path.resolve was not called', function () {
@@ -358,15 +357,15 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 11);
+                        assert.lengthOf(Object.keys(normalised), 14);
                     });
 
-                    test('normalised.foo is correct', function () {
-                        assert.strictEqual(normalised.foo, 'bar');
+                    test('normalised.foo is undefined', function () {
+                        assert.isUndefined(normalised.foo);
                     });
 
-                    test('normalised.baz is correct', function () {
-                        assert.strictEqual(normalised.baz, 'qux');
+                    test('normalised.baz is undefined', function () {
+                        assert.isUndefined(normalised.baz);
                     });
 
                     test('normalised.uri is correct', function () {
@@ -421,7 +420,7 @@ suite('options:', function () {
 
                 setup(function () {
                     results.readFileSync[2] = '{"data":[],"options":{},"times":{"begin":"2015-01-04T14:55:08.577Z","end":"2015-01-04T14:55:08.578Z"}}';
-                    normalised = {
+                    normalised = options.normalise({
                         uri: 'foo',
                         location: 'bar',
                         connection: 'baz',
@@ -433,8 +432,7 @@ suite('options:', function () {
                         log: nop,
                         foo: '',
                         something: 'else'
-                    };
-                    options.normalise(normalised);
+                    });
                 });
 
                 teardown(function () {
@@ -478,15 +476,15 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 13);
+                    assert.lengthOf(Object.keys(normalised), 14);
                 });
 
-                test('normalised.foo is correct', function () {
-                    assert.strictEqual(normalised.foo, '');
+                test('normalised.foo is undefined', function () {
+                    assert.isUndefined(normalised.foo);
                 });
 
-                test('normalised.baz is correct', function () {
-                    assert.strictEqual(normalised.baz, 'qux');
+                test('normalised.baz is undefined', function () {
+                    assert.isUndefined(normalised.baz);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -531,7 +529,7 @@ suite('options:', function () {
                 });
 
                 test('normalised.something is correct', function () {
-                    assert.strictEqual(normalised.something, 'else');
+                    assert.isUndefined(normalised.something);
                 });
 
                 test('normalised.normalised is true', function () {
@@ -543,8 +541,7 @@ suite('options:', function () {
                 var normalised;
 
                 setup(function () {
-                    normalised = { config: 'mahumba' };
-                    options.normalise(normalised);
+                    normalised = options.normalise({ config: 'mahumba' });
                 });
 
                 teardown(function () {
@@ -584,11 +581,11 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 12);
+                    assert.lengthOf(Object.keys(normalised), 14);
                 });
 
-                test('normalised.config is correct', function () {
-                    assert.strictEqual(normalised.config, 'mahumba');
+                test('normalised.config is undefined', function () {
+                    assert.isUndefined(normalised.config);
                 });
 
                 test('normalised.normalised is true', function () {
@@ -610,8 +607,7 @@ suite('options:', function () {
                 var normalised;
 
                 setup(function () {
-                    normalised = {};
-                    options.normalise(normalised);
+                    normalised = options.normalise({});
                 });
 
                 teardown(function () {
@@ -651,7 +647,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 9);
+                    assert.lengthOf(Object.keys(normalised), 14);
                 });
 
                 test('normalised.uri is correct', function () {

@@ -10,11 +10,17 @@ fs = require('fs');
 
 defaults = {
     uri: 'www.webpagetest.org',
+    key: undefined,
     location: 'Dulles:Chrome',
     connection: 'Native Connection',
     tests: 'tests.json',
     count: 9,
+    email: undefined,
+    output: undefined,
+    dump: undefined,
+    results: undefined,
     mapper: 'html-svg',
+    silent: undefined,
     log: { info: nop, warn: nop, error: nop }
 };
 
@@ -86,35 +92,31 @@ module.exports = {
 };
 
 function normalise (options) {
-    if (!options.normalised) {
-        clean(options);
+    var normalised;
 
-        populateObject(options, readJSON(options.config, defaultConfig));
-
-        options.log = getLog(options);
-
-        populateObject(options, defaults);
-
-        options.tests = getTests(options);
-        options.results = getResults(options);
-        options.mapper = getMapper(options);
-
-        options.normalised = true;
+    if (options.normalised) {
+        return options;
     }
-}
 
-function clean (options) {
-    var cruft = [ 'commands', 'options', 'rawArgs', 'args' ];
+    normalised = {
+        normalised: true
+    };
 
-    Object.keys(options).forEach(function (key) {
-        if (key[0] === '_') {
-            cruft.push(key);
-        }
+    populateObject(options, readJSON(options.config, defaultConfig));
+
+    Object.keys(defaults).forEach(function (key) {
+        normalised[key] = options[key];
     });
 
-    cruft.forEach(function (key) {
-        delete options[key];
-    });
+    normalised.log = getLog(normalised);
+
+    populateObject(normalised, defaults);
+
+    normalised.tests = getTests(normalised);
+    normalised.results = getResults(normalised);
+    normalised.mapper = getMapper(normalised);
+
+    return normalised;
 }
 
 function readJSON (jsonPath, defaultFileName) {

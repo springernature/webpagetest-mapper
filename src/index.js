@@ -114,7 +114,7 @@ function fetch (options) {
     promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
 
     try {
-        normalise(options);
+        options = normalise(options);
         wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
     } catch (error) {
         reject(error);
@@ -157,7 +157,7 @@ function map (options, results) {
     promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
 
     try {
-        normalise(options);
+        options = normalise(options);
         resolve(options.mapper.map(options, options.results || results));
     } catch (error) {
         reject(error);
