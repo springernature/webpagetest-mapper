@@ -17,9 +17,10 @@ options.cli.forEach(function (option) {
 cli.parse(process.argv);
 
 impl.run(cli).then(function (result) {
-    console.log(result);
+    //console.log(result);
 }).catch(function (error) {
     console.log('Fatal error: ' + error.message);
+    console.log(error.stack);
     process.exit(1);
 });
 
