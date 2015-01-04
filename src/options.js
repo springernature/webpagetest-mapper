@@ -172,7 +172,7 @@ function initialiseSyslog (facility) {
             showTime: true
         });
     } catch (error) {
-        throw new Error('Failed to initialise syslog, ' + error.message);
+        throw new Error('failed to initialise syslog, ' + error.message);
     }
 }
 
@@ -182,9 +182,16 @@ function getResults (options) {
     if (check.unemptyString(options.results)) {
         results = readJSON(options.results, 'ignore');
 
-        check.assert.array(results, 'invalid option `results`');
-        check.assert.object(results.times, 'invalid option `results`');
+        check.assert.object(results, 'invalid option `results`');
+        check.assert.array(results.data, 'invalid option `results`');
         check.assert.object(results.options, 'invalid option `results`');
+        check.assert.object(results.times, 'invalid option `results`');
+
+        results.times.begin = new Date(results.times.begin);
+        results.times.end = new Date(results.times.end);
+
+        check.assert.date(results.times.begin, 'invalid option `results`');
+        check.assert.date(results.times.end, 'invalid option `results`');
     }
 
     return results;

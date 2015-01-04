@@ -61,6 +61,8 @@ function dump (options, results) {
 
     log = options.log;
     target = path.resolve(options.dump);
+    serialiseDate(results.times, 'begin');
+    serialiseDate(results.times, 'end');
 
     log.info('dumping intermediates to `' + target + '`');
 
@@ -78,6 +80,10 @@ function dump (options, results) {
     );
 
     return new Promise(function (resolve) { done = resolve; });
+}
+
+function serialiseDate(object, property) {
+    object[property] = object[property].toISOString();
 }
 
 /**
@@ -117,13 +123,14 @@ function fetch (options) {
     return promise;
 
     function after (results) {
-        results.times = {
-            begin: time,
-            end: new Date()
-        };
-        results.options = options;
-
-        resolve(results);
+        resolve({
+            data: results,
+            options: options,
+            times: {
+                begin: time,
+                end: new Date()
+            }
+        });
     }
 }
 

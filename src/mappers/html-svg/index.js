@@ -98,7 +98,7 @@ function mapResults (options, results) {
 
     date = new Date();
     locationParts = results.options.location.split(':');
-    mapped = results.map(mapResult.bind(null, options.log));
+    mapped = results.data.map(mapResult.bind(null, options.log));
 
     return {
         application: packageInfo.name,
@@ -119,7 +119,7 @@ function mapResults (options, results) {
         barHeight: barHeight,
         labelOffset: labelOffset,
         xAxis: {
-            offset: results.length * (barHeight + barPadding) + 1,
+            offset: mapped.length * (barHeight + barPadding) + 1,
             width: chartWidth - chartMargin + 2,
             labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
         }

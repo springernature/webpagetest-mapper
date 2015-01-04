@@ -17,7 +17,7 @@
     },
     "dependencies": {
         "commander": "2.6.x",
-        "check-types": "2.1.x",
+        "check-types": "2.2.x",
         "webpagetest": "0.3.x",
         "get-off-my-log": "0.1.x",
         "handlebars": "2.0.x",

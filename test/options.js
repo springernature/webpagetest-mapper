@@ -420,13 +420,14 @@ suite('options:', function () {
                 var normalised;
 
                 setup(function () {
-                    results.readFileSync[2] = '[{}]';
+                    results.readFileSync[2] = '{"data":[],"options":{},"times":{"begin":"2015-01-04T14:55:08.577Z","end":"2015-01-04T14:55:08.578Z"}}';
                     normalised = {
                         uri: 'foo',
                         location: 'bar',
                         connection: 'baz',
                         tests: 'qux',
                         count: 'wibble',
+                        results: 'wobble',
                         mapper: 'odf-spreadsheet',
                         silent: true,
                         log: nop,
@@ -440,8 +441,8 @@ suite('options:', function () {
                     normalised = undefined;
                 });
 
-                test('path.resolve was called twice', function () {
-                    assert.strictEqual(log.counts.resolve, 2);
+                test('path.resolve was called three times', function () {
+                    assert.strictEqual(log.counts.resolve, 3);
                 });
 
                 test('path.resolve was called correctly first time', function () {
@@ -452,20 +453,24 @@ suite('options:', function () {
                     assert.strictEqual(log.args.resolve[1][0], 'qux');
                 });
 
-                test('fs.existsSync was called twice', function () {
-                    assert.strictEqual(log.counts.existsSync, 2);
+                test('path.resolve was called correctly third time', function () {
+                    assert.strictEqual(log.args.resolve[2][0], 'wobble');
                 });
 
-                test('fs.statSync was called twice', function () {
-                    assert.strictEqual(log.counts.statSync, 2);
+                test('fs.existsSync was called three times', function () {
+                    assert.strictEqual(log.counts.existsSync, 3);
                 });
 
-                test('stat.isFile was called twice', function () {
-                    assert.strictEqual(log.counts.isFile, 2);
+                test('fs.statSync was called three times', function () {
+                    assert.strictEqual(log.counts.statSync, 3);
                 });
 
-                test('fs.readFileSync was called twice', function () {
-                    assert.strictEqual(log.counts.readFileSync, 2);
+                test('stat.isFile was called three times', function () {
+                    assert.strictEqual(log.counts.isFile, 3);
+                });
+
+                test('fs.readFileSync was called three times', function () {
+                    assert.strictEqual(log.counts.readFileSync, 3);
                 });
 
                 test('get-off-my-log.initialise was not called', function () {
@@ -715,6 +720,170 @@ suite('options:', function () {
                     options.normalise(normalised);
                 });
                 assert.isUndefined(normalised.normalised);
+            });
+        });
+
+        suite('with non-object config:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '[]';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({});
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({});
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid options');
+                }
+            });
+        });
+
+        suite('with non-array tests:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({});
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `tests`');
+                }
+            });
+        });
+
+        suite('with non-array result data:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+                results.readFileSync[1] = '[]';
+                results.readFileSync[2] = '{"data":{},"options":{},"times":{"begin":"2015-01-04T14:55:08.577Z","end":"2015-01-04T14:55:08.578Z"}}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({ results: 'wibble' });
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `results`');
+                }
+            });
+        });
+
+        suite('with non-object result options:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+                results.readFileSync[1] = '[]';
+                results.readFileSync[2] = '{"data":[],"options":[],"times":{"begin":"2015-01-04T14:55:08.577Z","end":"2015-01-04T14:55:08.578Z"}}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({ results: 'wibble' });
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `results`');
+                }
+            });
+        });
+
+        suite('with non-object result times:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+                results.readFileSync[1] = '[]';
+                results.readFileSync[2] = '{"data":[],"options":{},"times":["2015-01-04T14:55:08.577Z","2015-01-04T14:55:08.578Z"]}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({ results: 'wibble' });
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `results`');
+                }
+            });
+        });
+
+        suite('with non-date begin time:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+                results.readFileSync[1] = '[]';
+                results.readFileSync[2] = '{"data":[],"options":{},"times":{"begin":"wibble","end":"2015-01-04T14:55:08.578Z"}}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({ results: 'wibble' });
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `results`');
+                }
+            });
+        });
+
+        suite('with non-date end time:', function () {
+            setup(function () {
+                results.resolve[0] = 'wibble';
+                results.existsSync[0] = results.isFile[0] = true;
+                results.readFileSync[0] = '{}';
+                results.readFileSync[1] = '[]';
+                results.readFileSync[2] = '{"data":[],"options":{},"times":{"begin":"2015-01-04T14:55:08.577Z","end":"wibble"}}';
+            });
+
+            test('normalise throws', function () {
+                assert.throws(function () {
+                    options.normalise({ results: 'wibble' });
+                });
+            });
+
+            test('error message is correct', function () {
+                try {
+                    options.normalise({ results: 'wibble' });
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `results`');
+                }
             });
         });
     });
