@@ -43,7 +43,7 @@ function runTests (options) {
             resultIds[index].error = error;
         } else {
             log.info('finished running ' + message);
-            resultIds[index].id = result.data.testId;
+            resultIds[index].id = result.data.id;
         }
 
         count += 1;
