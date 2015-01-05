@@ -220,10 +220,10 @@ function mapResult (log, result) {
 }
 
 function getOptimisationsUrl (result, medianMetric, view) {
-    return getBaseUri(result, medianMetric, view) + 'performance_optimization/';
+    return getUrls(result, medianMetric, view).checklist;
 }
 
-function getBaseUri (result, medianMetric, view) {
+function getUrls (result, medianMetric, view) {
     var median, run;
 
     median = getMedianRun(result, medianMetric, view);
@@ -235,19 +235,23 @@ function getBaseUri (result, medianMetric, view) {
         run = median.run;
     }
 
-    return getData(result, medianMetric).summary + run + '/';
+    return getData(result, medianMetric).runs[run][getViewKey(view)].pages;
 }
 
-function getWaterfallUrl (result, medianMetric, view) {
-    return getBaseUri(result, medianMetric, view) + 'details/';
+function getMedianRun (result, metric, view) {
+    return getData(result, metric).median[getViewKey(view)];
+}
+
+function getViewKey (view) {
+    return view + 'View';
 }
 
 function getData (result, metric) {
     return result[metric].data;
 }
 
-function getMedianRun (result, metric, view) {
-    return getData(result, metric).median[view + 'View'];
+function getWaterfallUrl (result, medianMetric, view) {
+    return getUrls(result, medianMetric, view).details;
 }
 
 function getRating (score) {
