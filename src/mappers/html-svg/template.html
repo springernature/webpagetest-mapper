@@ -310,15 +310,15 @@
                     <tbody>
 {{#each results}}                        <tr class="table-row-{{type}}">
                             <th scope="row"><a href="{{url}}">{{name}}</a></th>
-{{#with firstView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with firstByte}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with startRender}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with load}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with bytes}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with requests}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with connections}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{/with}}{{#with repeatView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{value}}</a></td>
-{{/with}}{{#with load}}                            <td><a href="{{url}}">{{value}}</a></td>
+{{#with firstView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with firstByte}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with startRender}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with load}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with bytes}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with requests}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with connections}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{/with}}{{#with repeatView}}{{#with speedIndex}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
+{{/with}}{{#with load}}                            <td><a href="{{url}}">{{formatInteger value}}</a></td>
 {{/with}}{{/with}}                        </tr>
 {{/each}}                    </tbody>
                 </table>
@@ -354,7 +354,7 @@
                                 <title>{{name}}</title>
                                 <rect width="{{barWidth}}px" height="{{../../barHeight}}px" class="chart-bar chart-bar-{{type}}" />
                                 <g transform="translate(0, {{../../labelOffset}})">
-                                    <text text-anchor="{{textAnchor}}" x="{{barWidth}}px" dx="{{textOrientation}}4px" dy="6px" class="{{textClass}}">{{value}}</text>
+                                    <text text-anchor="{{textAnchor}}" x="{{barWidth}}px" dx="{{textOrientation}}4px" dy="6px" class="{{textClass}}">{{formatInteger value}}</text>
                                     <text x="-{{../../chartMargin}}px" dy="6px" class="chart-label">{{name}}</text>
                                 </g>
                             </g>

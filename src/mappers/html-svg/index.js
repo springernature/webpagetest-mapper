@@ -3,13 +3,17 @@
 
 'use strict';
 
-var path, fs, render, packageInfo, charts,
-    chartWidth, chartMargin, chartPadding,
+var path, fs, handlebars, render, packageInfo,
+    charts, chartWidth, chartMargin, chartPadding,
     barHeight, barPadding, labelOffset;
 
 path = require('path');
 fs = require('fs');
-render = require('handlebars').compile(
+handlebars = require('handlebars');
+handlebars.registerHelper('formatInteger', function (number) {
+    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+});
+render = handlebars.compile(
     fs.readFileSync(
         path.join(__dirname, 'template.html'),
         { encoding: 'utf8' }
@@ -133,31 +137,31 @@ function mapResult (log, result) {
             firstView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex)
+                    value: getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex
                 },
                 firstByte: {
                     url: getWaterfallUrl(result, 'TTFB', 'first'),
-                    value: formatInteger(getMedianRun(result, 'TTFB', 'first').TTFB)
+                    value: getMedianRun(result, 'TTFB', 'first').TTFB
                 },
                 startRender: {
                     url: getWaterfallUrl(result, 'render', 'first'),
-                    value: formatInteger(getMedianRun(result, 'render', 'first').render)
+                    value: getMedianRun(result, 'render', 'first').render
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'first'),
-                    value: formatInteger(getMedianRun(result, 'loadTime', 'first').loadTime)
+                    value: getMedianRun(result, 'loadTime', 'first').loadTime
                 },
                 bytes: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').bytesIn)
+                    value: getMedianRun(result, 'SpeedIndex', 'first').bytesIn
                 },
                 requests: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').requests.length)
+                    value: getMedianRun(result, 'SpeedIndex', 'first').requests.length
                 },
                 connections: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').connections)
+                    value: getMedianRun(result, 'SpeedIndex', 'first').connections
                 },
                 targetFirstByte: {
                     rating: getRating(getFirstByteScore(getMedianRun(result, 'SpeedIndex', 'first'))),
@@ -191,11 +195,11 @@ function mapResult (log, result) {
             repeatView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'repeat'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex)
+                    value: getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'repeat'),
-                    value: formatInteger(getMedianRun(result, 'loadTime', 'repeat').loadTime)
+                    value: getMedianRun(result, 'loadTime', 'repeat').loadTime
                 }
             }
         };
@@ -274,10 +278,6 @@ function getFirstByteScore (data) {
     }
 
     return 100 - Math.round(difference / 10);
-}
-
-function formatInteger (number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
 
 function mapChart (results, chart) {
@@ -414,7 +414,7 @@ function mapChartResult (view, chartKey, derivative, millisecondsPerPixel, resul
         name: result.name,
         type: result.type,
         barWidth: barWidth,
-        value: formatInteger(value) + (derivative === 'percentage' ? '%' : ''),
+        value: value + (derivative === 'percentage' ? '%' : ''),
         textOrientation: textOrientation,
         textClass: textClass,
         textAnchor: textAnchor
