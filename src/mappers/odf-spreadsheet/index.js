@@ -3,7 +3,7 @@
 
 'use strict';
 
-var path, fs, handlebars, render, packageInfo;
+var path, fs, handlebars, render, packageInfo, views, metrics, metricsLength;
 
 path = require('path');
 fs = require('fs');
@@ -19,6 +19,10 @@ render = handlebars.compile(
 );
 packageInfo = require('../../../package.json');
 
+views = [ 'firstView', 'repeatView' ];
+metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
+metricsLength = views.length * metrics.length;
+
 module.exports = {
     map: map
 };
@@ -31,19 +35,50 @@ function mapResults (options, results) {
     return {
         application: packageInfo.name,
         version: packageInfo.version,
-        results: results.map(mapResult)
+        results: results.data.map(mapResult)
     };
 }
 
-function mapResult (result, index) {
+function mapResult (result) {
     return {
-        id: '' + index,
-        metrics: getMetrics(result)
+        id: result.label,
+        name: result.name,
+        runs: mapRuns(result)
     };
 }
 
-function getMetrics (result) {
-    console.log('odf-spreadsheet::getMetrics');
-    console.log(result);
+function mapRuns (result) {
+    var metricIndex, runs;
+
+    metricIndex = 0;
+    runs = [];
+
+    views.forEach(function (view) {
+        metrics.forEach(function (metric) {
+            Object.keys(getRuns(metric)).forEach(
+                setRunData.bind(null, view, metric)
+            );
+        });
+    });
+
+    return runs;
+
+    function getRuns (metric) {
+        return result[metric].data.runs;
+    }
+
+    function setRunData (view, metric, runId) {
+        var runIndex = parseInt(runId) - 1;
+
+        if (!runs[runIndex]) {
+            runs[runIndex] = {
+                id: result.id + '/' + runId,
+                metrics: new Array(metricsLength)
+            };
+        }
+
+        runs[runIndex].metrics[metricIndex] = getRuns(metric)[runId][view][metric];
+        metricIndex = (metricIndex + 1) % metricsLength;
+    }
 }
 
