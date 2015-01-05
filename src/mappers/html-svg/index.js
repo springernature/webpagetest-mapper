@@ -167,7 +167,7 @@ function mapResult (log, result) {
                 },
                 requests: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').requests)
+                    value: formatInteger(getMedianRun(result, 'SpeedIndex', 'first').requests.length)
                 },
                 connections: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
