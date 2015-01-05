@@ -45,7 +45,7 @@
     </automatic-styles>
     <body>
         <spreadsheet>
-            <!--tb:label-ranges>
+            <tb:label-ranges>
                 <tb:label-range
                  tb:label-cell-range-address="A1:I2"
                  tb:data-cell-range-address="A3:I{{add results.length 2}}"
@@ -56,7 +56,7 @@
                  tb:data-cell-range-address="B{{add results.length 4}}:I{{add results.length 15}}"
                  tb:orientation="row"
                 />
-            </tb:label-ranges-->
+            </tb:label-ranges>
 {{#each results}}            <tb:table tb:style-name="table" tb:name="{{name}}" id="{{id}}">
                 <tb:table-header-columns>
                     <tb:table-column tb:style-name="label-column"/>
