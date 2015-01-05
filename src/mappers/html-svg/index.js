@@ -3,7 +3,7 @@
 
 'use strict';
 
-var path, fs, render, packageInfo, numbers, charts,
+var path, fs, render, packageInfo, charts,
     chartWidth, chartMargin, chartPadding,
     barHeight, barPadding, labelOffset;
 
@@ -16,25 +16,6 @@ render = require('handlebars').compile(
     )
 );
 packageInfo = require('../../../package.json');
-
-numbers = [
-    'zero',
-    'one',
-    'two',
-    'three',
-    'four',
-    'five',
-    'six',
-    'seven',
-    'eight',
-    'nine',
-    'ten',
-    'eleven',
-    'twelve',
-    'thirteen',
-    'fourteen',
-    'fifteen'
-];
 
 charts = [
     {
@@ -105,7 +86,7 @@ function mapResults (options, results) {
         application: packageInfo.name,
         version: packageInfo.version,
         date: date,
-        count: numbers[results.options.count],
+        count: results.options.count,
         location: locationParts[0],
         connection: results.options.connection,
         userAgent: locationParts[1],
