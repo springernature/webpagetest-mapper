@@ -122,7 +122,7 @@ function formatNumber (number) {
         return '0' + number;
     }
 
-    return number;
+    return '' + number;
 }
 
 function getResults (options, resultIds) {
