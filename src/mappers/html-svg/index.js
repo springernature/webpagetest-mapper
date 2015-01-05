@@ -94,23 +94,24 @@ function map (options, results) {
 }
 
 function mapResults (options, results) {
-    var date, locationParts, mapped;
+    var date, formattedDate, locationParts, mapped;
 
-    date = new Date();
+    date = getTime(results, 'end');
+    formattedDate = date.toLocaleDateString();
     locationParts = results.options.location.split(':');
     mapped = results.data.map(mapResult.bind(null, options.log));
 
     return {
         application: packageInfo.name,
         version: packageInfo.version,
-        date: date.toLocaleDateString(),
+        date: date,
         count: numbers[results.options.count],
         location: locationParts[0],
         connection: results.options.connection,
         userAgent: locationParts[1],
         times: {
-            begin: results.times.begin.toLocaleTimeString(),
-            end: results.times.end.toLocaleTimeString() + ' on ' + results.times.end.toLocaleDateString()
+            begin: getTime(results, 'begin').toLocaleTimeString(),
+            end: date.toLocaleTimeString() + ' on ' + formattedDate
         },
         results: mapped,
         charts: charts.map(mapChart.bind(null, mapped)),
@@ -124,6 +125,10 @@ function mapResults (options, results) {
             labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
         }
     };
+}
+
+function getTime (results, key) {
+    return results.times[key];
 }
 
 function mapResult (log, result) {
