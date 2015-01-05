@@ -164,7 +164,7 @@ function getResults (options, resultIds) {
     }
 
     function after (message, resultId, index, metric, error, result) {
-        if (result.statusCode === 100) {
+        if (result.statusCode < 200) {
             log.info('still waiting for ' + message);
             return setTimeout(getResult.bind(null, resultId, index, metric), 30000);
         }
