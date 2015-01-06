@@ -8,6 +8,8 @@ into human-readable document formats.
 
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
+  * [html-svg](#html-svg)
+  * [odf-spreadsheet](#odf-spreadsheet)
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
 	* [From the command line](#from-the-command-line)
