@@ -43,41 +43,36 @@ into any conceivable format.
 
 ## What formats does it support?
 
-Out of the box,
-two data mappers
-are provided,
+Two data mappers
+are provided
+out of the box,
 `html-svg` and `odf-spreadsheet`.
 
 ### html-svg
 
 The `html-svg` mapper
 generates an HTML document
-containing three sections.
+containing three sections:
 
-The first section
-contains a table
-summarising the salient metrics
-for each test.
-
-The second section
-contains SVG charts
-that draw comparisons
-between various aspects
-of the test results.
-These charts are rendered
-from static markup,
-so will display correctly
-even if JavaScript is disabled
-in the viewer's web browser.
-
-The last section
-contains a table
-summarising the optimisation scores
-that WebPageTest awards
-to each page under test.
+1. A table
+   summarising the salient metrics
+   for each test.
+2. SVG charts
+   that draw comparisons
+   between various aspects
+   of the test results.
+   These charts are rendered
+   from static markup,
+   so will display correctly
+   even if JavaScript is disabled
+   in the viewer's web browser.
+3. A table
+   summarising the optimisation scores
+   that WebPageTest awards
+   to each page under test.
 
 Throughout the document,
-the tests are identified
+tests are identified
 consistently by colour,
 to help readers
 track trends
@@ -98,7 +93,6 @@ in the spreadsheet
 which breaks down
 the salient metrics
 for every run.
-
 At the bottom of this table,
 a number of functions are applied
 to help show the distribution
