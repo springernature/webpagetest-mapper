@@ -73,7 +73,7 @@ Available options are:
 * `--tests <path>`:
   Path to the test definitions file.
   The default is `tests.json`.
-  [Example test definitions file][eg-test].
+  [Click here to see an example][eg-test].
 
 * `--count <number>`:
   The number of times
@@ -95,6 +95,7 @@ Available options are:
   if you need to run
   the same result data
   through more than one mapper.
+  [Click here to see an example][eg-dump].
 
 * `--results <path>`:
   Read intermediate results from a file,
@@ -103,6 +104,7 @@ Available options are:
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
+  [Click here to see an example][eg-dump].
 
 * `--mapper <path>`:
   The mapper to use.
@@ -119,6 +121,7 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
+  [Click here to see an example][eg-config].
 
 ### As a library
 
@@ -138,8 +141,9 @@ The build environment relies on
 node.js,
 [JSHint],
 [Mocha],
-[Chai] and
-[UglifyJS].
+[Chai],
+[Mockery] and
+[Spooks].
 Assuming that you already have node and NPM set up,
 you just need to run `npm install` to
 install all of the dependencies as listed in `package.json`.
@@ -152,14 +156,19 @@ with the command `npm test`.
 
 ## What license is it released under?
 
-[MIT][license]
+[GPL 3+][license]
 
-[ci-image]: https://secure.travis-ci.org/TODO/TODO.png?branch=master
-[ci-status]: http://travis-ci.org/#!/TODO/TODO
+[ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
+[ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
+[api]: https://github.com/marcelduran/webpagetest-api
+[eg-test]: examples/tests.json
+[eg-dump]: examples/dump.json
+[eg-config]: examples/.wptrc
 [history]: HISTORY.md
 [jshint]: https://github.com/jshint/node-jshint
 [mocha]: http://visionmedia.github.com/mocha
 [chai]: http://chaijs.com/
-[uglifyjs]: https://github.com/mishoo/UglifyJS
+[mockery]: https://github.com/mfncooper/mockery
+[spooks]: https://github.com/philbooth/spooks.js
 [license]: COPYING
 
