@@ -36,6 +36,7 @@ function mapResults (options, results) {
         application: packageInfo.name,
         version: packageInfo.version,
         date: results.times.end.toLocaleDateString(),
+        count: results.options.count,
         results: results.data.map(mapResult)
     };
 }
