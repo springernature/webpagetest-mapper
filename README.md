@@ -19,13 +19,18 @@ into human-readable document formats.
 
 Perhaps you'd like
 to generate a report
-containing fancy visualizations
+containing sprauncy visualizations
 of your website's performance.
 Or maybe you want
-to analyse all the raw data behind
-WebPageTest's median-based summaries.
+to analyse all of the raw data behind
+WebPageTest's median-based summaries
+using a spreadsheet.
+
 This tool can help you
 do both of those things.
+It can also be extended
+to map WebPageTest result data
+into any conceivable format.
 
 ## How do I install it?
 
@@ -73,7 +78,7 @@ Available options are:
 * `--tests <path>`:
   Path to the test definitions file.
   The default is `tests.json`.
-  [Click here to see an example][eg-test].
+  [Click here for an example][eg-test].
 
 * `--count <number>`:
   The number of times
@@ -95,16 +100,16 @@ Available options are:
   if you need to run
   the same result data
   through more than one mapper.
-  [Click here to see an example][eg-dump].
+  [Click here for an example][eg-dump].
 
 * `--results <path>`:
   Read intermediate results from a file,
-  skips running the tests.
+  and skip running the tests.
   Use this option
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
-  [Click here to see an example][eg-dump].
+  [Click here for an example][eg-dump].
 
 * `--mapper <path>`:
   The mapper to use.
@@ -121,7 +126,7 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
-  [Click here to see an example][eg-config].
+  [Click here for an example][eg-config].
 
 ### As a library
 
@@ -157,6 +162,8 @@ with the command `npm test`.
 ## What license is it released under?
 
 [GPL 3+][license]
+
+Copyright © 2015 Nature Publishing Group
 
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
