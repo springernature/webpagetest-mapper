@@ -21,7 +21,8 @@
         "webpagetest": "0.3.x",
         "get-off-my-log": "0.1.x",
         "handlebars": "2.0.x",
-        "es6-promise": "2.0.x"
+        "es6-promise": "2.0.x",
+        "jszip": "2.4.x"
     },
     "optionalDependencies": {
         "rconsole": "0.2.x"

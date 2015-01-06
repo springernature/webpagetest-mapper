@@ -3,10 +3,11 @@
 
 'use strict';
 
-var path, fs, handlebars, render, packageInfo, views, metrics, metricsLength;
+var path, fs, JSZip, handlebars, render, packageInfo, views, metrics, metricsLength;
 
 path = require('path');
 fs = require('fs');
+JSZip = require('jszip');
 handlebars = require('handlebars');
 handlebars.registerHelper('add', function (a, b) {
     return a + b;
@@ -28,7 +29,12 @@ module.exports = {
 };
 
 function map (options, results) {
-    return render(mapResults(options, results));
+    var zip = new JSZip();
+
+    zip.file('content.xml', render(mapResults(options, results)));
+    zip.file('META-INF/manifest.xml', getManifest());
+
+    return zip.generate({ compression: 'DEFLATE', type: 'nodebuffer' });
 }
 
 function mapResults (options, results) {
@@ -82,5 +88,9 @@ function mapRuns (result) {
         runs[runIndex].metrics[metricIndex] = getRuns(metric)[runId][view][metric];
         metricIndex = (metricIndex + 1) % metricsLength;
     }
+}
+
+function getManifest () {
+    return fs.readFileSync(path.join(__dirname, manifest.xml), { encoding: 'utf8' });
 }
 
