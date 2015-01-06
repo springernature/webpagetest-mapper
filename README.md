@@ -81,7 +81,7 @@ Available options are:
 * `--tests <path>`:
   Path to the test definitions file.
   The default is `tests.json`.
-  [Click here for an example][eg-test].
+  [Example][eg-test].
 
 * `--count <number>`:
   The number of times
@@ -103,7 +103,7 @@ Available options are:
   if you need to run
   the same result data
   through more than one mapper.
-  [Click here for an example][eg-dump].
+  [Example][eg-dump].
 
 * `--results <path>`:
   Read intermediate results from a file,
@@ -112,7 +112,7 @@ Available options are:
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
-  [Click here for an example][eg-dump].
+  [Example][eg-dump].
 
 * `--mapper <path>`:
   The mapper to use.
@@ -129,7 +129,7 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
-  [Click here for an example][eg-config].
+  [Example][eg-config].
 
 ### From a node.js project
 
@@ -139,20 +139,166 @@ var wpt = require('webpagetest-mapper');
 
 Three functions are exported
 from the main module:
-`run`,
-`fetch` and
-`map`.
-They all
-return an ES6 promise.
+`fetch`,
+`map` and
+`run`.
+They each
+take an options object
+as their sole argument and
+return an ES6 promise
+representing their result.
 
-#### wpt.run (options)
+#### fetch (options)
 
-#### wpt.fetch (options)
-
-#### wpt.map (options)
+`fetch` asynchronously invokes WebPageTest
+and returns an ES6 promise
+that resolves to
+the following data structure:
 
 ```javascript
-TODO: examples
+{
+	data: [ ... ],      // Result array from WebPageTest
+	options: { ... },   // Cloned options object normalised with default values
+	times: {
+		begin: { ... }, // JavaScript Date instance representing the start time
+		end: { ... }    // JavaScript Date instance representing the finish time
+	}
+}
+```
+
+The returned promise
+is only resolved
+when all of the tests
+have completed.
+It is never rejected.
+
+Instead,
+if any tests fail,
+the equivalent item
+in the `results.data` array
+will have a property
+called `error`
+which contains
+the `Error` instance.
+Handling errors in this way
+prevents rogue network errors
+from failing an entire run,
+while still propagating error information
+for inspection by the caller.
+
+`fetch` accepts
+an options object
+as its only argument,
+supporting the following properties:
+
+* `uri`:
+  Base URI
+  of the WebPageTest instance.
+  The default is `www.webpagetest.org`.
+
+* `key`:
+  Your WebPageTest API key.
+
+* `location`:
+  The WebPageTest location.
+  The default is `Dulles:Chrome`.
+
+* `connection`:
+  The WebPageTest connection speed.
+  The default is `Native Connection`.
+
+* `tests`:
+  Path to the test definitions file.
+  The default is `tests.json`.
+
+* `count`:
+  The number of times
+  to run each test.
+  The default is `9`.
+
+* `email`:
+  The email address to notify
+  when tests are finished.
+
+* `silent`:
+  Disable logging.
+  Overrides `syslog` and `log`.
+
+* `syslog`:
+  Send log data to syslog,
+  using the specified facility level.
+  Overrides `log`.
+
+* `log`:
+  Logging implementation.
+  Needs the functions
+  `log.info()`,
+  `log.warn()` and
+  `log.error()`.
+
+* `config`:
+  Attempt to read configuration options
+  from a JSON file.
+  The default is `.wptrc`.
+
+##### Example
+
+```javascript
+wpt.run({
+	uri: 'example.com',
+	location: 'London:Firefox',
+	tests: path.join(__dirname, 'tests.json'),
+	count: 25,
+	silent: true
+}).then(function (result) {
+	result.data.forEach(function (datum, index) {
+		var id = '#' + index + ' [' + datum.name + ']';
+
+		if (!datum.error) {
+			return console.log('Test ' + id + ' passed: ' + datum.id);
+		}
+
+		console.log('Test ' + id + ' failed, reason: ' + datum.error.message);
+	});
+});
+```
+
+#### map (options)
+
+##### Example
+
+#### run (options)
+
+`run` combines
+the actions from
+`fetch` and `map`,
+asynchronously invoking WebPageTest
+and returning a promise
+that represents the mapped data.
+
+It accepts
+an options object
+as its only argument,
+supporting the aggregated properties
+from `fetch` and `map`.
+
+##### Example
+
+```javascript
+wpt.run({
+	uri: 'example.com',
+	location: 'London:Firefox',
+	tests: path.join(__dirname, 'tests.json'),
+	count: 25,
+	mapper: 'odf-spreadsheet',
+	silent: true
+}).then(function (result) {
+	fs.writeFileSync(path.join(__dirname, 'results.ods'));
+}).catch(function (error) {
+    console.log(error.stack);
+    console.log('Fatal error, exiting');
+	process.exit(1);
+});
 ```
 
 ## Is there a change log?
