@@ -66,36 +66,28 @@ Available options are:
   Base URI
   of the WebPageTest instance.
   The default is `www.webpagetest.org`.
-
 * `--key <key>`:
   Your WebPageTest API key.
-
 * `--location <location>`:
   The WebPageTest location.
   The default is `Dulles:Chrome`.
-
 * `--connection <connection>`:
   The WebPageTest connection speed.
   The default is `Native Connection`.
-
 * `--tests <path>`:
   Path to the test definitions file.
   The default is `tests.json`.
-  [Example][eg-test].
-
+  [[Example]][eg-test].
 * `--count <number>`:
   The number of times
   to run each test.
   The default is `9`.
-
 * `--email <address>`:
   The email address to notify
   when tests are finished.
-
 * `--output <path>`:
   File to write the mapped data to.
   The default is stdout.
-
 * `--dump <path>`:
   Dump intermediate results to a file
   for later processing.
@@ -104,7 +96,6 @@ Available options are:
   the same result data
   through more than one mapper.
   [Example][eg-dump].
-
 * `--results <path>`:
   Read intermediate results from a file,
   and skip running the tests.
@@ -113,18 +104,14 @@ Available options are:
   and don't want to invoke WebPageTest
   to perform the tests again.
   [Example][eg-dump].
-
 * `--mapper <path>`:
   The mapper to use.
   The default is `html-svg`.
-
 * `--silent`:
   Disable logging.
-
 * `--syslog <facility>`:
   Send log data to syslog,
   using the specified facility level.
-
 * `--config <path>`:
   Attempt to read configuration options
   from a JSON file.
@@ -132,6 +119,9 @@ Available options are:
   [Example][eg-config].
 
 ### From a node.js project
+
+Import the library
+using `require`:
 
 ```javascript
 var wpt = require('webpagetest-mapper');
@@ -181,7 +171,7 @@ called `error`
 which contains
 the `Error` instance.
 Handling errors in this way
-prevents rogue network errors
+prevents rogue network issues
 from failing an entire run,
 while still propagating error information
 for inspection by the caller.
@@ -195,47 +185,37 @@ supporting the following properties:
   Base URI
   of the WebPageTest instance.
   The default is `www.webpagetest.org`.
-
 * `key`:
   Your WebPageTest API key.
-
 * `location`:
   The WebPageTest location.
   The default is `Dulles:Chrome`.
-
 * `connection`:
   The WebPageTest connection speed.
   The default is `Native Connection`.
-
 * `tests`:
   Path to the test definitions file.
   The default is `tests.json`.
-
 * `count`:
   The number of times
   to run each test.
   The default is `9`.
-
 * `email`:
   The email address to notify
   when tests are finished.
-
 * `silent`:
   Disable logging.
   Overrides `syslog` and `log`.
-
 * `syslog`:
   Send log data to syslog,
   using the specified facility level.
   Overrides `log`.
-
 * `log`:
   Logging implementation.
   Needs the functions
   `log.info()`,
   `log.warn()` and
   `log.error()`.
-
 * `config`:
   Attempt to read configuration options
   from a JSON file.
