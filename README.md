@@ -14,12 +14,12 @@ into human-readable document formats.
     * [From a node.js project](#from-a-nodejs-project)
 	  * [fetch (options)](#fetch-options)
 	  	* [Example](#example)
-	  * [map (options)](#map-options)
+	  * [map (options)](#map-options-results)
 	  	* [Example](#example-1)
 	  * [run (options)](#run-options)
 	  	* [Example](#example-2)
 * [Is there a change log?](#is-there-a-change-log)
-* [How do I set up the build environment?](#how-do-i-set-up-the-build-environment)
+* [How do I set up the dev environment?](#how-do-i-set-up-the-dev-environment)
 * [What license is it released under?](#what-license-is-it-released-under)
 
 ## Why would I want that?
@@ -40,6 +40,67 @@ to map WebPageTest result data
 into any conceivable format.
 
 ## What formats does it support?
+
+Out of the box,
+two data mappers
+are provided,
+`html-svg` and `odf-spreadsheet`.
+
+### html-svg
+
+The `html-svg` mapper
+generates an HTML document
+containing three sections.
+
+The first section
+contains a table
+summarising the salient metrics
+for each test.
+
+The second section
+contains SVG charts
+that draw comparisons
+between various aspects
+of the test results.
+These charts are rendered
+from static markup,
+so will display correctly
+even if JavaScript is disabled
+in the viewer's web browser.
+
+The last section
+contains a table
+summarising the optimisation scores
+that WebPageTest awards
+to each page under test.
+
+Throughout the document,
+the tests are identified
+consistently by colour,
+to help readers
+track trends
+from section to section.
+
+### odf-spreadsheet
+
+The `odf-spreadsheet` mapper
+generates an Open Document Format (ODF) spreadsheet,
+readable by
+Apache OpenOffice,
+Microsoft Excel
+and Google Documents.
+
+For each test,
+a table is created
+in the spreadsheet
+which breaks down
+the salient metrics
+for every run.
+
+At the bottom of this table,
+a number of functions are applied
+to help show the distribution
+of the data.
 
 ## How do I install it?
 
@@ -316,12 +377,10 @@ returned by `fetch`.
 wpt.map({
 	mapper: 'odf-spreadsheet',
 	silent: true
-}).then(function (result) {
-	fs.writeFileSync(path.join(__dirname, 'results.ods'), result);
+}, results).then(function (mapped) {
+	fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
 }).catch(function (error) {
     console.log(error.stack);
-    console.log('Fatal error, exiting');
-	process.exit(1);
 });
 ```
 
@@ -350,12 +409,10 @@ wpt.run({
 	count: 25,
 	mapper: 'odf-spreadsheet',
 	silent: true
-}).then(function (result) {
-	fs.writeFileSync(path.join(__dirname, 'results.ods'), result);
+}).then(function (mapped) {
+	fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
 }).catch(function (error) {
     console.log(error.stack);
-    console.log('Fatal error, exiting');
-	process.exit(1);
 });
 ```
 
@@ -363,9 +420,9 @@ wpt.run({
 
 [Yes][history].
 
-## How do I set up the build environment?
+## How do I set up the dev environment?
 
-The build environment relies on
+The dev environment relies on
 node.js,
 [JSHint],
 [Mocha],
