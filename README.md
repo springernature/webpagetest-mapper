@@ -10,7 +10,7 @@ into human-readable document formats.
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
 	* [From the command line](#from-the-command-line)
-    * [As a library](#as-a-library)
+    * [From a node.js project](#from-a-nodejs-project)
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the build environment?](#how-do-i-set-up-the-build-environment)
 * [What license is it released under?](#what-license-is-it-released-under)
@@ -37,7 +37,7 @@ into any conceivable format.
 If you're using npm:
 
 ```
-npm install webpagetest-mapper --save
+npm install webpagetest-mapper --global
 ```
 
 Or if you just want the git repo:
@@ -49,6 +49,9 @@ git clone git@github.com:nature/webpagetest-mapper.git
 ## How do I use it?
 
 ### From the command line
+
+The executable name
+is `wptmap`.
 
 For command-line help,
 run:
@@ -128,9 +131,25 @@ Available options are:
   The default is `.wptrc`.
   [Click here for an example][eg-config].
 
-### As a library
+### From a node.js project
 
-TODO
+```javascript
+var wpt = require('webpagetest-mapper');
+```
+
+Three functions are exported
+from the main module:
+`run`,
+`fetch` and
+`map`.
+They all
+return an ES6 promise.
+
+#### wpt.run (options)
+
+#### wpt.fetch (options)
+
+#### wpt.map (options)
 
 ```javascript
 TODO: examples
