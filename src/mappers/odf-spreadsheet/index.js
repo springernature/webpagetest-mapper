@@ -41,7 +41,7 @@ function map (options, results) {
     zip.file('mimetype', 'application/vnd.oasis.opendocument.spreadsheet');
     zip.file('meta.xml', render.meta(mapMeta(results)));
     zip.file('styles.xml', readFile('styles.xml'));
-    zip.file('content.xml', render.content(mapContent(results)));
+    zip.file('content.xml', render.content(mapContent(options.log, results)));
 
     return zip.generate({ compression: 'DEFLATE', type: 'nodebuffer' });
 }
@@ -54,19 +54,32 @@ function mapMeta (results) {
     };
 }
 
-function mapContent (results) {
+function mapContent (log, results) {
     return {
         count: results.options.count,
-        results: results.data.map(mapResult)
+        results: results.data.map(mapResult.bind(null, log))
     };
 }
 
-function mapResult (result) {
-    return {
-        id: result.label,
-        name: result.name,
-        runs: mapRuns(result)
-    };
+function mapResult (log, result) {
+    var message;
+
+    try {
+        message = 'result ' + result.id + ' [' + result.name + ']';
+        log.info('mapping ' + message);
+
+        if (result.error) {
+            return result;
+        }
+
+        return {
+            name: result.name,
+            runs: mapRuns(result)
+        };
+    } catch (error) {
+        log.error('failed to map ' + message + ', ' + error.message);
+        return result;
+    }
 }
 
 function mapRuns (result) {
