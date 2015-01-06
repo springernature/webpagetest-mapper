@@ -155,10 +155,6 @@ function fetch (options) {
  *
  * Maps WebPageTest result data to other formats, returns an ES6 promise.
  *
- * @option uri        {string}  Base URI for the WebPageTest instance, defaults to
- *                              `www.webpagetest.org`.
- * @option key        {string}  WebPageTest API key.
- *                              to `tests.json`.
  * @option results    {string}  Read WebPageTest results from file.
  * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.

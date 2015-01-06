@@ -7,10 +7,17 @@ from [marcelduran/webpagetest-api][api]
 into human-readable document formats.
 
 * [Why would I want that?](#why-would-i-want-that)
+* [What formats does it support?](#what-formats-does-it-support)
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
 	* [From the command line](#from-the-command-line)
     * [From a node.js project](#from-a-nodejs-project)
+	  * [fetch (options)](#fetch-options)
+	  	* [Example](#example)
+	  * [map (options)](#map-options)
+	  	* [Example](#example-1)
+	  * [run (options)](#run-options)
+	  	* [Example](#example-2)
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the build environment?](#how-do-i-set-up-the-build-environment)
 * [What license is it released under?](#what-license-is-it-released-under)
@@ -31,6 +38,8 @@ do both of those things.
 It can also be extended
 to map WebPageTest result data
 into any conceivable format.
+
+## What formats does it support?
 
 ## How do I install it?
 
@@ -77,7 +86,7 @@ Available options are:
 * `--tests <path>`:
   Path to the test definitions file.
   The default is `tests.json`.
-  [[Example]][eg-test].
+  [[Example]][eg-test]
 * `--count <number>`:
   The number of times
   to run each test.
@@ -95,7 +104,7 @@ Available options are:
   if you need to run
   the same result data
   through more than one mapper.
-  [Example][eg-dump].
+  [[Example]][eg-dump]
 * `--results <path>`:
   Read intermediate results from a file,
   and skip running the tests.
@@ -103,12 +112,13 @@ Available options are:
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
-  [Example][eg-dump].
+  [[Example]][eg-dump]
 * `--mapper <path>`:
   The mapper to use.
   The default is `html-svg`.
 * `--silent`:
   Disable logging.
+  Overrides `syslog`.
 * `--syslog <facility>`:
   Send log data to syslog,
   using the specified facility level.
@@ -116,7 +126,7 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
-  [Example][eg-config].
+  [[Example]][eg-config]
 
 ### From a node.js project
 
@@ -224,7 +234,7 @@ supporting the following properties:
 ##### Example
 
 ```javascript
-wpt.run({
+wpt.fetch({
 	uri: 'example.com',
 	location: 'London:Firefox',
 	tests: path.join(__dirname, 'tests.json'),
@@ -243,9 +253,77 @@ wpt.run({
 });
 ```
 
-#### map (options)
+#### map (options, results)
+
+`map` is not asynchronous
+but still returns a promise,
+to maintain consistency
+with the rest of the API.
+
+The value of the promise
+is dependent on
+the result of
+the specific mapper
+that is invoked.
+Of the built-in mappers,
+`html-svg` returns a string
+containing the document markup and
+`odf-spreadsheet` returns a `Buffer` instance
+containing the binary content.
+
+This promise will be rejected
+if an error is thrown
+from the mapper.
+
+`map` accepts
+an options object
+as its first argument,
+supporting the following properties:
+
+* `results`:
+  Read results object
+  from file.
+* `mapper`:
+  The mapper to use.
+  The default is `html-svg`.
+* `silent`:
+  Disable logging.
+  Overrides `syslog` and `log`.
+* `syslog`:
+  Send log data to syslog,
+  using the specified facility level.
+  Overrides `log`.
+* `log`:
+  Logging implementation.
+  Needs the functions
+  `log.info()`,
+  `log.warn()` and
+  `log.error()`.
+* `config`:
+  Attempt to read configuration options
+  from a JSON file.
+  The default is `.wptrc`.
+
+The second argument
+to `map`
+is a results object,
+in the format
+returned by `fetch`.
 
 ##### Example
+
+```javascript
+wpt.map({
+	mapper: 'odf-spreadsheet',
+	silent: true
+}).then(function (result) {
+	fs.writeFileSync(path.join(__dirname, 'results.ods'), result);
+}).catch(function (error) {
+    console.log(error.stack);
+    console.log('Fatal error, exiting');
+	process.exit(1);
+});
+```
 
 #### run (options)
 
@@ -273,7 +351,7 @@ wpt.run({
 	mapper: 'odf-spreadsheet',
 	silent: true
 }).then(function (result) {
-	fs.writeFileSync(path.join(__dirname, 'results.ods'));
+	fs.writeFileSync(path.join(__dirname, 'results.ods'), result);
 }).catch(function (error) {
     console.log(error.stack);
     console.log('Fatal error, exiting');
