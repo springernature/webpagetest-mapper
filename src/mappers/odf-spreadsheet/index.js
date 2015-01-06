@@ -3,21 +3,27 @@
 
 'use strict';
 
-var path, fs, JSZip, handlebars, render, packageInfo, views, metrics, metricsLength;
+var path, fs, JSZip, handlebars, render,
+    packageInfo, views, metrics, metricsLength;
 
 path = require('path');
 fs = require('fs');
 JSZip = require('jszip');
+
 handlebars = require('handlebars');
 handlebars.registerHelper('add', function (a, b) {
     return a + b;
 });
-render = handlebars.compile(
-    fs.readFileSync(
-        path.join(__dirname, 'template.xml'),
-        { encoding: 'utf8' }
-    )
-);
+
+render = {
+    meta: handlebars.compile(readFile('meta.xml')),
+    content: handlebars.compile(readFile('content.xml'))
+};
+
+function readFile (name) {
+    return fs.readFileSync(path.join(__dirname, name), { encoding: 'utf8' });
+}
+
 packageInfo = require('../../../package.json');
 
 views = [ 'firstView', 'repeatView' ];
@@ -31,17 +37,25 @@ module.exports = {
 function map (options, results) {
     var zip = new JSZip();
 
-    zip.file('content.xml', render(mapResults(options, results)));
-    zip.file('META-INF/manifest.xml', getManifest());
+    zip.file('META-INF/manifest.xml', readFile('manifest.xml'));
+    zip.file('mimetype', 'application/vnd.oasis.opendocument.spreadsheet');
+    zip.file('meta.xml', render.meta(mapMeta(results)));
+    zip.file('styles.xml', readFile('styles.xml'));
+    zip.file('content.xml', render.content(mapContent(results)));
 
     return zip.generate({ compression: 'DEFLATE', type: 'nodebuffer' });
 }
 
-function mapResults (options, results) {
+function mapMeta (results) {
     return {
         application: packageInfo.name,
         version: packageInfo.version,
-        date: results.times.end.toLocaleDateString(),
+        date: results.times.end.toLocaleDateString()
+    };
+}
+
+function mapContent (results) {
+    return {
         count: results.options.count,
         results: results.data.map(mapResult)
     };
@@ -88,9 +102,5 @@ function mapRuns (result) {
         runs[runIndex].metrics[metricIndex] = getRuns(metric)[runId][view][metric];
         metricIndex = (metricIndex + 1) % metricsLength;
     }
-}
-
-function getManifest () {
-    return fs.readFileSync(path.join(__dirname, manifest.xml), { encoding: 'utf8' });
 }
 

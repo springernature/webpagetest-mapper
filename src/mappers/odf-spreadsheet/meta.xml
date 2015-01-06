@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odf:document-meta
+ xmlns:odf="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+ xmlns:mt="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
+ xmlns:dc="http://purl.org/dc/elements/1.1/"
+ odf:version="1.2"
+>
+    <odf:meta>
+        <mt:generator>{{application}}/{{version}}</mt:generator>
+        <dc:title>WebPageTest results, {{date}}</dc:title>
+    </odf:meta>
+</odf:document-meta>
+

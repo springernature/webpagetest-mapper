@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odf:document-styles
+ xmlns:odf="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+ xmlns:st="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
+ xmlns:tb="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
+ xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
+ odf:version="1.2"
+>
+    <odf:automatic-styles>
+        <st:style st:name="table" st:family="table">
+            <st:table-properties tb:display="true" st:writing-mode="lr-tb"/>
+        </st:style>
+        <st:style st:name="label-column" st:family="table-column">
+            <st:table-column-properties fo:break-before="auto" st:column-width="1.2in"/>
+        </st:style>
+        <st:style st:name="value-column" st:family="table-column">
+            <st:table-column-properties fo:break-before="auto" st:column-width="1in"/>
+        </st:style>
+        <st:style st:name="row" st:family="table-row">
+            <st:table-row-properties fo:break-before="auto" st:row-height="0.2in" st:use-optimal-row-height="true"/>
+        </st:style>
+        <st:style st:name="common-cell" st:family="table-cell">
+            <st:table-cell-properties st:vertical-align="middle"/>
+            <st:text-properties st:font-name="Arial" fo:font-size="10pt"/>
+        </st:style>
+        <st:style st:name="label-cell" st:family="table-cell" st:parent-style-name="common-cell">
+            <st:text-properties fo:font-weight="bold"/>
+            <!--st:paragraph-properties fo:text-align="center"/-->
+        </st:style>
+        <st:style st:name="value-cell" st:family="table-cell" st:parent-style-name="common-cell">
+            <st:text-properties fo:font-weight="normal"/>
+        </st:style>
+    </odf:automatic-styles>
+</odf:document-styles>
+
