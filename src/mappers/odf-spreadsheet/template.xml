@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<document
- xmlns="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
+<odf:document
+ xmlns:odf="urn:oasis:names:tc:opendocument:xmlns:office:1.0"
  xmlns:mt="urn:oasis:names:tc:opendocument:xmlns:meta:1.0"
  xmlns:dc="http://purl.org/dc/elements/1.1/"
  xmlns:st="urn:oasis:names:tc:opendocument:xmlns:style:1.0"
  xmlns:tb="urn:oasis:names:tc:opendocument:xmlns:table:1.0"
  xmlns:of="urn:oasis:names:tc:opendocument:xmlns:of:1.2"
  xmlns:fo="urn:oasis:names:tc:opendocument:xmlns:xsl-fo-compatible:1.0"
- mimetype="application/vnd.oasis.opendocument.spreadsheet"
- version="1.2"
+ odf:mimetype="application/vnd.oasis.opendocument.spreadsheet"
+ odf:version="1.2"
 >
-    <meta>
+    <odf:meta>
         <mt:generator>{{application}}/{{version}}</mt:generator>
         <dc:title>WebPageTest results, {{date}}</dc:title>
-    </meta>
-    <automatic-styles>
+    </odf:meta>
+    <odf:automatic-styles>
         <st:style st:name="table" st:family="table">
             <st:table-properties tb:display="true" st:writing-mode="lr-tb"/>
         </st:style>
@@ -42,10 +42,10 @@
         <st:style st:name="value-cell" st:family="table-cell" st:parent-style-name="common-cell">
             <st:text-properties fo:font-weight="normal"/>
         </st:style>
-    </automatic-styles>
-    <body>
-        <spreadsheet>
-            <tb:label-ranges>
+    </odf:automatic-styles>
+    <odf:body>
+        <odf:spreadsheet>
+            <!--tb:label-ranges>
                 <tb:label-range
                  tb:label-cell-range-address="A1:I2"
                  tb:data-cell-range-address="A3:I{{add results.length 2}}"
@@ -56,7 +56,7 @@
                  tb:data-cell-range-address="B{{add results.length 4}}:I{{add results.length 15}}"
                  tb:orientation="row"
                 />
-            </tb:label-ranges>
+            </tb:label-ranges-->
 {{#each results}}            <tb:table tb:style-name="table" tb:name="{{name}}" id="{{id}}">
                 <tb:table-header-columns>
                     <tb:table-column tb:style-name="label-column"/>
@@ -73,38 +73,38 @@
                         <tb:table-cell
                          tb:number-columns-spanned="4"
                          tb:style-name="label-cell"
-                         string-value="First view"
+                         odf:string-value="First view"
                         />
                         <tb:covered-table-cell tb:number-columns-repeated="3"/>
                         <tb:table-cell
                          tb:number-columns-spanned="4"
                          tb:style-name="label-cell"
-                         string-value="Repeat view"
+                         odf:string-value="Repeat view"
                         />
                         <tb:covered-table-cell tb:number-columns-repeated="3"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
                         <tb:table-cell/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="First byte"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Start render"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Load"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Speed index"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="First byte"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Start render"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Load"/>
-                        <tb:table-cell tb:style-name="label-cell" string-value="Speed index"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="First byte"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Start render"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Load"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Speed index"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="First byte"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Start render"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Load"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:string-value="Speed index"/>
                     </tb:table-row>
                 </tb:table-header-rows>
                 <tb:table-rows>
 {{#each runs}}                    <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="{{id}}"/>
-{{#each metrics}}                        <tb:table-cell tb:style-name="value-cell" value="{{.}}"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="{{id}}"/>
+{{#each metrics}}                        <tb:table-cell tb:style-name="value-cell" odf:value="{{.}}"/>
 {{/each}}                    </tb:table-row>
                     <tb:table-row tb:style-name="row">
                         <tb:table-cell tb:number-columns-repeated="9"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="UPPER"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="UPPER"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MAX([.B3:.B{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MAX([.C3:.C{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MAX([.D3:.D{{add results.length 2}}])"/>
@@ -115,7 +115,7 @@
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MAX([.I3:.I{{add results.length 2}}])"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="LOWER"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="LOWER"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MIN([.B3:.B{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MIN([.C3:.C{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MIN([.D3:.D{{add results.length 2}}])"/>
@@ -129,7 +129,7 @@
                         <tb:table-cell tb:number-columns-repeated="9"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="90th PCT"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="90th PCT"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.B3:.B{{add results.length 2}}];0.9)"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.C3:.C{{add results.length 2}}];0.9)"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.D3:.D{{add results.length 2}}];0.9)"/>
@@ -140,7 +140,7 @@
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.I3:.I{{add results.length 2}}];0.9)"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="10th PCT"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="10th PCT"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.B3:.B{{add results.length 2}}];0.1)"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.C3:.C{{add results.length 2}}];0.1)"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=PERCENTILE([.D3:.D{{add results.length 2}}];0.1)"/>
@@ -154,7 +154,7 @@
                         <tb:table-cell tb:number-columns-repeated="9"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="MEAN"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="MEAN"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=AVERAGE([.B3:.B{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=AVERAGE([.C3:.C{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=AVERAGE([.D3:.D{{add results.length 2}}])"/>
@@ -165,7 +165,7 @@
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=AVERAGE([.I3:.I{{add results.length 2}}])"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="STDEV"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="STDEV"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=STDEV([.B3:.B{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=STDEV([.C3:.C{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=STDEV([.D3:.D{{add results.length 2}}])"/>
@@ -179,7 +179,7 @@
                         <tb:table-cell tb:number-columns-repeated="9"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="value-cell" string-value="MEDIAN"/>
+                        <tb:table-cell tb:style-name="value-cell" odf:string-value="MEDIAN"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MEDIAN([.B3:.B{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MEDIAN([.C3:.C{{add results.length 2}}])"/>
                         <tb:table-cell tb:style-name="value-cell" tb:formula="of:=MEDIAN([.D3:.D{{add results.length 2}}])"/>
@@ -191,7 +191,7 @@
                     </tb:table-row>
 {{/each}}                </tb:table-rows>
             </tb:table>
-{{/each}}        </spreadsheet>
-    </body>
-</document>
+{{/each}}        </odf:spreadsheet>
+    </odf:body>
+</odf:document>
 
