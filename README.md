@@ -113,7 +113,7 @@ of the data.
 
 ## Can I specify other formats?
 
-Yes!
+Yes.
 Mappers are loaded
 with `require`,
 using a two-pass approach
