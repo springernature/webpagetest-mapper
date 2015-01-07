@@ -181,7 +181,7 @@ function map (options, results) {
     try {
         // Song and dance to ensure that map options match fetch options.
         results = results || get.results(options);
-        results.options.log = get.log(options);
+        results.options.log = get.log(options) || { info: nop, warn: nop, error: nop };
         results.options.mapper = get.mapper(options);
         options = results.options;
 
@@ -191,5 +191,8 @@ function map (options, results) {
     }
 
     return promise;
+}
+
+function nop () {
 }
 
