@@ -107,7 +107,9 @@ module.exports = {
     ],
     normalise: normalise,
     get: {
-        log: getLog,
+        log: function () {
+            return getLog.apply(null, arguments) || defaults.log;
+        },
         results: getResults,
         mapper: getMapper
     }

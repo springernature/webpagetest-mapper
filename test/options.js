@@ -31,8 +31,6 @@ mockery.registerAllowable('check-types');
 suite('options:', function () {
     var log, results, mappers;
 
-    // TODO: Test options.get.xxx()
-
     setup(function () {
         log = {};
         results = {
@@ -129,6 +127,22 @@ suite('options:', function () {
 
         test('normalise function is exported', function () {
             assert.isFunction(options.normalise);
+        });
+
+        test('get object is exported', function () {
+            assert.isObject(options.get);
+        });
+
+        test('get.log function is exported', function () {
+            assert.isFunction(options.get.log);
+        });
+
+        test('get.results function is exported', function () {
+            assert.isFunction(options.get.results);
+        });
+
+        test('get.mapper function is exported', function () {
+            assert.isFunction(options.get.mapper);
         });
 
         suite('with JSON file config:', function () {
@@ -609,6 +623,67 @@ suite('options:', function () {
 
                 test('normalised.normalised is true', function () {
                     assert.isTrue(normalised.normalised);
+                });
+            });
+
+            test('get.log throws without options', function () {
+                assert.throws(function () {
+                    options.get.log();
+                });
+            });
+
+            test('get.log does not throw with empty options', function () {
+                assert.doesNotThrow(function () {
+                    options.get.log({});
+                });
+            });
+
+            test('get.log throws with non-object log option', function () {
+                assert.throws(function () {
+                    options.get.log({ log: console.log });
+                });
+            });
+
+            test('get.log throws with missing log.info function', function () {
+                assert.throws(function () {
+                    options.get.log({ log: { warn: nop, error: nop } });
+                });
+            });
+
+            test('get.log throws with missing log.warn function', function () {
+                assert.throws(function () {
+                    options.get.log({ log: { info: nop, error: nop } });
+                });
+            });
+
+            test('get.log throws with missing log.error function', function () {
+                assert.throws(function () {
+                    options.get.log({ log: { info: nop, warn: nop } });
+                });
+            });
+
+            test('get.log does not throw valid log option', function () {
+                assert.doesNotThrow(function () {
+                    options.get.log({ log: { info: nop, warn: nop, error: nop } });
+                });
+            });
+
+            suite('get.log with silent:', function () {
+                var result;
+
+                setup(function () {
+                    result = options.get.log({ silent: true });
+                });
+
+                teardown(function () {
+                    result = undefined;
+                });
+
+                test('result is log object', function () {
+                    assert.isObject(result);
+                    assert.isFunction(result.info);
+                    assert.isFunction(result.warn);
+                    assert.isFunction(result.error);
                 });
             });
         });
