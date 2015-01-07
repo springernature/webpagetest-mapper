@@ -75,6 +75,9 @@ containing three sections:
    summarising the optimisation scores
    that WebPageTest awards
    to each page.
+   Each data cell
+   in this table
+   links to the optimisation details.
 
 Throughout the document,
 tests are identified
@@ -90,11 +93,7 @@ from section to section.
 ### odf-spreadsheet
 
 The `odf-spreadsheet` mapper
-generates an Open Document Format (ODF) spreadsheet,
-readable by
-Apache OpenOffice,
-Microsoft Excel
-and Google Documents.
+generates an Open Document Format (ODF) spreadsheet.
 
 For each test,
 a table is created
@@ -212,7 +211,7 @@ from the main module:
 `run`.
 They each
 take an options object
-as their sole argument and
+as their first argument and
 return an ES6 promise
 representing their result.
 
@@ -245,7 +244,7 @@ if any tests fail,
 the equivalent item
 in the `results.data` array
 will have a property
-called `error`
+named `error`
 which contains
 the `Error` instance.
 Handling errors in this way
