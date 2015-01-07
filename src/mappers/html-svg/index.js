@@ -106,7 +106,7 @@ function mapResults (options, results) {
     return {
         application: packageInfo.name,
         version: packageInfo.version,
-        date: date,
+        date: formattedDate,
         count: results.options.count,
         location: locationParts[0],
         connection: results.options.connection,
