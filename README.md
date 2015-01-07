@@ -144,7 +144,7 @@ They should return
 an ES6-compatible promise
 representing the mapped result.
 
-Look at
+Consult
 the [standard mapper implementations][mappers]
 for more information.
 
