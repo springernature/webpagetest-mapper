@@ -115,7 +115,7 @@ function mapResults (options, results) {
         count: options.count,
         location: locationParts[0],
         connection: options.connection,
-        userAgent: locationParts[1],
+        browser: locationParts[1] || 'unknown',
         times: {
             begin: getTime(results, 'begin').toLocaleTimeString(),
             end: date.toLocaleTimeString() + ' on ' + formattedDate
