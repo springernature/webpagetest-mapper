@@ -135,7 +135,7 @@ are loaded
 on the first attempt
 and custom extensions
 are loaded
-on the second.
+on the second attempt.
 
 Mappers are called
 with two arguments,
@@ -143,6 +143,10 @@ with two arguments,
 They should return
 an ES6-compatible promise
 representing the mapped result.
+
+Look at
+the [standard mapper implementations][mappers]
+for more information.
 
 ## How do I install it?
 
@@ -495,6 +499,7 @@ Copyright © 2015 Nature Publishing Group
 [scrn-html-summary]: examples/html-summary.png
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [scrn-odf-spreadsheet]: examples/odf-spreadsheet.png
+[mappers]: src/mappers
 [eg-test]: examples/tests.json
 [eg-config]: examples/.wptrc
 [history]: HISTORY.md
