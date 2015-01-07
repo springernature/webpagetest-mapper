@@ -686,6 +686,36 @@ suite('options:', function () {
                     assert.isFunction(result.error);
                 });
             });
+
+            suite('get.log without silent:', function () {
+                var result;
+
+                setup(function () {
+                    result = options.get.log({});
+                });
+
+                teardown(function () {
+                    result = undefined;
+                });
+
+                test('get-off-my-log.initialise was called once', function () {
+                    assert.strictEqual(log.counts.initialise, 1);
+                });
+
+                test('get-off-my-log.initialise was called correctly', function () {
+                    assert.strictEqual(log.these.initialise[0], require('get-off-my-log'));
+                    assert.lengthOf(log.args.initialise[0], 2);
+                    assert.strictEqual(log.args.initialise[0][0], 'webpagetest-mapper');
+                    assert.strictEqual(log.args.initialise[0][1], console.log);
+                });
+
+                test('result is log object', function () {
+                    assert.isObject(result);
+                    assert.isFunction(result.info);
+                    assert.isFunction(result.warn);
+                    assert.isFunction(result.error);
+                });
+            });
         });
 
         suite('with non-existent config:', function () {
@@ -974,6 +1004,72 @@ suite('options:', function () {
                 } catch (error) {
                     assert.strictEqual(error.message, 'invalid option `results`');
                 }
+            });
+        });
+
+        suite('with valid results JSON', function () {
+            setup(function () {
+                results.resolve[0] = 'stuff';
+                results.existsSync[0] = true;
+                results.isFile[0] = true;
+                results.readFileSync[0] = '{"data":[],"options":{},"times":{"begin":"2015-01-07T16:09:25.228Z","end":"2015-01-07T16:09:25.229Z"}}';
+            });
+
+            test('get.results throws without options', function () {
+                assert.throws(function () {
+                    options.get.results();
+                });
+            });
+
+            test('get.results does not throw with empty options', function () {
+                assert.doesNotThrow(function () {
+                    options.get.results({});
+                });
+            });
+
+            suite('get.results with results:', function () {
+                var result;
+
+                setup(function () {
+                    result = options.get.results({ results: 'wibble' });
+                });
+
+                teardown(function () {
+                    result = undefined;
+                });
+
+                test('path.resolve was called once', function () {
+                    assert.strictEqual(log.counts.resolve, 1);
+                });
+
+                test('path.resolve was called correctly', function () {
+                    assert.strictEqual(log.args.resolve[0][0], 'wibble');
+                });
+
+                test('fs.existsSync was called once', function () {
+                    assert.strictEqual(log.counts.existsSync, 1);
+                });
+
+                test('fs.statSync was called once', function () {
+                    assert.strictEqual(log.counts.statSync, 1);
+                });
+
+                test('stat.isFile was called once', function () {
+                    assert.strictEqual(log.counts.isFile, 1);
+                });
+
+                test('fs.readFileSync was called once', function () {
+                    assert.strictEqual(log.counts.readFileSync, 1);
+                });
+
+                test('result is correct', function () {
+                    assert.isObject(result);
+                    assert.isArray(result.data);
+                    assert.isObject(result.options);
+                    assert.isObject(result.times);
+                    assert.instanceOf(result.times.begin, Date);
+                    assert.instanceOf(result.times.end, Date);
+                });
             });
         });
     });
