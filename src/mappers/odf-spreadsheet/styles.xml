@@ -25,7 +25,6 @@
         </st:style>
         <st:style st:name="label-cell" st:family="table-cell" st:parent-style-name="common-cell">
             <st:text-properties fo:font-weight="bold"/>
-            <!--st:paragraph-properties fo:text-align="center"/-->
         </st:style>
         <st:style st:name="value-cell" st:family="table-cell" st:parent-style-name="common-cell">
             <st:text-properties fo:font-weight="normal"/>
