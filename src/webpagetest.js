@@ -19,9 +19,8 @@
 
 'use strict';
 
-var Prom, medianMetrics;
+var medianMetrics;
 
-Prom = require('es6-promise');
 medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 
 module.exports = {

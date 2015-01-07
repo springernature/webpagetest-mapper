@@ -193,6 +193,3 @@ function map (options, results) {
     return promise;
 }
 
-function nop () {
-}
-
