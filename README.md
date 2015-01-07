@@ -57,6 +57,11 @@ containing three sections:
 1. A table
    summarising the salient metrics
    for each test.
+   Each data cell in the table
+   links to the equivalent results page
+   on the WebPageTest instance.
+   The page-title cells
+   link to the page under test.
 2. SVG charts
    that draw comparisons
    between various aspects
@@ -69,7 +74,7 @@ containing three sections:
 3. A table
    summarising the optimisation scores
    that WebPageTest awards
-   to each page under test.
+   to each page.
 
 Throughout the document,
 tests are identified
@@ -77,6 +82,8 @@ consistently by colour,
 to help readers
 track trends
 from section to section.
+
+[Click here for an example][eg-html-svg].
 
 ### odf-spreadsheet
 
@@ -97,6 +104,8 @@ At the bottom of this table,
 a number of functions are applied
 to help show the distribution
 of the data.
+
+[Click here for an example][eg-odf-spreadsheet].
 
 ## How do I install it?
 
@@ -161,7 +170,6 @@ Available options are:
   if you need to run
   the same result data
   through more than one mapper.
-  [[Example]][eg-dump]
 * `--results <path>`:
   Read intermediate results from a file,
   and skip running the tests.
@@ -169,7 +177,6 @@ Available options are:
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
-  [[Example]][eg-dump]
 * `--mapper <path>`:
   The mapper to use.
   The default is `html-svg`.
@@ -444,8 +451,9 @@ Copyright © 2015 Nature Publishing Group
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
+[eg-html-svg]: examples/html-summary.html
+[eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [eg-test]: examples/tests.json
-[eg-dump]: examples/dump.json
 [eg-config]: examples/.wptrc
 [history]: HISTORY.md
 [jshint]: https://github.com/jshint/node-jshint
