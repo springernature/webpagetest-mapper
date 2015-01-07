@@ -12,14 +12,14 @@ into human-readable document formats.
   * [odf-spreadsheet](#odf-spreadsheet)
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
-	* [From the command line](#from-the-command-line)
+    * [From the command line](#from-the-command-line)
     * [From a node.js project](#from-a-nodejs-project)
-	  * [fetch (options)](#fetch-options)
-	  	* [Example](#example)
-	  * [map (options, results)](#map-options-results)
-	  	* [Example](#example-1)
-	  * [run (options)](#run-options)
-	  	* [Example](#example-2)
+      * [fetch (options)](#fetch-options)
+          * [Example](#example)
+      * [map (options, results)](#map-options-results)
+          * [Example](#example-1)
+      * [run (options)](#run-options)
+          * [Example](#example-2)
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the dev environment?](#how-do-i-set-up-the-dev-environment)
 * [What license is it released under?](#what-license-is-it-released-under)
@@ -221,12 +221,12 @@ the following data structure:
 
 ```javascript
 {
-	data: [ ... ],      // Result array from WebPageTest
-	options: { ... },   // Cloned options object normalised with default values
-	times: {
-		begin: { ... }, // JavaScript Date instance representing the start time
-		end: { ... }    // JavaScript Date instance representing the finish time
-	}
+    data: [ ... ],      // Result array from WebPageTest
+    options: { ... },   // Cloned options object normalised with default values
+    times: {
+        begin: { ... }, // JavaScript Date instance representing the start time
+        end: { ... }    // JavaScript Date instance representing the finish time
+    }
 }
 ```
 
@@ -302,21 +302,21 @@ supporting the following properties:
 
 ```javascript
 wpt.fetch({
-	uri: 'example.com',
-	location: 'London:Firefox',
-	tests: path.join(__dirname, 'tests.json'),
-	count: 25,
-	silent: true
+    uri: 'example.com',
+    location: 'London:Firefox',
+    tests: path.join(__dirname, 'tests.json'),
+    count: 25,
+    silent: true
 }).then(function (result) {
-	result.data.forEach(function (datum, index) {
-		var id = '#' + index + ' [' + datum.name + ']';
+    result.data.forEach(function (datum, index) {
+        var id = '#' + index + ' [' + datum.name + ']';
 
-		if (!datum.error) {
-			return console.log('Test ' + id + ' passed: ' + datum.id);
-		}
+        if (!datum.error) {
+            return console.log('Test ' + id + ' passed: ' + datum.id);
+        }
 
-		console.log('Test ' + id + ' failed, reason: ' + datum.error.message);
-	});
+        console.log('Test ' + id + ' failed, reason: ' + datum.error.message);
+    });
 });
 ```
 
@@ -381,10 +381,10 @@ returned by `fetch`.
 
 ```javascript
 wpt.map({
-	mapper: 'odf-spreadsheet',
-	silent: true
+    mapper: 'odf-spreadsheet',
+    silent: true
 }, results).then(function (mapped) {
-	fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
+    fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
 }).catch(function (error) {
     console.log(error.stack);
 });
@@ -409,14 +409,14 @@ from `fetch` and `map`.
 
 ```javascript
 wpt.run({
-	uri: 'example.com',
-	location: 'London:Firefox',
-	tests: path.join(__dirname, 'tests.json'),
-	count: 25,
-	mapper: 'odf-spreadsheet',
-	silent: true
+    uri: 'example.com',
+    location: 'London:Firefox',
+    tests: path.join(__dirname, 'tests.json'),
+    count: 25,
+    mapper: 'odf-spreadsheet',
+    silent: true
 }).then(function (mapped) {
-	fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
+    fs.writeFileSync(path.join(__dirname, 'results.ods'), mapped);
 }).catch(function (error) {
     console.log(error.stack);
 });
