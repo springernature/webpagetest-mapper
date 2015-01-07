@@ -104,18 +104,20 @@ function fetch (options) {
     return promise;
 
     function after (results) {
-        if (options.dump) {
-            dump(options, results);
-        }
-
-        resolve({
+        results = {
             data: results,
             options: options,
             times: {
                 begin: time,
                 end: new Date()
             }
-        });
+        };
+
+        if (options.dump) {
+            dump(options, results);
+        }
+
+        resolve(results);
     }
 }
 
