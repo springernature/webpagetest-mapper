@@ -73,12 +73,12 @@ containing three sections:
    even if JavaScript is disabled
    in the viewer's web browser.
 3. A table
-   summarising the optimisation scores
+   summarising the optimization scores
    that WebPageTest awards
    to each page.
    Each data cell
    in this table
-   links to the optimisation details.
+   links to the optimization details.
 
 Throughout the document,
 tests are identified
