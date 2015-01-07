@@ -100,9 +100,13 @@ function mapResults (options, results) {
 
     date = getTime(results, 'end');
     formattedDate = date.toLocaleDateString();
-    // TODO: This may need generalising to work with other WPT test locations.
-    locationParts = options.location.split(':');
     mapped = results.data.map(mapResult.bind(null, options.log));
+
+    // HACK: This should be replaced by data from webpagetest.getLocations()
+    locationParts = options.location.split(':');
+    if (locationParts.length === 1) {
+        locationParts = options.location.split('_');
+    }
 
     return {
         application: packageInfo.name,
