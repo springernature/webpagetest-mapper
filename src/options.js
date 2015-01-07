@@ -105,7 +105,12 @@ module.exports = {
             description: 'read configuration options from a file, default is `' + defaultConfig + '`'
         }
     ],
-    normalise: normalise
+    normalise: normalise,
+    get: {
+        log: getLog,
+        results: getResults,
+        mapper: getMapper
+    }
 };
 
 function normalise (options) {

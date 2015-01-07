@@ -100,16 +100,17 @@ function mapResults (options, results) {
 
     date = getTime(results, 'end');
     formattedDate = date.toLocaleDateString();
-    locationParts = results.options.location.split(':');
+    // TODO: This may need generalising to work with other WPT test locations.
+    locationParts = options.location.split(':');
     mapped = results.data.map(mapResult.bind(null, options.log));
 
     return {
         application: packageInfo.name,
         version: packageInfo.version,
         date: formattedDate,
-        count: results.options.count,
+        count: options.count,
         location: locationParts[0],
-        connection: results.options.connection,
+        connection: options.connection,
         userAgent: locationParts[1],
         times: {
             begin: getTime(results, 'begin').toLocaleTimeString(),

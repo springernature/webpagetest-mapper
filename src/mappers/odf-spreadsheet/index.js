@@ -58,7 +58,7 @@ function map (options, results) {
     zip.file('mimetype', 'application/vnd.oasis.opendocument.spreadsheet');
     zip.file('meta.xml', render.meta(mapMeta(results)));
     zip.file('styles.xml', readFile('styles.xml'));
-    zip.file('content.xml', render.content(mapContent(options.log, results)));
+    zip.file('content.xml', render.content(mapContent(options, results)));
 
     return zip.generate({ compression: 'DEFLATE', type: 'nodebuffer' });
 }
@@ -71,10 +71,10 @@ function mapMeta (results) {
     };
 }
 
-function mapContent (log, results) {
+function mapContent (options, results) {
     return {
-        count: results.options.count,
-        results: results.data.map(mapResult.bind(null, log))
+        count: options.count,
+        results: results.data.map(mapResult.bind(null, options.log))
     };
 }
 

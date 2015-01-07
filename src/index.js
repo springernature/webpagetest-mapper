@@ -19,12 +19,13 @@
 
 'use strict';
 
-var fs, path, normalise, wpt;
+var fs, path, normalise, get, wpt;
 
 require('es6-promise').polyfill();
 fs = require('fs');
 path = require('path');
 normalise = require('./options').normalise;
+get = require('./options').get;
 wpt = require('./webpagetest');
 
 module.exports = {
@@ -58,66 +59,11 @@ module.exports = {
  * @option config     {string}  Load options from JSON config file.
  */
 function run (options) {
-    options = normalise(options);
-
     if (options.results) {
         return map(options);
     }
 
-    return fetch(options).then(receive.bind(null, options));
-}
-
-function receive(options, results) {
-    if (options.dump) {
-        // TODO: Move this into fetch?
-        return dump(options, results).then(map.bind(null, options));
-    }
-
-    return map(options, results);
-}
-
-function dump (options, results) {
-    var log, target, done;
-
-    log = options.log;
-    target = path.resolve(options.dump);
-
-    serialiseTimes(results);
-
-    log.info('dumping intermediates to `' + target + '`');
-
-    fs.writeFile(
-        target,
-        JSON.stringify(results),
-        { encoding: 'utf8', mode: 420 },
-        function (error) {
-            if (error) {
-                log.error('failed to dump intermediates, ' + error.message);
-            }
-
-            deserialiseTimes(results);
-
-            done(results);
-        }
-    );
-
-    return new Promise(function (resolve) { done = resolve; });
-}
-
-function serialiseTimes (results) {
-    forEachTime(results, function (object, key) {
-        object[key] = object[key].toISOString();
-    });
-}
-
-function forEachTime (results, action) {
-    [ 'begin', 'end' ].forEach(action.bind(null, results.times));
-}
-
-function deserialiseTimes (results) {
-    forEachTime(results, function (object, key) {
-        object[key] = new Date(object[key]);
-    });
+    return fetch(options).then(map.bind(null, options));
 }
 
 /**
@@ -135,6 +81,7 @@ function deserialiseTimes (results) {
  *                              to `tests.json`.
  * @option count      {number}  Number of times to run each test, defaults to `9`.
  * @option email      {string}  Email address to send notifications to.
+ * @option dump       {string}  Dump intermediate results to file.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,
@@ -157,6 +104,10 @@ function fetch (options) {
     return promise;
 
     function after (results) {
+        if (options.dump) {
+            dump(options, results);
+        }
+
         resolve({
             data: results,
             options: options,
@@ -166,6 +117,45 @@ function fetch (options) {
             }
         });
     }
+}
+
+function dump (options, results) {
+    var log, target;
+
+    try {
+        log = options.log;
+        target = path.resolve(options.dump);
+
+        serialiseTimes(results);
+
+        log.info('dumping intermediates to `' + target + '`');
+
+        fs.writeFileSync(
+            target,
+            JSON.stringify(results),
+            { encoding: 'utf8', mode: 420 }
+        );
+
+        deserialiseTimes(results);
+    } catch (error) {
+        log.error('failed to dump intermediates, ' + error.message);
+    }
+}
+
+function serialiseTimes (results) {
+    forEachTime(results, function (object, key) {
+        object[key] = object[key].toISOString();
+    });
+}
+
+function forEachTime (results, action) {
+    [ 'begin', 'end' ].forEach(action.bind(null, results.times));
+}
+
+function deserialiseTimes (results) {
+    forEachTime(results, function (object, key) {
+        object[key] = new Date(object[key]);
+    });
 }
 
 /**
@@ -187,8 +177,13 @@ function map (options, results) {
     promise = new Promise(function (r1, r2) { resolve = r1; reject = r2; } );
 
     try {
-        options = normalise(options);
-        resolve(options.mapper.map(options, options.results || results));
+        // Song and dance to ensure that map options match fetch options.
+        results = results || get.results(options);
+        results.options.log = get.log(options);
+        results.options.mapper = get.mapper(options);
+        options = results.options;
+
+        resolve(options.mapper.map(options, results));
     } catch (error) {
         reject(error);
     }

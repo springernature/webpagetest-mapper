@@ -277,6 +277,9 @@ supporting the following properties:
 * `email`:
   The email address to notify
   when tests are finished.
+* `dump`:
+  Dump intermediate results
+  to file.
 * `silent`:
   Disable logging.
   Overrides `syslog` and `log`.
