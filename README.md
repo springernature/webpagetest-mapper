@@ -10,6 +10,7 @@ into human-readable document formats.
 * [What formats does it support?](#what-formats-does-it-support)
   * [html-summary](#html-summary)
   * [odf-spreadsheet](#odf-spreadsheet)
+* [Can I specify other formats?](#can-i-specify-other-formats)
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
     * [From the command line](#from-the-command-line)
@@ -109,6 +110,39 @@ of the data.
 [Click here for an example][eg-odf-spreadsheet].
 
 ![Screenshot][scrn-odf-spreadsheet]
+
+## Can I specify other formats?
+
+Yes!
+Mappers are loaded
+with `require`,
+using a two-pass approach
+that enables
+custom extensions
+to be invoked.
+
+Initially,
+mappers are speculatively loaded
+from the `src/mappers` sub-directory
+of the base installation.
+If that effort throws,
+a second attempt is made
+using the specified module path
+verbatim.
+Thus,
+standard mappers
+are loaded
+on the first attempt
+and custom extensions
+are loaded
+on the second.
+
+Mappers are called
+with two arguments,
+`options` and `results`.
+They should return
+an ES6-compatible promise
+representing the mapped result.
 
 ## How do I install it?
 
