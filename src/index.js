@@ -69,6 +69,7 @@ function run (options) {
 
 function receive(options, results) {
     if (options.dump) {
+        // TODO: Move this into fetch?
         return dump(options, results).then(map.bind(null, options));
     }
 
@@ -87,7 +88,7 @@ function dump (options, results) {
 
     fs.writeFile(
         target,
-        JSON.stringify(results, null, '    '),
+        JSON.stringify(results),
         { encoding: 'utf8', mode: 420 },
         function (error) {
             if (error) {
