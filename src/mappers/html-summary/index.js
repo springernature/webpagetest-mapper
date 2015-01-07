@@ -241,7 +241,7 @@ function getUrls (result, medianMetric, view) {
     median = getMedianRun(result, medianMetric, view);
 
     if (Array.isArray(median.run)) {
-        // TODO: Use whichever run has the greater value?
+        // TODO: I don't *think* this condition is entered any more...
         run = median.run[0];
     } else {
         run = median.run;
