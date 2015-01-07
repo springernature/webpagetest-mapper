@@ -16,7 +16,7 @@ into human-readable document formats.
     * [From a node.js project](#from-a-nodejs-project)
 	  * [fetch (options)](#fetch-options)
 	  	* [Example](#example)
-	  * [map (options)](#map-options-results)
+	  * [map (options, results)](#map-options-results)
 	  	* [Example](#example-1)
 	  * [run (options)](#run-options)
 	  	* [Example](#example-2)
