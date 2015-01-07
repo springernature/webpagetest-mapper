@@ -62,7 +62,7 @@ suite('options:', function () {
             log: log,
             results: results
         }));
-        mockery.registerMock('./mappers/html-svg', mappers.svg);
+        mockery.registerMock('./mappers/html-summary', mappers.svg);
         mockery.registerMock('./mappers/odf-spreadsheet', mappers.odf);
 
         results.statSync[0] = {
@@ -77,7 +77,7 @@ suite('options:', function () {
 
     teardown(function () {
         mockery.deregisterMock('./mappers/odf-spreadsheet');
-        mockery.deregisterMock('./mappers/html-svg');
+        mockery.deregisterMock('./mappers/html-summary');
         mockery.deregisterMock('get-off-my-log');
         mockery.deregisterMock('fs');
         mockery.deregisterMock('path');

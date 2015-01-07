@@ -36,7 +36,7 @@ defaults = {
     output: undefined,
     dump: undefined,
     results: undefined,
-    mapper: 'html-svg',
+    mapper: 'html-summary',
     silent: undefined,
     log: { info: nop, warn: nop, error: nop }
 };

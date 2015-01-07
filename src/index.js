@@ -51,7 +51,7 @@ module.exports = {
  * @option email      {string}  Email address to send notifications to.
  * @option dump       {string}  Dump intermediate results to file.
  * @option results    {string}  Read intermediate results from file, skips tests.
- * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
+ * @option mapper     {string}  Mapper to use, defaults to `html-summary`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,
@@ -164,7 +164,7 @@ function deserialiseTimes (results) {
  * Maps WebPageTest result data to other formats, returns an ES6 promise.
  *
  * @option results    {string}  Read WebPageTest results from file.
- * @option mapper     {string}  Mapper to use, defaults to `html-svg`.
+ * @option mapper     {string}  Mapper to use, defaults to `html-summary`.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,

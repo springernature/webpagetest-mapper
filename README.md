@@ -8,7 +8,7 @@ into human-readable document formats.
 
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
-  * [html-svg](#html-svg)
+  * [html-summary](#html-summary)
   * [odf-spreadsheet](#odf-spreadsheet)
 * [How do I install it?](#how-do-i-install-it)
 * [How do I use it?](#how-do-i-use-it)
@@ -46,11 +46,11 @@ into any conceivable format.
 Two data mappers
 are provided
 out of the box,
-`html-svg` and `odf-spreadsheet`.
+`html-summary` and `odf-spreadsheet`.
 
-### html-svg
+### html-summary
 
-The `html-svg` mapper
+The `html-summary` mapper
 generates an HTML document
 containing three sections:
 
@@ -83,7 +83,7 @@ to help readers
 track trends
 from section to section.
 
-[Click here for an example][eg-html-svg].
+[Click here for an example][eg-html-summary].
 
 ### odf-spreadsheet
 
@@ -179,7 +179,7 @@ Available options are:
   to perform the tests again.
 * `--mapper <path>`:
   The mapper to use.
-  The default is `html-svg`.
+  The default is `html-summary`.
 * `--silent`:
   Disable logging.
   Overrides `syslog`.
@@ -333,7 +333,7 @@ the result of
 the specific mapper
 that is invoked.
 Of the built-in mappers,
-`html-svg` returns a string
+`html-summary` returns a string
 containing the document markup and
 `odf-spreadsheet` returns a `Buffer` instance
 containing the binary content.
@@ -352,7 +352,7 @@ supporting the following properties:
   from file.
 * `mapper`:
   The mapper to use.
-  The default is `html-svg`.
+  The default is `html-summary`.
 * `silent`:
   Disable logging.
   Overrides `syslog` and `log`.
@@ -454,7 +454,7 @@ Copyright © 2015 Nature Publishing Group
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
-[eg-html-svg]: examples/html-summary.html
+[eg-html-summary]: examples/html-summary.html
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [eg-test]: examples/tests.json
 [eg-config]: examples/.wptrc
