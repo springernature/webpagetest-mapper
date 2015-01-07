@@ -85,6 +85,8 @@ from section to section.
 
 [Click here for an example][eg-html-summary].
 
+![Screenshot][scrn-html-summary]
+
 ### odf-spreadsheet
 
 The `odf-spreadsheet` mapper
@@ -106,6 +108,8 @@ to help show the distribution
 of the data.
 
 [Click here for an example][eg-odf-spreadsheet].
+
+![Screenshot][scrn-odf-spreadsheet]
 
 ## How do I install it?
 
@@ -455,7 +459,9 @@ Copyright © 2015 Nature Publishing Group
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
 [eg-html-summary]: examples/html-summary.html
+[scrn-html-summary]: examples/html-summary.png
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
+[scrn-odf-spreadsheet]: examples/odf-spreadsheet.png
 [eg-test]: examples/tests.json
 [eg-config]: examples/.wptrc
 [history]: HISTORY.md
