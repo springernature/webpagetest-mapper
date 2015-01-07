@@ -6,7 +6,7 @@
     },
     {
         "name": "Nature article",
-        "url": "http://www.nature.com/leu/journal/v20/n2/full/2404071a.html",
+        "url": "http://www.nature.com/articles/sdata201456",
         "type": "home"
     },
     {
@@ -16,27 +16,7 @@
     },
     {
         "name": "Science article",
-        "url": "http://www.sciencemag.org/content/342/6163/1185.full",
-        "type": "away"
-    },
-    {
-        "name": "SciAm homepage",
-        "url": "http://www.scientificamerican.com/",
-        "type": "home"
-    },
-    {
-        "name": "SciAm article",
-        "url": "http://www.scientificamerican.com/article/kuiper-belt-missions-could-reveal-the-solar-systems-origins/",
-        "type": "home"
-    },
-    {
-        "name": "NewSci homepage",
-        "url": "http://www.newscientist.com/",
-        "type": "away"
-    },
-    {
-        "name": "NewSci article",
-        "url": "http://www.newscientist.com/article/dn26396-saturns-moon-mimas-might-have-its-own-subsurface-sea.html",
+        "url": "http://www.sciencemag.org/content/347/6217/1258524.full",
         "type": "away"
     }
 ]
