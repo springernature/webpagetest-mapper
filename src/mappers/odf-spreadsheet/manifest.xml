@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <mn:manifest xmlns:mn="urn:oasis:names:tc:opendocument:xmlns:manifest:1.0" mn:version="1.2">
     <mn:file-entry mn:media-type="application/vnd.oasis.opendocument.spreadsheet" mn:full-path="/"/>
+    <mn:file-entry mn:media-type="text/xml" mn:full-path="meta.xml"/>
+    <mn:file-entry mn:media-type="text/xml" mn:full-path="styles.xml"/>
     <mn:file-entry mn:media-type="text/xml" mn:full-path="content.xml"/>
 </mn:manifest>
 
