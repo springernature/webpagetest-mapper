@@ -31,6 +31,8 @@ mockery.registerAllowable('check-types');
 suite('options:', function () {
     var log, results, mappers;
 
+    // TODO: Test options.get.xxx()
+
     setup(function () {
         log = {};
         results = {
