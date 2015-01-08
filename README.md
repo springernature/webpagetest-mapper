@@ -490,7 +490,7 @@ with the command `npm test`.
 
 ## What versions of node.js does it support?
 
-0.10.x, 0.11.x
+0.10, 0.11
 
 ## What license is it released under?
 
