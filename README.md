@@ -127,7 +127,8 @@ from the `src/mappers` sub-directory
 of the base installation.
 If that effort throws,
 a second attempt is made
-using the specified module path
+to load them
+from the specified module path
 verbatim.
 Thus,
 standard mappers
