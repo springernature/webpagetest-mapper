@@ -35,7 +35,7 @@
                         <tb:covered-table-cell tb:number-columns-repeated="3"/>
                     </tb:table-row>
                     <tb:table-row tb:style-name="row">
-                        <tb:table-cell tb:style-name="label-cell" odf:value-type="string" odf:string-value="Page"/>
+                        <tb:table-cell tb:style-name="label-cell" odf:value-type="string" odf:string-value="Run"/>
                         <tb:table-cell tb:style-name="label-cell" odf:value-type="string" odf:string-value="First byte"/>
                         <tb:table-cell tb:style-name="label-cell" odf:value-type="string" odf:string-value="Start render"/>
                         <tb:table-cell tb:style-name="label-cell" odf:value-type="string" odf:string-value="Load"/>
