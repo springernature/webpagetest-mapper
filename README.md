@@ -23,6 +23,7 @@ into human-readable document formats.
           * [Example](#example-2)
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the dev environment?](#how-do-i-set-up-the-dev-environment)
+* [What versions of node.js does it support?](#what-versions-of-nodejs-does-it-support)
 * [What license is it released under?](#what-license-is-it-released-under)
 
 ## Why would I want that?
@@ -486,6 +487,10 @@ with the command `npm run lint`.
 
 You can run the unit tests
 with the command `npm test`.
+
+## What versions of node.js does it support?
+
+0.10, 0.11
 
 ## What license is it released under?
 
