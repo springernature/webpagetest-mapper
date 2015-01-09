@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="generator" content="{{application}} {{version}}" />
+        <meta name="description" content="WebPageTest result distribution for {{date}}" />
+
+        <title>WebPageTest result distribution</title>
+
+        <style>
+            html, body, div, h1, h2, h3, p, a, abbr, ol, ul, li, table, caption, thead, tbody, tr, th, td, section, code
+            {
+                margin: 0;
+                padding: 0;
+                border: none;
+                font-size: 100%;
+                font: inherit;
+                vertical-align: baseline;
+            }
+
+            html, body
+            {
+                height: 100%;
+            }
+
+            html
+            {
+                font-size: 100.01%;
+            }
+
+            body
+            {
+                padding: 0 64px;
+                font-family: helvetica, arial, sans-serif;
+                font-size: 62.5%;
+                line-height: 1.5;
+                color: #333;
+            }
+
+            .content
+            {
+                max-width: 720px;
+            }
+
+            h1, h2, h3
+            {
+                display: block;
+                font-weight: bold;
+            }
+
+            h1, h2
+            {
+                letter-spacing: 1px;
+            }
+
+            h1
+            {
+                margin: 2em 0 1em;
+                font-size: 3.2em;
+            }
+
+            h2
+            {
+                margin: 1em 0 0.5em;
+                font-size: 2.4em;
+            }
+
+            h3
+            {
+                margin: 0 0 0.4em;
+                font-size: 1.4em;
+            }
+
+            p, ol, ul
+            {
+                margin-bottom: 1.4em;
+                font-size: 1.6em;
+            }
+
+            ol, ul
+            {
+                margin-left: 3em;
+            }
+
+            ol li
+            {
+                list-style-type: decimal;
+            }
+
+            ul li
+            {
+                list-style-type: circle;
+            }
+
+            table
+            {
+                box-sizing: border-box;
+                width: {{chartWidth}}px;
+                margin: 2.4em 0;
+                border-bottom: 1px solid #d1c7b7;
+                border-right: 1px solid #d1c7b7;
+                border-spacing: 0;
+                page-break-inside: avoid;
+            }
+
+            thead, tfoot
+            {
+                background-color: #e5dfd6;
+            }
+
+            th, td
+            {
+                padding: 0.5em 0.7em;
+                border-top: 1px solid #d1c7b7;
+                border-left: 1px solid #d1c7b7;
+                font-size: 1.4em;
+                vertical-align: middle;
+            }
+
+            th
+            {
+                text-align: left;
+            }
+
+            thead th
+            {
+                text-align: center;
+                font-weight: bold;
+            }
+
+            td
+            {
+                text-align: right;
+            }
+
+            .table-row-home
+            {
+                background-color: #b22e40;
+            }
+
+            .table-row-away
+            {
+                background-color: #378bb2;
+            }
+
+            a
+            {
+                color: #378bb2;
+                text-decoration: none;
+                cursor: pointer;
+            }
+
+            a:hover, a:active
+            {
+                color: #b22e40;
+            }
+
+            tr a, tr a:hover, tr a:active
+            {
+                color: #fff;
+            }
+
+            tr a:hover, tr a:active
+            {
+                border-bottom: 1px dotted #fff;
+            }
+
+            .table-data-good a
+            {
+                color: #9f9;
+            }
+
+            .table-data-okay a
+            {
+                color: #fe9;
+            }
+
+            .table-data-bad a
+            {
+                color: #f98;
+            }
+
+            code
+            {
+                display: inline-block;
+                -moz-box-sizing: border-box;
+                box-sizing: border-box;
+                padding: 0.2em 0.25em 0 0.25em;
+                border-radius: 3px;
+                background-color: #e5dfd6;
+                font-family: Consolas, Monaco, Menlo, "Lucida Console", monospace;
+                font-size: 1em;
+            }
+
+            th code
+            {
+                background-color: #333;
+                color: #fff;
+            }
+
+            svg
+            {
+                margin: 1.2em 0;
+                page-break-inside: avoid;
+            }
+
+            .chart-axis
+            {
+                stroke-width: 2;
+                stroke: #000;
+            }
+
+            .chart-bar-home
+            {
+                fill: #b22e40;
+            }
+
+            .chart-bar-away
+            {
+                fill: #378bb2;
+            }
+
+            .chart-label
+            {
+                font-size: 1.4em;
+            }
+
+            .chart-bar-label
+            {
+                fill: #fff;
+            }
+
+            .visually-hidden
+            {
+                width: 1px;
+                height: 1px;
+                position: absolute;
+                clip: rect(1px 1px 1px 1px);
+                clip: rect(1px, 1px, 1px, 1px);
+                overflow: hidden;
+            }
+
+            abbr[title]
+            {
+                border-bottom: 1px dotted #333;
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="content">
+            <h1>WebPageTest result distribution</h1>
+
+            <ul>
+{{#each results}}                <li><a href="#{{id}}">{{name}}</a></li>
+{{/each}}            </ul>
+
+{{#each results}}            <section id="{{id}}">
+                <h2>{{name}}</h2>
+
+{{#each metric}}                <section>
+                    <h3>{{name}}</h3>
+
+{{#with histogram}}                <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
+                        <title>{{name}} histogram for {{../name}}</title>
+
+                        <g transform="translate({{../../../chartMargin}}, 0)">
+                            <line x1="-3px" y1="0" x2="-3px" y2="{{../../../yAxisHeight}}px" class="chart-axis" />
+
