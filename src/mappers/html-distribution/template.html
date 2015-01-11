@@ -261,9 +261,32 @@
 {{#each metric}}                <section>
                     <h3>{{name}}</h3>
 
-{{#with histogram}}                <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
-                        <title>{{name}} histogram for {{../name}}</title>
+{{#with histogram}}                <svg width="{{add ../../../chartWidth 4}}px" height="{{add ../../../chartHeight 4}}px">
+                        <title>{{../name}} histogram for {{../../name}}</title>
 
-                        <g transform="translate({{../../../chartMargin}}, 0)">
                             <line x1="-3px" y1="0" x2="-3px" y2="{{../../../yAxisHeight}}px" class="chart-axis" />
+
+{{#each ranges}}                        <g transform="translate({{offset}}, 0)">
+                            <title>{{name}}</title>
+                            <rect width="{{../../../../barWidth}}px" height="{{barHeight}}px" class="chart-bar chart-bar-{{type}}" />
+                            <text text-anchor="middle" x="{{halve ../../../../barWidth}}" y="{{textOrientation}}4px" class="{{textClass}}">{{formatInteger count}}</text>
+                            <g transform="translate(0, {{minus ../../../../chartHeight ../../../../chartMargin}})">
+                                <text text-anchor="middle" x="-1px" y="4px" class="chart-label">{{lowerBound}}</text>
+                                <text text-anchor="middle" x="{{add ../../../barWidth 1}}px" y="4px" class="chart-label">{{upperBound}}</text>
+                            </g>
+                        </g>
+{{/each}}
+{{#with ../../../xAxis}}                            <g transform="translate(-2, {{minus ../../../../chartHeight ../../../../chartMargin}})">
+                                <line x1="0" y1="0" x2="{{width}}px" y2="0" class="chart-axis" />
+                            </g>
+{{/with}}                        </g>
+                    </svg>
+
+                    <!-- TODO: scatterplot -->
+
+{{/with}}                </section>
+{{/each}}            </section>
+{{/each}}        </div>
+    </body>
+</html>
 
