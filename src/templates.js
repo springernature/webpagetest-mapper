@@ -19,9 +19,11 @@
 
 'use strict';
 
-var handlebars;
+var fs, handlebars, check;
 
+fs = require('fs');
 handlebars = require('handlebars');
+check = require('check-types');
 
 handlebars.registerHelper('formatInteger', function (number) {
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
@@ -41,6 +43,8 @@ module.exports = {
 }
 
 function compile (templatePath) {
+    check.assert.unemptyString(templatePath, 'invalid template path');
+
     return handlebars.compile(fs.readFileSync(templatePath, { encoding: 'utf8' }));
 }
 
