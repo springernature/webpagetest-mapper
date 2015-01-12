@@ -20,9 +20,10 @@
 
 'use strict';
 
-var path, JSZip, packageInfo, templates, render,
+var fs, path, JSZip, packageInfo, templates, render,
     views, metrics, metricsLength;
 
+fs = require('fs');
 path = require('path');
 JSZip = require('jszip');
 packageInfo = require('../../../package.json');
@@ -51,6 +52,10 @@ function map (options, results) {
     zip.file('content.xml', render.content(mapContent(options, results)));
 
     return zip.generate({ compression: 'DEFLATE', type: 'nodebuffer' });
+}
+
+function readFile (name) {
+    return fs.readFileSync(path.join(__dirname, name), { encoding: 'utf8' });
 }
 
 function mapMeta (results) {
