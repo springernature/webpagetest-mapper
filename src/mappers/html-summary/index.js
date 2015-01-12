@@ -20,12 +20,12 @@
 
 'use strict';
 
-var path, fs, handlebars, render, packageInfo,
+var path, check, render, packageInfo,
     charts, chartWidth, chartMargin, chartPadding,
     barHeight, barPadding, labelOffset;
 
 path = require('path');
-fs = require('fs');
+check = require('check-types');
 render = require('../../templates').compile(path.join(__dirname, 'template.html'));
 packageInfo = require('../../../package.json');
 
@@ -83,6 +83,14 @@ module.exports = {
 };
 
 function map (options, results) {
+    check.assert.object(options, 'invalid options');
+    check.assert.unemptyString(options.location, 'invalid location option');
+    check.assert.object(results, 'invalid results');
+    check.assert.array(results.data, 'invalid result data');
+    check.assert.object(results.times, 'invalid result times');
+    check.assert.date(results.times.begin, 'invalid begin time');
+    check.assert.date(results.times.end, 'invalid end time');
+
     return render(mapResults(options, results));
 }
 
