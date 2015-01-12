@@ -40,7 +40,7 @@ handlebars.registerHelper('halve', function (number) {
 
 module.exports = {
     compile: compile
-}
+};
 
 function compile (templatePath) {
     check.assert.unemptyString(templatePath, 'invalid template path');
