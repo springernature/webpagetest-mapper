@@ -26,16 +26,7 @@ var path, fs, handlebars, render, packageInfo,
 
 path = require('path');
 fs = require('fs');
-handlebars = require('handlebars');
-handlebars.registerHelper('formatInteger', function (number) {
-    return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-});
-render = handlebars.compile(
-    fs.readFileSync(
-        path.join(__dirname, 'template.html'),
-        { encoding: 'utf8' }
-    )
-);
+render = require('../../templates').compile(path.join(__dirname, 'template.html'));
 packageInfo = require('../../../package.json');
 
 charts = [

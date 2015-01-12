@@ -20,28 +20,18 @@
 
 'use strict';
 
-var path, fs, JSZip, handlebars, render,
-    packageInfo, views, metrics, metricsLength;
+var path, JSZip, packageInfo, templates, render,
+    views, metrics, metricsLength;
 
 path = require('path');
-fs = require('fs');
 JSZip = require('jszip');
-
-handlebars = require('handlebars');
-handlebars.registerHelper('add', function (a, b) {
-    return a + b;
-});
+packageInfo = require('../../../package.json');
+templates = require('../../templates');
 
 render = {
-    meta: handlebars.compile(readFile('meta.xml')),
-    content: handlebars.compile(readFile('content.xml'))
+    meta: templates.compile(path.join(__dirname, 'meta.xml')),
+    content: templates.compile(path.join(__dirname, 'content.xml'))
 };
-
-function readFile (name) {
-    return fs.readFileSync(path.join(__dirname, name), { encoding: 'utf8' });
-}
-
-packageInfo = require('../../../package.json');
 
 views = [ 'firstView', 'repeatView' ];
 metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
