@@ -46,7 +46,8 @@ impl.run(cli).then(function (result) {
 
     console.log(result);
 }).catch(function (error) {
-    console.log('Fatal error: ' + error.message);
+    console.log(error.stack);
+    console.log('Fatal error, exiting.');
     process.exit(1);
 });
 
