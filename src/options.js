@@ -240,10 +240,12 @@ function getResults (options) {
 }
 
 function getMapper (options) {
+    var mapper = options.mapper || defaults.mapper;
+
     try {
-        return require('./mappers/' + options.mapper);
+        return require('./mappers/' + mapper);
     } catch (error) {
-        return require(options.mapper);
+        return require(mapper);
     }
 }
 
