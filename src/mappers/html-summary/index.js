@@ -120,7 +120,7 @@ function mapResults (options, results) {
             end: date.toLocaleTimeString() + ' on ' + formattedDate
         },
         results: mapped,
-        charts: charts.map(mapChart.bind(null, mapped)),
+        charts: charts.map(mapChart.bind(null, clone(mapped))),
         chartWidth: chartWidth,
         chartMargin: chartMargin,
         barHeight: barHeight,
@@ -299,6 +299,10 @@ function getFirstByteScore (data) {
     }
 
     return 100 - Math.round(difference / 10);
+}
+
+function clone (object) {
+    return JSON.parse(JSON.stringify(object));
 }
 
 function mapChart (results, chart) {
