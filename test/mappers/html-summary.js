@@ -168,12 +168,15 @@ suite('mappers/html-summary:', function () {
             assert.strictEqual(log.args.compile[0][0], 'foo');
         });
 
+        test('render was not called', function () {
+            assert.strictEqual(log.counts.render, 0);
+        });
+
         suite('map:', function () {
             var result;
 
             setup(function () {
-                result = mapper.map();
-                mapper.map({
+                result = mapper.map({
                     count: 25,
                     location: 'L3963:Firefox',
                     connection: 'Cable',
@@ -233,8 +236,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first TTFB first repeatView checklist',
                                                     details: 'first TTFB first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -245,8 +250,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first TTFB second repeatView checklist',
                                                     details: 'first TTFB second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -297,8 +304,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first render first repeatView checklist',
                                                     details: 'first render first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -309,8 +318,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first render second repeatView checklist',
                                                     details: 'first render second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -361,8 +372,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first loadTime first repeatView checklist',
                                                     details: 'first loadTime first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -373,8 +386,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first loadTime second repeatView checklist',
                                                     details: 'first loadTime second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -425,8 +440,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first SpeedIndex first repeatView checklist',
                                                     details: 'first SpeedIndex first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -437,8 +454,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'first SpeedIndex second repeatView checklist',
                                                     details: 'first SpeedIndex second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -495,8 +514,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second TTFB first repeatView checklist',
                                                     details: 'the second TTFB first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -507,8 +528,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second TTFB second repeatView checklist',
                                                     details: 'the second TTFB second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -559,8 +582,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second render first repeatView checklist',
                                                     details: 'the second render first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -571,8 +596,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second render second repeatView checklist',
                                                     details: 'the second render second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -623,8 +650,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second loadTime first repeatView checklist',
                                                     details: 'the second loadTime first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -635,8 +664,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second loadTime second repeatView checklist',
                                                     details: 'the second loadTime second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -687,8 +718,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second SpeedIndex first repeatView checklist',
                                                     details: 'the second SpeedIndex first repeatView details'
+                                                }
                                             }
                                         },
                                         {
@@ -699,8 +732,10 @@ suite('mappers/html-summary:', function () {
                                                 }
                                             },
                                             repeatView: {
+                                                pages: {
                                                     checklist: 'the second SpeedIndex second repeatView checklist',
                                                     details: 'the second SpeedIndex second repeatView details'
+                                                }
                                             }
                                         }
                                     ]
@@ -716,7 +751,290 @@ suite('mappers/html-summary:', function () {
                 result = undefined;
             });
 
-            // TODO: Tests - parse markup, check for elements and attributes
+            test('render was called once', function () {
+                assert.strictEqual(log.counts.render, 1);
+                assert.isUndefined(log.these.render[0]);
+            });
+
+            test('render was called correctly [base properties]', function () {
+                assert.lengthOf(log.args.render[0], 1);
+
+                assert.isObject(log.args.render[0][0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0]), 15);
+
+                assert.strictEqual(log.args.render[0][0].application, 'webpagetest-mapper');
+                assert.match(log.args.render[0][0].version, /^[0-9]+\.[0-9]+\.[0-9]+$/);
+                assert.strictEqual(log.args.render[0][0].date, (new Date()).toLocaleDateString());
+                assert.strictEqual(log.args.render[0][0].count, 25);
+                assert.strictEqual(log.args.render[0][0].location, 'L3963');
+                assert.strictEqual(log.args.render[0][0].connection, 'Cable');
+                assert.strictEqual(log.args.render[0][0].browser, 'Firefox');
+
+                assert.isObject(log.args.render[0][0].times);
+                assert.lengthOf(Object.keys(log.args.render[0][0].times), 2);
+
+                assert.isArray(log.args.render[0][0].results);
+                assert.lengthOf(log.args.render[0][0].results, 2);
+
+                assert.isArray(log.args.render[0][0].charts);
+                assert.lengthOf(log.args.render[0][0].charts, 6);
+
+                assert.strictEqual(log.args.render[0][0].chartWidth, 832);
+                assert.strictEqual(log.args.render[0][0].chartMargin, 140);
+                assert.strictEqual(log.args.render[0][0].barHeight, 32);
+                assert.strictEqual(log.args.render[0][0].labelOffset, 16);
+
+                assert.isObject(log.args.render[0][0].xAxis);
+                assert.lengthOf(Object.keys(log.args.render[0][0].xAxis), 3);
+            });
+
+            test('render was called correctly [times]', function () {
+                assert.match(log.args.render[0][0].times.begin, /^[0-9]{2}:[0-9]{2}:[0-9]{2}$/);
+                assert.match(log.args.render[0][0].times.end, /^[0-9]{2}:[0-9]{2}:[0-9]{2} on [a-zA-Z0-9 ,]+$/);
+            });
+
+            test('render was called correctly [first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0]), 6);
+                assert.strictEqual(log.args.render[0][0].results[0].name, 'first name');
+                assert.strictEqual(log.args.render[0][0].results[0].type, 'home');
+                assert.strictEqual(log.args.render[0][0].results[0].url, 'first URL');
+                assert.strictEqual(log.args.render[0][0].results[0].optimisationsUrl, 'first SpeedIndex first firstView checklist');
+
+                assert.isObject(log.args.render[0][0].results[0].firstView);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView), 14);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.speedIndex);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.speedIndex), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.url, 'first SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.value, 40000);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.firstByte);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.firstByte), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.url, 'first TTFB first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.value, 1);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.startRender);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.startRender), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.url, 'first render first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.value, 20);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.load);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.load), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.load.url, 'first loadTime first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.load.value, 300);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.bytes);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.bytes), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.bytes.url, 'first SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.bytes.value, 50000);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.requests);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.requests), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.requests.url, 'first SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.requests.value, 60000);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.connections);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.connections), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.connections.url, 'first SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.connections.value, 70000);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.targetFirstByte);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.targetFirstByte), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.targetFirstByte.rating, 'good');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.targetFirstByte.value, 100);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.persistent);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.persistent), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.persistent.rating, 'bad');
+                assert.isUndefined(log.args.render[0][0].results[0].firstView.persistent.value);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.gzip);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.gzip), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.gzip.rating, 'bad');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.gzip.value, 49);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.images);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.images), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.images.rating, 'okay');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.images.value, 50);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.progJpeg);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.progJpeg), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.progJpeg.rating, 'okay');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.progJpeg.value, 79);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.caching);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.caching), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.caching.rating, 'good');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.caching.value, 80);
+
+                assert.isObject(log.args.render[0][0].results[0].firstView.cdn);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.cdn), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.cdn.rating, 'good');
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.cdn.value, 100);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView), 2);
+
+                assert.isObject(log.args.render[0][0].results[0].repeatView.speedIndex);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView.speedIndex), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.url, 'first SpeedIndex second repeatView details');
+                assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.value, 70000);
+                assert.isObject(log.args.render[0][0].results[0].repeatView.load);
+                assert.strictEqual(log.args.render[0][0].results[0].repeatView.load.url, 'first loadTime second repeatView details');
+            });
+
+            test('render was called correctly [second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1]), 6);
+                assert.strictEqual(log.args.render[0][0].results[1].name, 'the second name');
+                assert.strictEqual(log.args.render[0][0].results[1].type, 'home');
+                assert.strictEqual(log.args.render[0][0].results[1].url, 'the second URL');
+                assert.strictEqual(log.args.render[0][0].results[1].optimisationsUrl, 'the second SpeedIndex first firstView checklist');
+                assert.isObject(log.args.render[0][0].results[1].firstView);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].firstView), 14);
+
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.speedIndex.url, 'the second SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.firstByte.url, 'the second TTFB first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.startRender.url, 'the second render first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.load.url, 'the second loadTime first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.bytes.url, 'the second SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.requests.url, 'the second SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].firstView.connections.url, 'the second SpeedIndex first firstView details');
+                assert.strictEqual(log.args.render[0][0].results[1].repeatView.speedIndex.url, 'the second SpeedIndex second repeatView details');
+                assert.strictEqual(log.args.render[0][0].results[1].repeatView.load.url, 'the second loadTime second repeatView details');
+            });
+
+            test('render was called correctly [first chart]', function () {
+                assert.isObject(log.args.render[0][0].charts[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0]), 5);
+
+                assert.strictEqual(log.args.render[0][0].charts[0].title, 'Speed index, first view');
+                assert.strictEqual(log.args.render[0][0].charts[0].height, 97);
+                assert.strictEqual(log.args.render[0][0].charts[0].yAxisHeight, 70);
+                assert.strictEqual(log.args.render[0][0].charts[0].label, 'First-view speed index (lower is better)');
+
+                assert.isArray(log.args.render[0][0].charts[0].tests);
+                assert.lengthOf(log.args.render[0][0].charts[0].tests, 2);
+
+                assert.isObject(log.args.render[0][0].charts[0].tests[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0].tests[0]), 8);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].offset, 0);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].name, 'first name');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].type, 'home');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].value, '40000');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textAnchor, 'end');
+
+                assert.isObject(log.args.render[0][0].charts[0].tests[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0].tests[1]), 8);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].offset, 34);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].name, 'the second name');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].type, 'home');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].value, '40000');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [second chart]', function () {
+                assert.isObject(log.args.render[0][0].charts[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1]), 5);
+
+                assert.strictEqual(log.args.render[0][0].charts[1].title, 'Speed index, repeat view');
+                assert.strictEqual(log.args.render[0][0].charts[1].height, 97);
+                assert.strictEqual(log.args.render[0][0].charts[1].yAxisHeight, 70);
+                assert.strictEqual(log.args.render[0][0].charts[1].label, 'Repeat-view speed index (lower is better)');
+
+                assert.isArray(log.args.render[0][0].charts[1].tests);
+                assert.lengthOf(log.args.render[0][0].charts[1].tests, 2);
+
+                assert.isObject(log.args.render[0][0].charts[1].tests[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[0]), 8);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].offset, 0);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].name, 'first name');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].type, 'home');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].value, '70000');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textAnchor, 'end');
+
+                assert.isObject(log.args.render[0][0].charts[1].tests[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[1]), 8);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].offset, 34);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].name, 'the second name');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].type, 'home');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].value, '70000');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [third chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[2].title, 'Speed index, repeat-view improvement');
+                assert.strictEqual(log.args.render[0][0].charts[2].label, 'Repeat-view speed index as a percentage of first-view (lower is better)');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].barWidth, '692.00');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].value, '175%');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].barWidth, '692.00');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].value, '175%');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [fourth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[3].title, 'First byte');
+                assert.strictEqual(log.args.render[0][0].charts[3].label, 'Time to first byte (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].value, '1');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].value, '1');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [fifth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[4].title, 'Start render, difference from first byte');
+                assert.strictEqual(log.args.render[0][0].charts[4].label, 'Time from first byte until start render (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [sixth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[5].title, 'Load, difference from first byte');
+                assert.strictEqual(log.args.render[0][0].charts[5].label, 'Time from first byte until load event (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [xAxis]', function () {
+                assert.strictEqual(log.args.render[0][0].xAxis.offset, 69);
+                assert.strictEqual(log.args.render[0][0].xAxis.width, 694);
+                assert.strictEqual(log.args.render[0][0].xAxis.labelPosition, 347);
+            });
         });
     });
 
