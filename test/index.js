@@ -29,33 +29,43 @@ mockery.registerAllowable(modulePath);
 mockery.registerAllowable('es6-promise');
 
 suite('index:', function () {
-    var log;
+    var log, results;
 
     setup(function () {
         log = {};
+        results = {
+            normalise: [],
+            runTests: [],
+            getResults: []
+        };
 
         mockery.enable({ useCleanCache: true });
         mockery.registerMock('fs', spooks.obj({
             archetype: { writeFileSync: nop },
             log: log,
+            results: results
         }));
         mockery.registerMock('path', spooks.obj({
             archetype: { resolve: nop },
             log: log,
+            results: results
         }));
         mockery.registerMock('./options', spooks.obj({
             archetype: {
                 normalise: nop,
                 get: spooks.obj({
                     archetype: { results: nop, log: nop, mapper: nop },
-                    log: log
+                    log: log,
+                    results: results
                 })
             },
             log: log,
+            results: results
         }));
         mockery.registerMock('./webpagetest', spooks.obj({
-            archetype: { runTests: nop, fetch: nop },
+            archetype: { runTests: nop, getResults: nop },
             log: log,
+            results: results
         }));
     });
 
@@ -66,7 +76,7 @@ suite('index:', function () {
         mockery.deregisterMock('fs');
         mockery.disable();
 
-        log = undefined;
+        log = results = undefined;
     });
 
     test('require does not throw', function () {
@@ -112,10 +122,17 @@ suite('index:', function () {
             assert.strictEqual(log.counts.runTests, 0);
         });
 
+        test('webpagetest.getResults was not called', function () {
+            assert.strictEqual(log.counts.runTests, 0);
+        });
+
         suite('fetch:', function () {
             var resolved, rejected, result, error, done;
 
             setup(function () {
+                results.normalise[0] = 'bar';
+                results.runTests[0] = Promise.resolve();
+                results.getResults[0] = Promise.resolve();
                 resolved = rejected = false;
                 index.fetch('foo').then(function (r) {
                     resolved = true;
@@ -143,6 +160,16 @@ suite('index:', function () {
             test('options.normalise was called correctly', function () {
                 assert.lengthOf(log.args.normalise[0], 1);
                 assert.strictEqual(log.args.normalise[0][0], 'foo');
+            });
+
+            test('webpagetest.runTests was called once', function () {
+                assert.strictEqual(log.counts.runTests, 1);
+                assert.strictEqual(log.these.runTests[0], require('./webpagetest'));
+            });
+
+            test('webpagetest.runtTests was called correctly', function () {
+                assert.lengthOf(log.args.runTests[0], 1);
+                assert.strictEqual(log.args.runTests[0][0], 'bar');
             });
         });
     });
