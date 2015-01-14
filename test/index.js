@@ -122,18 +122,25 @@ suite('index:', function () {
             assert.strictEqual(log.counts.runTests, 0);
         });
 
-        test('webpagetest.getResults was not called', function () {
-            assert.strictEqual(log.counts.runTests, 0);
-        });
-
         suite('fetch:', function () {
-            var resolved, rejected, result, error, done;
+            var runTests, getResults, resolved, rejected, result, error, done;
 
             setup(function () {
+                runTests = {};
+                getResults = {};
+
                 results.normalise[0] = 'bar';
-                results.runTests[0] = Promise.resolve();
-                results.getResults[0] = Promise.resolve();
+                results.runTests[0] = new Promise(function (resolve, reject) {
+                    runTests.resolve = resolve;
+                    runTests.reject = reject;
+                });
+                results.getResults[0] = new Promise(function (resolve, reject) {
+                    getResults.resolve = resolve;
+                    getResults.reject = reject;
+                });
+
                 resolved = rejected = false;
+
                 index.fetch('foo').then(function (r) {
                     resolved = true;
                     result = r;
@@ -167,10 +174,31 @@ suite('index:', function () {
                 assert.strictEqual(log.these.runTests[0], require('./webpagetest'));
             });
 
-            test('webpagetest.runtTests was called correctly', function () {
+            test('webpagetest.runTests was called correctly', function () {
                 assert.lengthOf(log.args.runTests[0], 1);
                 assert.strictEqual(log.args.runTests[0][0], 'bar');
             });
+
+            test('webpagetest.getResults was not called', function () {
+                assert.strictEqual(log.counts.getResults, 0);
+            });
+
+            // TODO: Work out how to get this to play nice (might need an inner done variable)
+            //suite('resolve runTests promise', function () {
+            //    setup(function (done) {
+            //        runTests.resolve('baz');
+            //    });
+
+            //    test('webpagetest.getResults was called once', function () {
+            //        assert.strictEqual(log.counts.getResults, 1);
+            //        assert.strictEqual(log.these.getResults[0], require('./webpagetest'));
+            //    });
+
+            //    test('webpagetest.getResults was called correctly', function () {
+            //        assert.lengthOf(log.args.getResults[0], 1);
+            //        assert.strictEqual(log.args.getResults[0][0], 'baz');
+            //    });
+            //});
         });
     });
 
