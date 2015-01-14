@@ -89,7 +89,7 @@ function mapResult (log, result) {
             runs: mapRuns(result)
         };
     } catch (error) {
-        log.error('failed to map ' + message + ', ' + error.message);
+        log.error('failed to map ' + message + '; ' + error.message);
         return result;
     }
 }

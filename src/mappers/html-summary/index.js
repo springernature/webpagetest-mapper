@@ -225,7 +225,7 @@ function mapResult (log, result) {
             }
         };
     } catch (error) {
-        log.error('failed to map ' + message + ', ' + error.message);
+        log.error('failed to map ' + message + '; ' + error.message);
         return result;
     }
 }

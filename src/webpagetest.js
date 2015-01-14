@@ -55,7 +55,7 @@ function runTests (options) {
         };
 
         if (error) {
-            log.error('failed to run ' + message + ', ' + error.message);
+            log.error('failed to run ' + message + '; ' + (error.message || error.statusText));
             resultIds[index].error = error;
         } else {
             log.info('finished running ' + message);
@@ -186,7 +186,7 @@ function getResults (options, resultIds) {
         }
 
         if (error) {
-            log.error('failed to fetch ' + message + ', ' + error.message);
+            log.error('failed to fetch ' + message + '; ' + (error.message || error.statusText));
         } else {
             log.info('finished fetching ' + message);
             results[index][metric] = result;
