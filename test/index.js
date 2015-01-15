@@ -227,6 +227,132 @@ suite('index:', function () {
                 });
             });
         });
+
+        suite('fetch with dump:', function () {
+            var runTests, getResults, resolved, rejected, result, error, done;
+
+            setup(function () {
+                runTests = {};
+                getResults = {};
+
+                results.normalise[0] = { dump: true, log: { info: nop, warn: nop, error: nop } };
+                results.runTests[0] = new Promise(function (resolve, reject) {
+                    runTests.resolve = resolve;
+                    runTests.reject = reject;
+                });
+                results.getResults[0] = new Promise(function (resolve, reject) {
+                    getResults.resolve = resolve;
+                    getResults.reject = reject;
+                });
+
+                resolved = rejected = false;
+
+                index.fetch('blah').then(function (r) {
+                    resolved = true;
+                    result = r;
+                    if (done) {
+                        done();
+                    }
+                }).catch(function (e) {
+                    rejected = true;
+                    error = e;
+                    if (done) {
+                        done();
+                    }
+                });
+            });
+
+            teardown(function () {
+                resolved = rejected = result = error = done = undefined;
+            });
+
+            test('options.normalise was called once', function () {
+                assert.strictEqual(log.counts.normalise, 1);
+            });
+
+            test('options.normalise was called correctly', function () {
+                assert.strictEqual(log.args.normalise[0][0], 'blah');
+            });
+
+            test('webpagetest.runTests was called once', function () {
+                assert.strictEqual(log.counts.runTests, 1);
+            });
+
+            test('webpagetest.runTests was called correctly', function () {
+                assert.isObject(log.args.runTests[0][0]);
+                assert.lengthOf(Object.keys(log.args.runTests[0][0]), 2);
+                assert.strictEqual(log.args.runTests[0][0].dump, true);
+                assert.isObject(log.args.runTests[0][0].log);
+                assert.lengthOf(Object.keys(log.args.runTests[0][0].log), 3);
+                assert.isFunction(log.args.runTests[0][0].log.info);
+                assert.isFunction(log.args.runTests[0][0].log.warn);
+                assert.isFunction(log.args.runTests[0][0].log.error);
+            });
+
+            test('webpagetest.getResults was not called', function () {
+                assert.strictEqual(log.counts.getResults, 0);
+            });
+
+            test('promise is unfulfilled', function () {
+                assert.isFalse(resolved);
+                assert.isFalse(rejected);
+            });
+
+            suite('resolve promises', function () {
+                setup(function (d) {
+                    done = d;
+                    runTests.resolve('foo');
+                    getResults.resolve({ foo: 'bar' });
+                });
+
+                test('webpagetest.getResults was called once', function () {
+                    assert.strictEqual(log.counts.getResults, 1);
+                });
+
+                test('webpagetest.getResults was called correctly', function () {
+                    assert.isObject(log.args.getResults[0][0]);
+                    assert.lengthOf(Object.keys(log.args.getResults[0]), 2);
+                    assert.strictEqual(log.args.getResults[0][0].dump, true);
+                    assert.isObject(log.args.getResults[0][0].log);
+                    assert.lengthOf(Object.keys(log.args.getResults[0][0].log), 3);
+                    assert.isFunction(log.args.getResults[0][0].log.info);
+                    assert.isFunction(log.args.getResults[0][0].log.warn);
+                    assert.isFunction(log.args.getResults[0][0].log.error);
+                    assert.notStrictEqual(log.args.getResults[0], log.args.runTests[0]);
+                    assert.strictEqual(log.args.getResults[0][1], 'foo');
+                });
+
+                test('promise is resolved', function () {
+                    assert.isTrue(resolved);
+                    assert.isFalse(rejected);
+                });
+
+                test('result is correct', function () {
+                    assert.isObject(result);
+                    assert.lengthOf(Object.keys(result), 3);
+                    assert.isObject(result.data);
+                    assert.lengthOf(Object.keys(result.data), 1);
+                    assert.strictEqual(result.data.foo, 'bar');
+                    assert.isObject(result.options);
+                    assert.lengthOf(Object.keys(result.options), 2);
+                    assert.strictEqual(result.options.dump, true);
+                    assert.isObject(result.options.log);
+                    assert.lengthOf(Object.keys(result.options.log), 3);
+                    assert.isFunction(result.options.log.info);
+                    assert.isFunction(result.options.log.warn);
+                    assert.isFunction(result.options.log.error);
+                    assert.notStrictEqual(result.options, log.args.getResults[0]);
+                    assert.isObject(result.times);
+                    assert.lengthOf(Object.keys(result.times), 2);
+                    assert.instanceOf(result.times.begin, Date);
+                    assert.instanceOf(result.times.end, Date);
+                });
+
+                test('fs.writeFileSync was called once', function () {
+                    assert.strictEqual(log.counts.writeFileSync, 1);
+                });
+            });
+        });
     });
 
     function nop () {};
