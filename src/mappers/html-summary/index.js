@@ -95,17 +95,18 @@ function map (options, results) {
 }
 
 function mapResults (options, results) {
-    var date, formattedDate, locationParts, mapped;
+    var date, formattedDate, locationParts, browser, mapped;
 
     date = getTime(results, 'end');
     formattedDate = date.toLocaleDateString();
-    mapped = results.data.map(mapResult.bind(null, options.log));
 
-    // HACK: This should be replaced by data from webpagetest.getLocations()
     locationParts = options.location.split(':');
     if (locationParts.length === 1) {
         locationParts = options.location.split('_');
     }
+
+    browser = getBrowser(results) || locationParts[1] || 'unknown';
+    mapped = results.data.map(mapResult.bind(null, options.log));
 
     return {
         application: packageInfo.name,
@@ -114,7 +115,7 @@ function mapResults (options, results) {
         count: options.count,
         location: locationParts[0],
         connection: options.connection,
-        browser: locationParts[1] || 'unknown',
+        browser: browser,
         times: {
             begin: getTime(results, 'begin').toLocaleTimeString(),
             end: date.toLocaleTimeString() + ' on ' + formattedDate
@@ -135,6 +136,21 @@ function mapResults (options, results) {
 
 function getTime (results, key) {
     return results.times[key];
+}
+
+function getBrowser (results) {
+    /*jshint camelcase:false */
+
+    var data;
+
+    try {
+        data = results.data[0].TTFB.data.runs[0].firstView;
+
+        if (check.unemptyString(data.browser_name)) {
+            return (data.browser_name + ' ' + data.browser_version).trim();
+        }
+    } catch (error) {
+    }
 }
 
 function mapResult (log, result) {
