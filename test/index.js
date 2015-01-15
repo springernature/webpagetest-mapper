@@ -183,22 +183,49 @@ suite('index:', function () {
                 assert.strictEqual(log.counts.getResults, 0);
             });
 
-            // TODO: Work out how to get this to play nice (might need an inner done variable)
-            //suite('resolve runTests promise', function () {
-            //    setup(function (done) {
-            //        runTests.resolve('baz');
-            //    });
+            test('promise is unfulfilled', function () {
+                assert.isFalse(resolved);
+                assert.isFalse(rejected);
+            });
 
-            //    test('webpagetest.getResults was called once', function () {
-            //        assert.strictEqual(log.counts.getResults, 1);
-            //        assert.strictEqual(log.these.getResults[0], require('./webpagetest'));
-            //    });
+            suite('resolve promises', function () {
+                setup(function (d) {
+                    done = d;
+                    runTests.resolve('baz');
+                    getResults.resolve('qux');
+                });
 
-            //    test('webpagetest.getResults was called correctly', function () {
-            //        assert.lengthOf(log.args.getResults[0], 1);
-            //        assert.strictEqual(log.args.getResults[0][0], 'baz');
-            //    });
-            //});
+                test('webpagetest.getResults was called once', function () {
+                    assert.strictEqual(log.counts.getResults, 1);
+                    assert.isNull(log.these.getResults[0]);
+                });
+
+                test('webpagetest.getResults was called correctly', function () {
+                    assert.lengthOf(log.args.getResults[0], 2);
+                    assert.strictEqual(log.args.getResults[0][0], 'bar');
+                    assert.strictEqual(log.args.getResults[0][1], 'baz');
+                });
+
+                test('promise is resolved', function () {
+                    assert.isTrue(resolved);
+                    assert.isFalse(rejected);
+                });
+
+                test('result is correct', function () {
+                    assert.isObject(result);
+                    assert.lengthOf(Object.keys(result), 3);
+                    assert.strictEqual(result.data, 'qux');
+                    assert.strictEqual(result.options, 'bar');
+                    assert.isObject(result.times);
+                    assert.lengthOf(Object.keys(result.times), 2);
+                    assert.instanceOf(result.times.begin, Date);
+                    assert.instanceOf(result.times.end, Date);
+                });
+
+                test('fs.writeFileSync was not called', function () {
+                    assert.strictEqual(log.counts.writeFileSync, 0);
+                });
+            });
         });
     });
 
