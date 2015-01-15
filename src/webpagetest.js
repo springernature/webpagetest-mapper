@@ -19,9 +19,18 @@
 
 'use strict';
 
-var medianMetrics;
+var medianMetrics, redundantProperties;
 
 medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
+redundantProperties = {
+    metric: [ 'statusCode', 'statusText' ],
+    data: [ 'url', 'testUrl', 'from', 'tester', 'testerDNS' ],
+    run: [
+        'URL', 'result', 'cached', 'title', 'run', 'tester',
+        'thumbnails', 'images', 'rawData', 'videoFrames',
+        'domains', 'breakdown'
+    ]
+};
 
 module.exports = {
     runTests: runTests,
@@ -195,8 +204,44 @@ function getResults (options, resultIds) {
         count += 1;
 
         if (count === length) {
+            results.forEach(shrink);
             done(results);
         }
     }
+}
+
+function shrink (result) {
+    medianMetrics.forEach(function (key) {
+        var metric = result[key];
+
+        if (metric) {
+            shrinkMetric(metric);
+            shrinkData(metric.data);
+            shrinkRuns(metric.data.runs);
+        }
+    });
+}
+
+function shrinkMetric (metric) {
+    redundantProperties.metric.forEach(function (property) {
+        delete metric[property];
+    });
+}
+
+function shrinkData (data) {
+    redundantProperties.data.forEach(function (property) {
+        delete data[property];
+    });
+}
+
+function shrinkRuns (runs) {
+    Object.keys(runs).forEach(function (key) {
+        var run = runs[key];
+
+        redundantProperties.run.forEach(function (property) {
+            delete run.firstView[property];
+            delete run.repeatView[property];
+        });
+    });
 }
 

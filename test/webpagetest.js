@@ -498,8 +498,8 @@ suite('webpagetest:', function () {
                 assert.lengthOf(Object.keys(log.args.getTestResults[0][1]), 6);
                 assert.strictEqual(log.args.getTestResults[0][1].key, 'bar');
                 assert.strictEqual(log.args.getTestResults[0][1].medianMetric, 'SpeedIndex');
-                assert.isTrue(log.args.getTestResults[0][1].breakDown);
-                assert.isTrue(log.args.getTestResults[0][1].domains);
+                assert.isFalse(log.args.getTestResults[0][1].breakDown);
+                assert.isFalse(log.args.getTestResults[0][1].domains);
                 assert.isFalse(log.args.getTestResults[0][1].pageSpeed);
                 assert.isFalse(log.args.getTestResults[0][1].requests);
                 assert.isFunction(log.args.getTestResults[0][2]);
@@ -554,7 +554,7 @@ suite('webpagetest:', function () {
 
             suite('first callback successful:', function () {
                 setup(function () {
-                    log.args.getTestResults[0][2](undefined, { statusCode: 200 });
+                    log.args.getTestResults[0][2](undefined, { data: { runs: {} }, statusCode: 200 });
                 });
 
                 test('promise is unfulfilled', function () {
@@ -564,7 +564,7 @@ suite('webpagetest:', function () {
 
                 suite('second callback successful:', function () {
                     setup(function () {
-                        log.args.getTestResults[1][2](undefined, { statusCode: 200 });
+                        log.args.getTestResults[1][2](undefined, { data: { runs: {} }, statusCode: 200 });
                     });
 
                     test('promise is unfulfilled', function () {
@@ -574,7 +574,7 @@ suite('webpagetest:', function () {
 
                     suite('third callback successful:', function () {
                         setup(function () {
-                            log.args.getTestResults[2][2](undefined, { statusCode: 200 });
+                            log.args.getTestResults[2][2](undefined, { data: { runs: {} }, statusCode: 200 });
                         });
 
                         test('promise is unfulfilled', function () {
@@ -584,7 +584,7 @@ suite('webpagetest:', function () {
 
                         suite('fourth callback successful:', function () {
                             setup(function () {
-                                log.args.getTestResults[3][2](undefined, { statusCode: 200 });
+                                log.args.getTestResults[3][2](undefined, { data: { runs: {} }, statusCode: 200 });
                             });
 
                             test('promise is unfulfilled', function () {
@@ -594,7 +594,7 @@ suite('webpagetest:', function () {
 
                             suite('fifth callback successful:', function () {
                                 setup(function () {
-                                    log.args.getTestResults[4][2](undefined, { statusCode: 200 });
+                                    log.args.getTestResults[4][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                 });
 
                                 test('promise is unfulfilled', function () {
@@ -604,7 +604,7 @@ suite('webpagetest:', function () {
 
                                 suite('sixth callback successful:', function () {
                                     setup(function () {
-                                        log.args.getTestResults[5][2](undefined, { statusCode: 200 });
+                                        log.args.getTestResults[5][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                     });
 
                                     test('promise is unfulfilled', function () {
@@ -614,7 +614,7 @@ suite('webpagetest:', function () {
 
                                     suite('seventh callback successful:', function () {
                                         setup(function () {
-                                            log.args.getTestResults[6][2](undefined, { statusCode: 200 });
+                                            log.args.getTestResults[6][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                         });
 
                                         test('promise is unfulfilled', function () {
@@ -624,7 +624,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback successful:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2](undefined, { statusCode: 200 });
+                                                log.args.getTestResults[7][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -646,16 +646,12 @@ suite('webpagetest:', function () {
                                                 assert.strictEqual(result[0].id, 'd');
                                                 assert.isObject(result[0].SpeedIndex);
                                                 assert.lengthOf(Object.keys(result[0].SpeedIndex), 1);
-                                                assert.strictEqual(result[0].SpeedIndex.statusCode, 200);
                                                 assert.isObject(result[0].TTFB);
                                                 assert.lengthOf(Object.keys(result[0].TTFB), 1);
-                                                assert.strictEqual(result[0].TTFB.statusCode, 200);
                                                 assert.isObject(result[0].render);
                                                 assert.lengthOf(Object.keys(result[0].render), 1);
-                                                assert.strictEqual(result[0].render.statusCode, 200);
                                                 assert.isObject(result[0].loadTime);
                                                 assert.lengthOf(Object.keys(result[0].loadTime), 1);
-                                                assert.strictEqual(result[0].loadTime.statusCode, 200);
 
                                                 assert.isObject(result[1]);
                                                 assert.lengthOf(Object.keys(result[1]), 9);
@@ -666,22 +662,18 @@ suite('webpagetest:', function () {
                                                 assert.strictEqual(result[1].id, 'h');
                                                 assert.isObject(result[1].SpeedIndex);
                                                 assert.lengthOf(Object.keys(result[1].SpeedIndex), 1);
-                                                assert.strictEqual(result[1].SpeedIndex.statusCode, 200);
                                                 assert.isObject(result[1].TTFB);
                                                 assert.lengthOf(Object.keys(result[1].TTFB), 1);
-                                                assert.strictEqual(result[1].TTFB.statusCode, 200);
                                                 assert.isObject(result[1].render);
                                                 assert.lengthOf(Object.keys(result[1].render), 1);
-                                                assert.strictEqual(result[1].render.statusCode, 200);
                                                 assert.isObject(result[1].loadTime);
                                                 assert.lengthOf(Object.keys(result[1].loadTime), 1);
-                                                assert.strictEqual(result[1].loadTime.statusCode, 200);
                                             });
                                         });
 
                                         suite('eighth callback fails:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2]('foo', { statusCode: 200 });
+                                                log.args.getTestResults[7][2]('foo', { data: { runs: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -703,16 +695,12 @@ suite('webpagetest:', function () {
                                                 assert.strictEqual(result[0].id, 'd');
                                                 assert.isObject(result[0].SpeedIndex);
                                                 assert.lengthOf(Object.keys(result[0].SpeedIndex), 1);
-                                                assert.strictEqual(result[0].SpeedIndex.statusCode, 200);
                                                 assert.isObject(result[0].TTFB);
                                                 assert.lengthOf(Object.keys(result[0].TTFB), 1);
-                                                assert.strictEqual(result[0].TTFB.statusCode, 200);
                                                 assert.isObject(result[0].render);
                                                 assert.lengthOf(Object.keys(result[0].render), 1);
-                                                assert.strictEqual(result[0].render.statusCode, 200);
                                                 assert.isObject(result[0].loadTime);
                                                 assert.lengthOf(Object.keys(result[0].loadTime), 1);
-                                                assert.strictEqual(result[0].loadTime.statusCode, 200);
 
                                                 assert.isObject(result[1]);
                                                 assert.lengthOf(Object.keys(result[1]), 8);
@@ -723,13 +711,10 @@ suite('webpagetest:', function () {
                                                 assert.strictEqual(result[1].id, 'h');
                                                 assert.isObject(result[1].SpeedIndex);
                                                 assert.lengthOf(Object.keys(result[1].SpeedIndex), 1);
-                                                assert.strictEqual(result[1].SpeedIndex.statusCode, 200);
                                                 assert.isObject(result[1].TTFB);
                                                 assert.lengthOf(Object.keys(result[1].TTFB), 1);
-                                                assert.strictEqual(result[1].TTFB.statusCode, 200);
                                                 assert.isObject(result[1].render);
                                                 assert.lengthOf(Object.keys(result[1].render), 1);
-                                                assert.strictEqual(result[1].render.statusCode, 200);
                                                 assert.isUndefined(result[1].loadTime);
                                             });
                                         });
@@ -743,7 +728,7 @@ suite('webpagetest:', function () {
 
             suite('first callback fails:', function () {
                 setup(function () {
-                    log.args.getTestResults[0][2]('wibble', { statusCode: 200 });
+                    log.args.getTestResults[0][2]('wibble', { data: { runs: {} }, statusCode: 200 });
                 });
 
                 test('promise is unfulfilled', function () {
@@ -753,7 +738,7 @@ suite('webpagetest:', function () {
 
                 suite('second callback successful:', function () {
                     setup(function () {
-                        log.args.getTestResults[1][2](undefined, { statusCode: 200 });
+                        log.args.getTestResults[1][2](undefined, { data: { runs: {} }, statusCode: 200 });
                     });
 
                     test('promise is unfulfilled', function () {
@@ -763,7 +748,7 @@ suite('webpagetest:', function () {
 
                     suite('third callback successful:', function () {
                         setup(function () {
-                            log.args.getTestResults[2][2](undefined, { statusCode: 200 });
+                            log.args.getTestResults[2][2](undefined, { data: { runs: {} }, statusCode: 200 });
                         });
 
                         test('promise is unfulfilled', function () {
@@ -773,7 +758,7 @@ suite('webpagetest:', function () {
 
                         suite('fourth callback successful:', function () {
                             setup(function () {
-                                log.args.getTestResults[3][2](undefined, { statusCode: 200 });
+                                log.args.getTestResults[3][2](undefined, { data: { runs: {} }, statusCode: 200 });
                             });
 
                             test('promise is unfulfilled', function () {
@@ -783,7 +768,7 @@ suite('webpagetest:', function () {
 
                             suite('fifth callback successful:', function () {
                                 setup(function () {
-                                    log.args.getTestResults[4][2](undefined, { statusCode: 200 });
+                                    log.args.getTestResults[4][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                 });
 
                                 test('promise is unfulfilled', function () {
@@ -793,7 +778,7 @@ suite('webpagetest:', function () {
 
                                 suite('sixth callback successful:', function () {
                                     setup(function () {
-                                        log.args.getTestResults[5][2](undefined, { statusCode: 200 });
+                                        log.args.getTestResults[5][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                     });
 
                                     test('promise is unfulfilled', function () {
@@ -803,7 +788,7 @@ suite('webpagetest:', function () {
 
                                     suite('seventh callback successful:', function () {
                                         setup(function () {
-                                            log.args.getTestResults[6][2](undefined, { statusCode: 200 });
+                                            log.args.getTestResults[6][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                         });
 
                                         test('promise is unfulfilled', function () {
@@ -813,7 +798,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback successful:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2](undefined, { statusCode: 200 });
+                                                log.args.getTestResults[7][2](undefined, { data: { runs: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -834,7 +819,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback fails:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2]('foo', { statusCode: 200 });
+                                                log.args.getTestResults[7][2]('foo', { data: { runs: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
