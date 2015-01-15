@@ -171,8 +171,8 @@ function getResults (options, resultIds) {
 
         wpt.getTestResults(resultId.id, {
             key: options.key,
-            breakDown: true,
-            domains: true,
+            breakDown: false,
+            domains: false,
             pageSpeed: false,
             requests: false,
             medianMetric: metric
