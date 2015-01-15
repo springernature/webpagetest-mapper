@@ -317,8 +317,26 @@ function getFirstByteScore (data) {
     return 100 - Math.round(difference / 10);
 }
 
-function clone (object) {
-    return JSON.parse(JSON.stringify(object));
+function clone (thing) {
+    var cloned;
+
+    if (check.array(thing)) {
+        cloned = [];
+    } else {
+        cloned = {};
+    }
+
+    Object.keys(thing).forEach(function (key) {
+        var property = thing[key];
+
+        if (check.object(property) || check.array(property)) {
+            cloned[key] = clone(property);
+        } else {
+            cloned[key] = property;
+        }
+    });
+
+    return cloned;
 }
 
 function mapChart (results, chart) {
