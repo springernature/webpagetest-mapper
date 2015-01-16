@@ -223,25 +223,26 @@ function shrink (result) {
 }
 
 function shrinkMetric (metric) {
-    redundantProperties.metric.forEach(function (property) {
-        delete metric[property];
+    deleteProperties('metric', metric);
+}
+
+function deleteProperties (properties, object) {
+    redundantProperties[properties].forEach(function (property) {
+        try {
+            delete object[property];
+        } catch (error) {
+        }
     });
 }
 
 function shrinkData (data) {
-    redundantProperties.data.forEach(function (property) {
-        delete data[property];
-    });
+    deleteProperties('data', data);
 }
 
 function shrinkRuns (runs) {
     Object.keys(runs).forEach(function (key) {
-        var run = runs[key];
-
-        redundantProperties.run.forEach(function (property) {
-            delete run.firstView[property];
-            delete run.repeatView[property];
-        });
+        deleteProperties('run', runs[key].firstView);
+        deleteProperties('run', runs[key].repeatView);
     });
 }
 
