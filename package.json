@@ -5,7 +5,7 @@
     "description": "Map WebPageTest result data into human-readable document formats.",
     "homepage": "https://github.com/nature/webpagetest-mapper",
     "bugs": "https://github.com/nature/webpagetest-mapper/issues",
-    "license": "Proprietary",
+    "license": "GPL-3.0+",
     "author": "Nature Publishing Group (https://github.com/nature)",
     "main": "./src",
     "bin": {
