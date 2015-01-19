@@ -24,7 +24,11 @@ var medianMetrics, redundantProperties;
 medianMetrics = [ 'SpeedIndex', 'TTFB', 'render', 'loadTime' ];
 redundantProperties = {
     metric: [ 'statusCode', 'statusText' ],
-    data: [ 'url', 'testUrl', 'from', 'tester', 'testerDNS' ],
+    data: [
+        'url', 'testUrl', 'from', 'tester', 'testerDNS',
+        'average', 'standardDeviation', 'fvonly',
+        'successfulFVRuns', 'successfulRVRuns'
+    ],
     run: [
         'URL', 'result', 'cached', 'title', 'run', 'tester',
         'thumbnails', 'images', 'rawData', 'videoFrames',
@@ -218,6 +222,7 @@ function shrink (result) {
             shrinkMetric(metric);
             shrinkData(metric.data);
             shrinkRuns(metric.data.runs);
+            shrinkRun(metric.data.median);
         }
     });
 }
@@ -242,8 +247,23 @@ function shrinkData (data) {
 
 function shrinkRuns (runs) {
     Object.keys(runs).forEach(function (key) {
-        deleteProperties('run', runs[key].firstView);
-        deleteProperties('run', runs[key].repeatView);
+        shrinkRun(runs[key]);
     });
+}
+
+function shrinkRun (run) {
+    shrinkView(run.firstView);
+    shrinkView(run.repeatView);
+}
+
+function shrinkView(view) {
+    deleteProperties('run', view);
+    replaceArrayWithLength(view, 'requests');
+}
+
+function replaceArrayWithLength (object, key) {
+    if (Array.isArray(object[key])) {
+        object[key] = object[key].length;
+    }
 }
 
