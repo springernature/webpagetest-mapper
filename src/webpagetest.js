@@ -30,7 +30,7 @@ redundantProperties = {
         'successfulFVRuns', 'successfulRVRuns'
     ],
     run: [
-        'URL', 'result', 'cached', 'title', 'run', 'tester',
+        'URL', 'result', 'cached', 'title', 'tester',
         'thumbnails', 'images', 'rawData', 'videoFrames',
         'domains', 'breakdown'
     ]
