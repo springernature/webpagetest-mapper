@@ -230,10 +230,8 @@ function deleteProperties (properties, object) {
     redundantProperties[properties].forEach(function (property) {
         try {
             delete object[property];
-            console.log('deleteProperties success: ' + properties);
         } catch (error) {
-            console.log('deleteProperties error: ' + properties);
-            console.log(error.stack);
+            /*jshint noempty:false */
         }
     });
 }
