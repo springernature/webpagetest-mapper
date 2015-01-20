@@ -104,12 +104,13 @@ suite('templates:', function () {
             });
         });
 
-        test('four helpers were registered', function () {
-            assert.strictEqual(log.counts.registerHelper, 4);
+        test('five helpers were registered', function () {
+            assert.strictEqual(log.counts.registerHelper, 5);
             assert.strictEqual(log.these.registerHelper[0], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[1], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[2], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[3], require('handlebars'));
+            assert.strictEqual(log.these.registerHelper[4], require('handlebars'));
         });
 
         test('first helper was registered correctly', function () {
@@ -132,7 +133,9 @@ suite('templates:', function () {
             assert.notStrictEqual(log.args.registerHelper[0][1], log.args.registerHelper[1][1]);
             assert.strictEqual(log.args.registerHelper[1][1](1, 1), 2);
             assert.strictEqual(log.args.registerHelper[1][1](1, 2), 3);
+        });
 
+        test('third helper was registered correctly', function () {
             assert.lengthOf(log.args.registerHelper[2], 2);
             assert.strictEqual(log.args.registerHelper[2][0], 'minus');
             assert.isFunction(log.args.registerHelper[2][1]);
@@ -142,7 +145,7 @@ suite('templates:', function () {
             assert.strictEqual(log.args.registerHelper[2][1](1, 2), -1);
         });
 
-        test('third helper was registered correctly', function () {
+        test('fourth helper was registered correctly', function () {
             assert.lengthOf(log.args.registerHelper[3], 2);
             assert.strictEqual(log.args.registerHelper[3][0], 'halve');
             assert.isFunction(log.args.registerHelper[3][1]);
@@ -151,6 +154,19 @@ suite('templates:', function () {
             assert.notStrictEqual(log.args.registerHelper[2][1], log.args.registerHelper[3][1]);
             assert.strictEqual(log.args.registerHelper[3][1](1), 0.5);
             assert.strictEqual(log.args.registerHelper[3][1](2), 1);
+        });
+
+        test('fifth helper was registered correctly', function () {
+            assert.lengthOf(log.args.registerHelper[4], 2);
+            assert.strictEqual(log.args.registerHelper[4][0], 'percent');
+            assert.isFunction(log.args.registerHelper[4][1]);
+            assert.notStrictEqual(log.args.registerHelper[0][1], log.args.registerHelper[4][1]);
+            assert.notStrictEqual(log.args.registerHelper[1][1], log.args.registerHelper[4][1]);
+            assert.notStrictEqual(log.args.registerHelper[2][1], log.args.registerHelper[4][1]);
+            assert.notStrictEqual(log.args.registerHelper[3][1], log.args.registerHelper[4][1]);
+            assert.strictEqual(log.args.registerHelper[4][1](0), '0%');
+            assert.strictEqual(log.args.registerHelper[4][1](100), '100%');
+            assert.strictEqual(log.args.registerHelper[4][1](-1), 'n/a');
         });
 
         test('fs.readFileSync was not called', function () {
