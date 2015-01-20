@@ -388,13 +388,13 @@
                     <tbody>
 {{#each results}}                        <tr class="table-row-{{type}}">
                             <th scope="row"><a href="{{url}}">{{name}}</a></th>
-{{#with firstView}}{{#with targetFirstByte}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#first_byte_time">{{value}}%</a></td>
-{{/with}}{{#with persistent}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#keep_alive_enabled">{{value}}%</a></td>
-{{/with}}{{#with gzip}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_text">{{value}}%</a></td>
-{{/with}}{{#with images}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_images">{{value}}%</a></td>
-{{/with}}{{#with progJpeg}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#progressive_jpeg">{{value}}%</a></td>
-{{/with}}{{#with caching}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#cache_static_content">{{value}}%</a></td>
-{{/with}}{{#with cdn}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#use_of_cdn">{{value}}%</a></td>
+{{#with firstView}}{{#with targetFirstByte}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#first_byte_time">{{percentify value}}</a></td>
+{{/with}}{{#with persistent}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#keep_alive_enabled">{{percentify value}}</a></td>
+{{/with}}{{#with gzip}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_text">{{percentify value}}</a></td>
+{{/with}}{{#with images}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#compress_images">{{percentify value}}</a></td>
+{{/with}}{{#with progJpeg}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#progressive_jpeg">{{percentify value}}</a></td>
+{{/with}}{{#with caching}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#cache_static_content">{{percentify value}}</a></td>
+{{/with}}{{#with cdn}}                            <td class="table-data-{{rating}}"><a href="{{../../optimisationsUrl}}#use_of_cdn">{{percentify value}}</a></td>
 {{/with}}{{/with}}                        </tr>
 {{/each}}                    </tbody>
                 </table>

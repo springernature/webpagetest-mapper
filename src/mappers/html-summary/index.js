@@ -282,7 +282,7 @@ function getWaterfallUrl (result, medianMetric, view) {
 }
 
 function getRating (score) {
-    if (score >= 80) {
+    if (score >= 80 || score === -1) {
         return 'good';
     }
 

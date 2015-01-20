@@ -37,6 +37,13 @@ handlebars.registerHelper('minus', function (lhs, rhs) {
 handlebars.registerHelper('halve', function (number) {
     return number / 2;
 });
+handlebars.registerHelper('percentify', function (number) {
+    if (number === -1) {
+        return 'n/a';
+    }
+
+    return number + '%';
+});
 
 module.exports = {
     compile: compile
