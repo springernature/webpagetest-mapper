@@ -554,7 +554,7 @@ suite('webpagetest:', function () {
 
             suite('first callback successful:', function () {
                 setup(function () {
-                    log.args.getTestResults[0][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                    log.args.getTestResults[0][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                 });
 
                 test('promise is unfulfilled', function () {
@@ -564,7 +564,7 @@ suite('webpagetest:', function () {
 
                 suite('second callback successful:', function () {
                     setup(function () {
-                        log.args.getTestResults[1][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                        log.args.getTestResults[1][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                     });
 
                     test('promise is unfulfilled', function () {
@@ -574,7 +574,7 @@ suite('webpagetest:', function () {
 
                     suite('third callback successful:', function () {
                         setup(function () {
-                            log.args.getTestResults[2][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                            log.args.getTestResults[2][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                         });
 
                         test('promise is unfulfilled', function () {
@@ -584,7 +584,7 @@ suite('webpagetest:', function () {
 
                         suite('fourth callback successful:', function () {
                             setup(function () {
-                                log.args.getTestResults[3][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                log.args.getTestResults[3][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                             });
 
                             test('promise is unfulfilled', function () {
@@ -594,7 +594,7 @@ suite('webpagetest:', function () {
 
                             suite('fifth callback successful:', function () {
                                 setup(function () {
-                                    log.args.getTestResults[4][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                    log.args.getTestResults[4][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                 });
 
                                 test('promise is unfulfilled', function () {
@@ -604,7 +604,7 @@ suite('webpagetest:', function () {
 
                                 suite('sixth callback successful:', function () {
                                     setup(function () {
-                                        log.args.getTestResults[5][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                        log.args.getTestResults[5][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                     });
 
                                     test('promise is unfulfilled', function () {
@@ -614,7 +614,7 @@ suite('webpagetest:', function () {
 
                                     suite('seventh callback successful:', function () {
                                         setup(function () {
-                                            log.args.getTestResults[6][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                            log.args.getTestResults[6][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                         });
 
                                         test('promise is unfulfilled', function () {
@@ -624,7 +624,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback successful:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                                log.args.getTestResults[7][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -673,7 +673,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback fails:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2]('foo', { data: { runs: {} }, statusCode: 200 });
+                                                log.args.getTestResults[7][2]('foo', { data: { runs: {}, median: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -728,7 +728,7 @@ suite('webpagetest:', function () {
 
             suite('first callback fails:', function () {
                 setup(function () {
-                    log.args.getTestResults[0][2]('wibble', { data: { runs: {} }, statusCode: 200 });
+                    log.args.getTestResults[0][2]('wibble', { data: { runs: {}, median: {} }, statusCode: 200 });
                 });
 
                 test('promise is unfulfilled', function () {
@@ -738,7 +738,7 @@ suite('webpagetest:', function () {
 
                 suite('second callback successful:', function () {
                     setup(function () {
-                        log.args.getTestResults[1][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                        log.args.getTestResults[1][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                     });
 
                     test('promise is unfulfilled', function () {
@@ -748,7 +748,7 @@ suite('webpagetest:', function () {
 
                     suite('third callback successful:', function () {
                         setup(function () {
-                            log.args.getTestResults[2][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                            log.args.getTestResults[2][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                         });
 
                         test('promise is unfulfilled', function () {
@@ -758,7 +758,7 @@ suite('webpagetest:', function () {
 
                         suite('fourth callback successful:', function () {
                             setup(function () {
-                                log.args.getTestResults[3][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                log.args.getTestResults[3][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                             });
 
                             test('promise is unfulfilled', function () {
@@ -768,7 +768,7 @@ suite('webpagetest:', function () {
 
                             suite('fifth callback successful:', function () {
                                 setup(function () {
-                                    log.args.getTestResults[4][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                    log.args.getTestResults[4][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                 });
 
                                 test('promise is unfulfilled', function () {
@@ -778,7 +778,7 @@ suite('webpagetest:', function () {
 
                                 suite('sixth callback successful:', function () {
                                     setup(function () {
-                                        log.args.getTestResults[5][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                        log.args.getTestResults[5][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                     });
 
                                     test('promise is unfulfilled', function () {
@@ -788,7 +788,7 @@ suite('webpagetest:', function () {
 
                                     suite('seventh callback successful:', function () {
                                         setup(function () {
-                                            log.args.getTestResults[6][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                            log.args.getTestResults[6][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                         });
 
                                         test('promise is unfulfilled', function () {
@@ -798,7 +798,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback successful:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2](undefined, { data: { runs: {} }, statusCode: 200 });
+                                                log.args.getTestResults[7][2](undefined, { data: { runs: {}, median: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
@@ -819,7 +819,7 @@ suite('webpagetest:', function () {
 
                                         suite('eighth callback fails:', function () {
                                             setup(function (d) {
-                                                log.args.getTestResults[7][2]('foo', { data: { runs: {} }, statusCode: 200 });
+                                                log.args.getTestResults[7][2]('foo', { data: { runs: {}, median: {} }, statusCode: 200 });
                                                 done = d;
                                             });
 
