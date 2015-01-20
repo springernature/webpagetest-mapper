@@ -262,7 +262,7 @@ function shrinkView(view) {
 }
 
 function replaceArrayWithLength (object, key) {
-    if (Array.isArray(object[key])) {
+    if (object && Array.isArray(object[key])) {
         object[key] = object[key].length;
     }
 }
