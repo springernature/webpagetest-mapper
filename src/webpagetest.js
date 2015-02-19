@@ -195,6 +195,7 @@ function getResults (options, resultIds) {
     function after (message, resultId, index, metric, error, result) {
         if (result.statusCode < 200) {
             log.info('still waiting for ' + message);
+            // TODO: Parameterise timeout, set default to 5 minutes
             return setTimeout(getResult.bind(null, resultId, index, metric), 60000);
         }
 
