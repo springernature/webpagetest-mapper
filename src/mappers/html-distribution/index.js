@@ -20,18 +20,66 @@
 
 'use strict';
 
-var path, fs, render, packageInfo;
+var path, fs, render, packageInfo, views, metrics;
 
 path = require('path');
 fs = require('fs');
 render = require('../../templates').compile(path.join(__dirname, 'template.html'));
 packageInfo = require('../../../package.json');
 
+views = [ 'firstView', 'repeatView' ];
+metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
+
 module.exports = {
     map: map
 };
 
 function map (options, results) {
-    return render(mapResults(options, results));
+    return render({
+        results: results.data.map(mapResult.bind(null, options.log))
+        // TODO: chartWidth
+        // TODO: chartHeight
+        // TODO: chartMargin
+        // TODO: yAxisHeight
+    });
+}
+
+function mapResult (log, result) {
+    var message;
+
+    try {
+        message = 'result ' + result.id + ' [' + result.name + ']';
+        log.info('mapping ' + message);
+
+        if (result.error) {
+            return result;
+        }
+
+        return {
+            id: result.label,
+            name: result.name,
+            views: views.map(mapView.bind(null, result))
+        };
+    } catch (error) {
+        log.error('failed to map ' + message + '; ' + error.message);
+        return result;
+    }
+}
+
+function mapView (result, view) {
+    return {
+        name: view === 'firstView' ? 'First' : 'Repeat',
+        metrics: metrics.map(mapMetric.bind(null, result, view))
+    };
+}
+
+function mapMetric (result, view, metric) {
+    // TODO: standard deviation = square root of variance
+    // TODO: ranges should be 1 standard deviation
+    // TODO: ranges in each direction until there is no data
+    // TODO: sum data in each range
+    // TODO: calculate bar widths
+    // TODO: calculate bar heights
+    // TODO: lower and upper bounding values
 }
 
