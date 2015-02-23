@@ -23,6 +23,7 @@
 var check, path, fs, render, packageInfo, views, metrics,
     chartWidth, chartHeight, chartMargin, yAxisHeight;
 
+check = require('check-types');
 path = require('path');
 fs = require('fs');
 render = require('../../templates').compile(path.join(__dirname, 'template.html'));
@@ -80,12 +81,54 @@ function mapView (result, view) {
 }
 
 function mapMetric (result, view, metric) {
-    // TODO: standard deviation = square root of variance
+    var runs, data, sum, least, greatest, mean, variance, stdev;
+
+    runs = getRuns(result, metric);
+    data = [];
+    sum = 0;
+
+    Object.keys(runs).forEach(getData);
+
+    mean = sum / data.length;
+    variance = data.reduce(getVariance, 0) / data.length;
+    stdev = Math.sqrt(variance);
+
     // TODO: ranges should be 1 standard deviation
     // TODO: ranges in each direction until there is no data
     // TODO: sum data in each range
     // TODO: calculate bar widths
     // TODO: calculate bar heights
     // TODO: lower and upper bounding values
+
+    function getData (runId) {
+        var datum = getDatum(runs[runId], view, metric);
+
+        check.assert.integer(datum);
+        check.assert.positive(datum);
+
+        data.push(datum);
+        sum += datum;
+
+        if (least === undefined || datum < least) {
+            least = datum;
+        }
+
+        if (greatest === undefined || datum > greatest) {
+            greatest = datum;
+        }
+    }
+}
+
+function getRuns (result, metric) {
+    return result[metric].data.runs;
+}
+
+function getDatum (run, view, metric) {
+    return run[view][metric];
+}
+
+function getVariance (vsum, datum) {
+    var difference = datum - mean;
+    return vsum + difference * difference;
 }
 
