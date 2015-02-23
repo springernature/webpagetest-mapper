@@ -20,7 +20,8 @@
 
 'use strict';
 
-var path, fs, render, packageInfo, views, metrics;
+var check, path, fs, render, packageInfo, views, metrics,
+    chartWidth, chartHeight, chartMargin, yAxisHeight;
 
 path = require('path');
 fs = require('fs');
@@ -30,6 +31,11 @@ packageInfo = require('../../../package.json');
 views = [ 'firstView', 'repeatView' ];
 metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
 
+chartWidth = 320;
+chartHeight = 400;
+chartMargin = 20;
+yAxisHeight = 2;
+
 module.exports = {
     map: map
 };
@@ -37,10 +43,10 @@ module.exports = {
 function map (options, results) {
     return render({
         results: results.data.map(mapResult.bind(null, options.log))
-        // TODO: chartWidth
-        // TODO: chartHeight
-        // TODO: chartMargin
-        // TODO: yAxisHeight
+        chartWidth: chartWidth,
+        chartHeight: chartHeight,
+        chartMargin: chartMargin,
+        yAxisHeight: yAxisHeight
     });
 }
 
