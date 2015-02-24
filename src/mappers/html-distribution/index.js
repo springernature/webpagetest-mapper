@@ -46,7 +46,7 @@ module.exports = {
 
 function map (options, results) {
     return render({
-        results: results.data.map(mapResult.bind(null, options.log))
+        results: results.data.map(mapResult.bind(null, options.log)),
         chartWidth: chartWidth,
         chartHeight: chartHeight,
         xAxisLength: xAxisLength,
@@ -145,7 +145,7 @@ function mapMetric (result, view, metric) {
         textClass = 'chart-label';
 
         if (barHeight > 20) {
-            textOrientation '-';
+            textOrientation = '-';
             textClass += ' chart-bar-label';
         }
 
@@ -196,7 +196,7 @@ function greater (a, b) {
     return b;
 }
 
-function initialiseRanges (length) {
+function initialiseRanges (ranges, length) {
     var i;
 
     for (i = 0; i < length; i += 1) {
