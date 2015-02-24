@@ -21,7 +21,8 @@
 'use strict';
 
 var check, path, fs, render, packageInfo, views, metrics,
-    chartWidth, chartHeight, chartMargin, yAxisHeight;
+    chartWidth, chartHeight, chartVerticalMargin, chartHorizontalMargin,
+    chartPadding, axisWidth, yAxisHeight;
 
 check = require('check-types');
 path = require('path');
@@ -34,8 +35,12 @@ metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
 
 chartWidth = 320;
 chartHeight = 400;
-chartMargin = 20;
-yAxisHeight = 2;
+chartVerticalMargin = 20;
+chartHorizontalMargin = 10;
+chartPadding = 2;
+axisWidth = 2;
+xAxisLength = chartWidth - chartHorizontalMargin - chartPadding - axisWidth;
+yAxisLength = chartHeight - chartVerticalMargin - chartPadding - axisWidth;
 
 module.exports = {
     map: map
@@ -46,8 +51,12 @@ function map (options, results) {
         results: results.data.map(mapResult.bind(null, options.log))
         chartWidth: chartWidth,
         chartHeight: chartHeight,
-        chartMargin: chartMargin,
-        yAxisHeight: yAxisHeight
+        chartVerticalMargin: chartVerticalMargin,
+        chartHorizontalMargin: chartHorizontalMargin,
+        chartPadding: chartPadding,
+        axisWidth: axisWidth,
+        xAxisLength: xAxisLength,
+        yAxisLength: yAxisLength
     });
 }
 
@@ -81,24 +90,36 @@ function mapView (result, view) {
 }
 
 function mapMetric (result, view, metric) {
-    var runs, data, sum, least, greatest, mean, variance, stdev;
+    var ranges = getRanges(result, view, metric);
 
-    runs = getRuns(result, metric);
-    data = [];
+    return {
+        ranges: ranges,
+        barWidth: (chartWidth - chartMargin - chartPadding - axisWidth) / ranges.length
+    };
+}
+
+function getRanges (result, view, metric) {
+    var sum, data, ranges, runs, least, greatest, mean, stdev;
+
     sum = 0;
+    data = [];
+    ranges = [];
+    runs = getRuns(result, metric);
 
     Object.keys(runs).forEach(getData);
 
     mean = sum / data.length;
-    variance = data.reduce(getVariance, 0) / data.length;
-    stdev = Math.sqrt(variance);
+    stdev = getStdev(data, mean);
+    initialiseRanges(ranges, getRangeCount(least, greatest, mean, stdev));
 
-    // TODO: ranges should be 1 standard deviation
-    // TODO: ranges in each direction until there is no data
-    // TODO: sum data in each range
+    Object.keys(runs).forEach(addToRanges.bind(null, ranges, mean, stdev));
+
+    return ranges;
+
     // TODO: calculate bar widths
     // TODO: calculate bar heights
     // TODO: lower and upper bounding values
+    // TODO: bar type (red for < mean, green for > mean)
 
     function getData (runId) {
         var datum = getDatum(runs[runId], view, metric);
@@ -117,6 +138,15 @@ function mapMetric (result, view, metric) {
             greatest = datum;
         }
     }
+
+    function addToRanges (runId) {
+        var datum, rangeIndex;
+        
+        datum = getDatum(runs[runId], view, metric);
+        rangeIndex = getRangeIndex(datum, mean, stdev, ranges.length);
+
+        ranges[rangeIndex] += 1;
+    }
 }
 
 function getRuns (result, metric) {
@@ -127,8 +157,36 @@ function getDatum (run, view, metric) {
     return run[view][metric];
 }
 
-function getVariance (vsum, datum) {
+function getStdev (data, mean) {
+    return Math.sqrt(data.reduce(getVariance.bind(null, mean), 0) / data.length);
+}
+
+function getVariance (mean, vsum, datum) {
     var difference = datum - mean;
     return vsum + difference * difference;
+}
+
+function getRangeCount (least, greatest, mean, stdev) {
+    return Math.ceil(greater(mean - least, greatest - mean) / stdev) * 2;
+}
+
+function greater (a, b) {
+    if (a > b) {
+        return a;
+    }
+
+    return b;
+}
+
+function initialiseRanges (length) {
+    var i;
+
+    for (i = 0; i < length; i += 1) {
+        ranges[i] = 0;
+    }
+}
+
+function getRangeIndex (datum, mean, stdev, rangeCount) {
+    return Math.floor((mean - datum) / stdev) + rangeCount / 2;
 }
 
