@@ -8,7 +8,7 @@
         <title>WebPageTest result distribution</title>
 
         <style>
-            html, body, div, h1, h2, h3, p, a, abbr, ol, ul, li, table, caption, thead, tbody, tr, th, td, section, code
+            html, body, div, h1, h2, h3, p, a, abbr, ol, ul, li, section, code
             {
                 margin: 0;
                 padding: 0;
@@ -92,57 +92,6 @@
                 list-style-type: circle;
             }
 
-            table
-            {
-                box-sizing: border-box;
-                width: {{chartWidth}}px;
-                margin: 2.4em 0;
-                border-bottom: 1px solid #d1c7b7;
-                border-right: 1px solid #d1c7b7;
-                border-spacing: 0;
-                page-break-inside: avoid;
-            }
-
-            thead, tfoot
-            {
-                background-color: #e5dfd6;
-            }
-
-            th, td
-            {
-                padding: 0.5em 0.7em;
-                border-top: 1px solid #d1c7b7;
-                border-left: 1px solid #d1c7b7;
-                font-size: 1.4em;
-                vertical-align: middle;
-            }
-
-            th
-            {
-                text-align: left;
-            }
-
-            thead th
-            {
-                text-align: center;
-                font-weight: bold;
-            }
-
-            td
-            {
-                text-align: right;
-            }
-
-            .table-row-home
-            {
-                background-color: #b22e40;
-            }
-
-            .table-row-away
-            {
-                background-color: #378bb2;
-            }
-
             a
             {
                 color: #378bb2;
@@ -153,31 +102,6 @@
             a:hover, a:active
             {
                 color: #b22e40;
-            }
-
-            tr a, tr a:hover, tr a:active
-            {
-                color: #fff;
-            }
-
-            tr a:hover, tr a:active
-            {
-                border-bottom: 1px dotted #fff;
-            }
-
-            .table-data-good a
-            {
-                color: #9f9;
-            }
-
-            .table-data-okay a
-            {
-                color: #fe9;
-            }
-
-            .table-data-bad a
-            {
-                color: #f98;
             }
 
             code
@@ -192,12 +116,6 @@
                 font-size: 1em;
             }
 
-            th code
-            {
-                background-color: #333;
-                color: #fff;
-            }
-
             svg
             {
                 margin: 1.2em 0;
@@ -210,14 +128,14 @@
                 stroke: #000;
             }
 
-            .chart-bar-home
+            .chart-bar-less
             {
-                fill: #b22e40;
+                fill: #00b225;
             }
 
-            .chart-bar-away
+            .chart-bar-greater
             {
-                fill: #378bb2;
+                fill: #b22e40;
             }
 
             .chart-label
