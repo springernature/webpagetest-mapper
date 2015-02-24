@@ -22,7 +22,7 @@
 
 var check, path, fs, render, packageInfo, views, metrics,
     chartWidth, chartHeight, chartVerticalMargin, chartHorizontalMargin,
-    chartPadding, axisWidth, yAxisHeight;
+    xAxisLength, yAxisLength;
 
 check = require('check-types');
 path = require('path');
@@ -37,10 +37,8 @@ chartWidth = 320;
 chartHeight = 400;
 chartVerticalMargin = 20;
 chartHorizontalMargin = 10;
-chartPadding = 2;
-axisWidth = 2;
-xAxisLength = chartWidth - chartHorizontalMargin - chartPadding - axisWidth;
-yAxisLength = chartHeight - chartVerticalMargin - chartPadding - axisWidth;
+xAxisLength = chartWidth - chartHorizontalMargin;
+yAxisLength = chartHeight - chartVerticalMargin;
 
 module.exports = {
     map: map
@@ -51,10 +49,6 @@ function map (options, results) {
         results: results.data.map(mapResult.bind(null, options.log))
         chartWidth: chartWidth,
         chartHeight: chartHeight,
-        chartVerticalMargin: chartVerticalMargin,
-        chartHorizontalMargin: chartHorizontalMargin,
-        chartPadding: chartPadding,
-        axisWidth: axisWidth,
         xAxisLength: xAxisLength,
         yAxisLength: yAxisLength
     });
@@ -90,36 +84,28 @@ function mapView (result, view) {
 }
 
 function mapMetric (result, view, metric) {
-    var ranges = getRanges(result, view, metric);
-
-    return {
-        ranges: ranges,
-        barWidth: (chartWidth - chartMargin - chartPadding - axisWidth) / ranges.length
-    };
-}
-
-function getRanges (result, view, metric) {
-    var sum, data, ranges, runs, least, greatest, mean, stdev;
+    var sum, data, ranges, runs, least, greatest, mean, stdev, barWidth, unitsPerPixel;
 
     sum = 0;
     data = [];
     ranges = [];
-    runs = getRuns(result, metric);
 
+    runs = getRuns(result, metric);
     Object.keys(runs).forEach(getData);
 
     mean = sum / data.length;
     stdev = getStdev(data, mean);
+
     initialiseRanges(ranges, getRangeCount(least, greatest, mean, stdev));
+    Object.keys(runs).forEach(addToRanges);
 
-    Object.keys(runs).forEach(addToRanges.bind(null, ranges, mean, stdev));
+    barWidth = getBarWidth(ranges.length);
+    unitsPerPixel = ranges.reduce(getMaxRange, 0) / yAxisLength;
 
-    return ranges;
-
-    // TODO: calculate bar widths
-    // TODO: calculate bar heights
-    // TODO: lower and upper bounding values
-    // TODO: bar type (red for < mean, green for > mean)
+    return {
+        ranges: ranges.map(mapRange),
+        barWidth: barWidth
+    };
 
     function getData (runId) {
         var datum = getDatum(runs[runId], view, metric);
@@ -146,6 +132,38 @@ function getRanges (result, view, metric) {
         rangeIndex = getRangeIndex(datum, mean, stdev, ranges.length);
 
         ranges[rangeIndex] += 1;
+    }
+
+    function mapRange (rangeValue, rangeIndex) {
+        var position, lowerBound, upperBound, barHeight, textOrientation, textClass;
+
+        position = rangeIndex - ranges.length / 2;
+        lowerBound = Math.floor(position * stdev);
+        upperBound = Math.floor((position + 1) * stdev);
+        barHeight = rangeValue / unitsPerPixel;
+        textOrientation = '';
+        textClass = 'chart-label';
+
+        if (barHeight > 20) {
+            textOrientation '-';
+            textClass += ' chart-bar-label';
+        }
+
+        if (unitsPerPixel % 1 !== 0) {
+            barHeight = barHeight.toFixed(2);
+        }
+
+        return {
+            offset: rangeIndex * barWidth,
+            name: lowerBound + ' to ' + upperBound,
+            type: position < 0 ? 'less' : 'greater',
+            barHeight: barHeight,
+            textOrientation: textOrientation,
+            textClass: textClass,
+            value: rangeValue,
+            lowerBound: lowerBound,
+            upperBound: upperBound
+        };
     }
 }
 
@@ -188,5 +206,17 @@ function initialiseRanges (length) {
 
 function getRangeIndex (datum, mean, stdev, rangeCount) {
     return Math.floor((mean - datum) / stdev) + rangeCount / 2;
+}
+
+function getBarWidth (rangeCount) {
+    return xAxisLength / rangeCount;
+}
+
+function getMaxRange (max, range) {
+    if (max > range) {
+        return max;
+    }
+
+    return range;
 }
 
