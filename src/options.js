@@ -33,6 +33,7 @@ defaults = {
     tests: 'tests.json',
     count: 9,
     email: undefined,
+    wait: 600,
     output: undefined,
     dump: undefined,
     results: undefined,
@@ -75,6 +76,11 @@ module.exports = {
         {
             format: '-e, --email <address>',
             description: 'the email address to notify when tests are finished'
+        },
+        {
+            format: '-w, --wait <interval>',
+            description: 'the number of seconds to wait between result fetch attempts, default is `' + defaults.wait + '`',
+            coercion: parseInt
         },
         {
             format: '-o, --output <path>',
