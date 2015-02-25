@@ -182,14 +182,14 @@
 {{#each metrics}}                    <section>
                         <h3>{{name}}</h3>
 
-                    <svg width="{{add ../../../chartWidth 4}}px" height="{{add ../../../chartHeight 4}}px">
+                    <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
                             <title>{{name}} histogram for {{../../name}} {{lowercase ../name}}</title>
 
-                            <g transform="translate({{../../../chartHorizontalMargin}}, 0)">
+                            <g transform="translate({{../../../chartMargin}}, 0)">
 
-                                <line x1="-3px" y1="0" x2="-3px" y2="{{../../../yAxisLength}}px" class="chart-axis" />
+                                <line x1="-{{../../../xAxisOffset}}px" y1="0" x2="-{{../../../xAxisOffset}}px" y2="{{../../../yAxisLength}}px" class="chart-axis" />
 
-{{#each ranges}}                                <g transform="translate({{offset}}, 0)">
+{{#each ranges}}                                <g transform="translate({{offsetX}}, {{offsetY}})">
                                     <title>{{name}}</title>
                                     <rect width="{{../barWidth}}px" height="{{barHeight}}px" class="chart-bar chart-bar-{{type}}" />
                                     <text text-anchor="middle" x="{{halve ../barWidth}}" y="{{textOrientation}}4px" class="{{textClass}}">{{formatInteger value}}</text>
@@ -199,7 +199,7 @@
                                     </g>
                                 </g>
 {{/each}}
-                                <g transform="translate(-2, {{../../../yAxisLength}})">
+                                <g transform="translate(-{{../../../chartPadding}}, {{minus ../../../yAxisLength ../../../yAxisOffset}})">
                                     <line x1="0" y1="0" x2="{{../../../xAxisLength}}px" y2="0" class="chart-axis" />
                                 </g>
                             </g>

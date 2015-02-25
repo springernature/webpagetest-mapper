@@ -21,8 +21,9 @@
 'use strict';
 
 var check, path, fs, render, packageInfo, views, metrics, names,
-    chartWidth, chartHeight, chartHorizontalMargin, chartVerticalMargin,
-    xAxisLength, yAxisLength;
+    chartWidth, chartHeight, chartMargin, chartPadding, chartFooter,
+    axisWidth, xAxisLength, yAxisLength, xAxisOffset, yAxisOffset,
+    dataWidth, dataHeight;
 
 check = require('check-types');
 path = require('path');
@@ -41,12 +42,18 @@ names = {
     SpeedIndex: 'Speed index'
 };
 
-chartWidth = 320;
+chartWidth = 360;
 chartHeight = 400;
-chartHorizontalMargin = 10;
-chartVerticalMargin = 20;
-xAxisLength = chartWidth - chartHorizontalMargin;
-yAxisLength = chartHeight - chartVerticalMargin;
+chartMargin = 40;
+chartPadding = 2;
+chartFooter = 20;
+axisWidth = 2;
+xAxisLength = chartWidth - chartMargin;
+yAxisLength = chartHeight - chartFooter;
+xAxisOffset = chartPadding + axisWidth / 2;
+yAxisOffset = chartPadding / 2;
+dataWidth = chartWidth - chartMargin - chartPadding - axisWidth;
+dataHeight = chartHeight - chartFooter - chartPadding - axisWidth;
 
 module.exports = {
     map: map
@@ -57,10 +64,13 @@ function map (options, results) {
         results: results.data.map(mapResult.bind(null, options.log)),
         chartWidth: chartWidth,
         chartHeight: chartHeight,
-        chartHorizontalMargin: chartHorizontalMargin,
-        chartVerticalMargin: chartVerticalMargin,
+        chartMargin: chartMargin,
+        chartPadding: chartPadding,
+        axisWidth: axisWidth,
         xAxisLength: xAxisLength,
-        yAxisLength: yAxisLength
+        yAxisLength: yAxisLength,
+        xAxisOffset: xAxisOffset,
+        yAxisOffset: yAxisOffset
     });
 }
 
@@ -165,7 +175,8 @@ function mapMetric (result, view, metric) {
         }
 
         return {
-            offset: rangeIndex * barWidth,
+            offsetX: rangeIndex * (barWidth + chartPadding),
+            offsetY: dataHeight - barHeight,
             name: lowerBound + ' to ' + upperBound,
             type: position < 0 ? 'less' : 'greater',
             barHeight: barHeight,
