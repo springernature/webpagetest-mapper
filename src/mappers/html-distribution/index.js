@@ -147,8 +147,8 @@ function mapMetric (result, view, metric) {
         var position, lowerBound, upperBound, barHeight, textOrientation, textClass;
 
         position = rangeIndex - ranges.length / 2;
-        lowerBound = Math.floor(position * stdev);
-        upperBound = Math.floor((position + 1) * stdev);
+        lowerBound = Math.floor(position * stdev + mean);
+        upperBound = Math.floor((position + 1) * stdev + mean);
         barHeight = rangeValue / unitsPerPixel;
         textOrientation = '';
         textClass = 'chart-label';
