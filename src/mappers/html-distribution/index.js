@@ -117,7 +117,7 @@ function mapMetric (result, view, metric) {
     stdev = getStdev(data, mean);
 
     initialiseRanges(ranges, getRangeCount(least, greatest, mean, stdev));
-    Object.keys(runs).forEach(addToRanges);
+    data.forEach(addToRanges);
 
     barWidth = getBarWidth(ranges.length);
     unitsPerPixel = ranges.reduce(getMaxRange, 0) / dataHeight;
@@ -130,6 +130,10 @@ function mapMetric (result, view, metric) {
 
     function getData (runId) {
         var datum = getDatum(runs[runId], view, metric);
+
+        if (datum === -1) {
+            return;
+        }
 
         check.assert.integer(datum);
         check.assert.positive(datum);
@@ -146,12 +150,8 @@ function mapMetric (result, view, metric) {
         }
     }
 
-    function addToRanges (runId) {
-        var datum, rangeIndex;
-        
-        datum = getDatum(runs[runId], view, metric);
-        rangeIndex = getRangeIndex(datum, mean, stdev, ranges.length);
-
+    function addToRanges (datum) {
+        var rangeIndex = getRangeIndex(datum, mean, stdev, ranges.length);
         ranges[rangeIndex] += 1;
     }
 
@@ -190,6 +190,10 @@ function getRuns (result, metric) {
 }
 
 function getDatum (run, view, metric) {
+    if (!run[view]) {
+        return -1;
+    }
+
     return run[view][metric];
 }
 
