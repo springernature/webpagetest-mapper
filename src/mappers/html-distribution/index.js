@@ -43,7 +43,7 @@ names = {
 };
 
 chartWidth = 360;
-chartHeight = 240;
+chartHeight = 180;
 chartMargin = 30;
 chartPadding = 2;
 chartFooter = 20;
@@ -164,7 +164,7 @@ function mapMetric (result, view, metric) {
         barHeight = rangeValue / unitsPerPixel;
         textClass = 'chart-label';
 
-        if (barHeight > 24) {
+        if (barHeight > 22) {
             labelOffset = 16;
             textClass += ' chart-bar-label';
         } else {

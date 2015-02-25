@@ -116,6 +116,11 @@
                 font-size: 1em;
             }
 
+            .section-svg
+            {
+                float: left;
+            }
+
             svg
             {
                 margin: 1.2em 0;
@@ -189,7 +194,7 @@
 {{#each views}}                <section>
                     <h2>{{name}}</h2>
 
-{{#each metrics}}                    <section>
+{{#each metrics}}                    <section class="section-svg">
                         <h3>{{name}}</h3>
 
                     <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
