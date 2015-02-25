@@ -44,6 +44,9 @@ handlebars.registerHelper('percent', function (number) {
 
     return number + '%';
 });
+handlebars.registerHelper('lowercase', function (string) {
+    return string.toLowerCase();
+});
 
 module.exports = {
     compile: compile

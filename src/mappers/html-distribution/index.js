@@ -20,7 +20,7 @@
 
 'use strict';
 
-var check, path, fs, render, packageInfo, views, metrics,
+var check, path, fs, render, packageInfo, views, metrics, names,
     chartWidth, chartHeight, chartVerticalMargin, chartHorizontalMargin,
     xAxisLength, yAxisLength;
 
@@ -32,6 +32,14 @@ packageInfo = require('../../../package.json');
 
 views = [ 'firstView', 'repeatView' ];
 metrics = [ 'TTFB', 'render', 'loadTime', 'SpeedIndex' ];
+names = {
+    firstView: 'First view',
+    repeatView: 'Repeat view',
+    TTFB: 'First-byte time',
+    render: 'Start-render time',
+    loadTime: 'Load event time',
+    SpeedIndex: 'Speed index'
+};
 
 chartWidth = 320;
 chartHeight = 400;
@@ -78,7 +86,7 @@ function mapResult (log, result) {
 
 function mapView (result, view) {
     return {
-        name: view === 'firstView' ? 'First' : 'Repeat',
+        name: names[view],
         metrics: metrics.map(mapMetric.bind(null, result, view))
     };
 }
@@ -103,6 +111,7 @@ function mapMetric (result, view, metric) {
     unitsPerPixel = ranges.reduce(getMaxRange, 0) / yAxisLength;
 
     return {
+        name: names[metric],
         ranges: ranges.map(mapRange),
         barWidth: barWidth
     };

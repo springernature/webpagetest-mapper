@@ -177,13 +177,13 @@
                 <h2>{{name}}</h2>
 
 {{#each views}}                <section>
-                    <h2>{{name}} view</h2>
+                    <h2>{{name}}</h2>
 
 {{#each metrics}}                    <section>
                         <h3>{{name}}</h3>
 
                     <svg width="{{add ../../../chartWidth 4}}px" height="{{add ../../../chartHeight 4}}px">
-                            <title>{{name}} histogram for {{../name}} {{../../name}}</title>
+                            <title>{{name}} histogram for {{../../name}} {{lowercase ../name}}</title>
 
                                 <line x1="-3px" y1="0" x2="-3px" y2="{{../../../yAxisLength}}px" class="chart-axis" />
 
