@@ -48,7 +48,7 @@ chartMargin = 40;
 chartPadding = 2;
 chartFooter = 20;
 axisWidth = 2;
-xAxisLength = chartWidth - chartMargin;
+xAxisLength = chartWidth - chartMargin + chartPadding;
 yAxisLength = chartHeight - chartFooter;
 xAxisOffset = chartPadding + axisWidth / 2;
 yAxisOffset = chartPadding / 2;
@@ -231,7 +231,7 @@ function getRangeIndex (datum, mean, stdev, rangeCount) {
 }
 
 function getBarWidth (rangeCount) {
-    return xAxisLength / rangeCount;
+    return (dataWidth - chartPadding) / rangeCount;
 }
 
 function getMaxRange (max, range) {
