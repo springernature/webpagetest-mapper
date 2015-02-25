@@ -9,6 +9,7 @@ into human-readable document formats.
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
   * [html-summary](#html-summary)
+  * [html-distribution](#html-distribution)
   * [odf-spreadsheet](#odf-spreadsheet)
 * [Can I specify other formats?](#can-i-specify-other-formats)
 * [How do I install it?](#how-do-i-install-it)
@@ -45,10 +46,12 @@ into any conceivable format.
 
 ## What formats does it support?
 
-Two data mappers
+Three data mappers
 are provided
-out of the box,
-`html-summary` and `odf-spreadsheet`.
+out of the box:
+`html-summary`,
+`html-distribution` and
+`odf-spreadsheet`.
 
 ### html-summary
 
@@ -91,6 +94,35 @@ from section to section.
 [Click here for an example][eg-html-summary].
 
 ![Screenshot][scrn-html-summary]
+
+### html-distribution
+
+The `html-distribution` mapper
+generates an HTML document
+containing SVG histograms
+that show the distribution of data.
+There is one histogram
+per metric
+per test.
+
+Each bar on the histogram
+represents a standard deviation
+from the mean.
+The mean is always
+at the center
+of the histogram.
+The bars
+for data
+less than the mean
+are coloured green
+and the ones
+for figures
+greater than mean
+are red.
+
+[Click here for an example][eg-html-distribution].
+
+![Screenshot][scrn-html-distribution]
 
 ### odf-spreadsheet
 
@@ -503,6 +535,8 @@ Copyright © 2015 Nature Publishing Group
 [api]: https://github.com/marcelduran/webpagetest-api
 [eg-html-summary]: examples/html-summary.html
 [scrn-html-summary]: examples/html-summary.png
+[eg-html-distribution]: examples/html-distribution.html
+[scrn-html-distribution]: examples/html-distribution.png
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [scrn-odf-spreadsheet]: examples/odf-spreadsheet.png
 [mappers]: src/mappers
