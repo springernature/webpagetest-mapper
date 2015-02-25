@@ -43,7 +43,7 @@ names = {
 };
 
 chartWidth = 360;
-chartHeight = 400;
+chartHeight = 240;
 chartMargin = 40;
 chartPadding = 2;
 chartFooter = 20;
@@ -156,18 +156,19 @@ function mapMetric (result, view, metric) {
     }
 
     function mapRange (rangeValue, rangeIndex) {
-        var position, lowerBound, upperBound, barHeight, textOrientation, textClass;
+        var position, lowerBound, upperBound, barHeight, labelOffset, textClass;
 
         position = rangeIndex - ranges.length / 2;
         lowerBound = Math.floor(position * stdev + mean);
         upperBound = Math.floor((position + 1) * stdev + mean);
         barHeight = rangeValue / unitsPerPixel;
-        textOrientation = '-';
         textClass = 'chart-label';
 
-        if (barHeight > 20) {
-            textOrientation = '';
+        if (barHeight > 24) {
+            labelOffset = 16;
             textClass += ' chart-bar-label';
+        } else {
+            labelOffset = 0 - chartPadding;
         }
 
         if (unitsPerPixel % 1 !== 0) {
@@ -180,7 +181,7 @@ function mapMetric (result, view, metric) {
             name: lowerBound + ' to ' + upperBound,
             type: position < 0 ? 'less' : 'greater',
             barHeight: barHeight,
-            textOrientation: textOrientation,
+            labelOffset: labelOffset,
             textClass: textClass,
             value: rangeValue,
             lowerBound: lowerBound,

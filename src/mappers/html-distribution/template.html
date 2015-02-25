@@ -192,7 +192,7 @@
 {{#each ranges}}                                <g transform="translate({{offsetX}}, {{offsetY}})">
                                     <title>{{name}}</title>
                                     <rect width="{{../barWidth}}px" height="{{barHeight}}px" class="chart-bar chart-bar-{{type}}" />
-                                    <text text-anchor="middle" x="{{halve ../barWidth}}" y="{{textOrientation}}16px" class="{{textClass}}">{{formatInteger value}}</text>
+                                    <text text-anchor="middle" x="{{halve ../barWidth}}" y="{{labelOffset}}px" class="{{textClass}}">{{formatInteger value}}</text>
                                     <g transform="translate(0, {{../../../../yAxisLength}})">
                                         <text text-anchor="middle" x="-1px" y="4px" class="chart-label">{{lowerBound}}</text>
                                         <text text-anchor="middle" x="{{add ../barWidth 1}}px" y="4px" class="chart-label">{{upperBound}}</text>
