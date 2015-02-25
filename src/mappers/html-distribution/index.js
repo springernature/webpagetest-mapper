@@ -44,15 +44,15 @@ names = {
 
 chartWidth = 360;
 chartHeight = 240;
-chartMargin = 40;
+chartMargin = 30;
 chartPadding = 2;
 chartFooter = 20;
 axisWidth = 2;
-xAxisLength = chartWidth - chartMargin + chartPadding;
+xAxisLength = chartWidth - chartMargin * 2 + chartPadding;
 yAxisLength = chartHeight - chartFooter;
 xAxisOffset = chartPadding + axisWidth / 2;
 yAxisOffset = chartPadding / 2;
-dataWidth = chartWidth - chartMargin - chartPadding - axisWidth;
+dataWidth = chartWidth - chartMargin * 2 - chartPadding - axisWidth;
 dataHeight = chartHeight - chartFooter - chartPadding - axisWidth;
 
 module.exports = {
@@ -171,14 +171,9 @@ function mapMetric (result, view, metric) {
             labelOffset = 0 - chartPadding;
         }
 
-        if (unitsPerPixel % 1 !== 0) {
-            barHeight = barHeight.toFixed(2);
-        }
-
         return {
             offsetX: rangeIndex * (barWidth + chartPadding),
             offsetY: dataHeight - barHeight,
-            name: lowerBound + ' to ' + upperBound,
             type: position < 0 ? 'less' : 'greater',
             barHeight: barHeight,
             labelOffset: labelOffset,

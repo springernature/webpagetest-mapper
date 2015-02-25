@@ -148,6 +148,16 @@
                 fill: #fff;
             }
 
+            .chart-label-lower
+            {
+                display: none;
+            }
+
+            .chart-range:first-child .chart-label-lower
+            {
+                display: inline;
+            }
+
             .visually-hidden
             {
                 width: 1px;
@@ -186,19 +196,18 @@
                             <title>{{name}} histogram for {{../../name}} {{lowercase ../name}}</title>
 
                             <g transform="translate({{../../../chartMargin}}, 0)">
-
-                                <line x1="-{{../../../xAxisOffset}}px" y1="0" x2="-{{../../../xAxisOffset}}px" y2="{{../../../yAxisLength}}px" class="chart-axis" />
-
-{{#each ranges}}                                <g transform="translate({{offsetX}}, {{offsetY}})">
-                                    <title>{{name}}</title>
+{{#each ranges}}                                <g transform="translate({{offsetX}}, {{offsetY}})" class="chart-range">
+                                    <title>{{formatInteger lowerBound}} to {{formatInteger upperBound}}</title>
                                     <rect width="{{../barWidth}}px" height="{{barHeight}}px" class="chart-bar chart-bar-{{type}}" />
                                     <text text-anchor="middle" x="{{halve ../barWidth}}" y="{{labelOffset}}px" class="{{textClass}}">{{formatInteger value}}</text>
-                                    <g transform="translate(0, {{../../../../yAxisLength}})">
-                                        <text text-anchor="middle" x="-1px" y="4px" class="chart-label">{{lowerBound}}</text>
-                                        <text text-anchor="middle" x="{{add ../barWidth 1}}px" y="4px" class="chart-label">{{upperBound}}</text>
+                                    <g transform="translate(0, {{add barHeight 16}})">
+                                        <text text-anchor="middle" x="-{{halve ../../../../chartPadding}}px" y="{{../../../../chartPadding}}px" class="chart-label chart-label-lower">{{formatInteger lowerBound}}</text>
+                                        <text text-anchor="middle" x="{{../barWidth}}px" y="{{../../../../chartPadding}}px" class="chart-label">{{formatInteger upperBound}}</text>
                                     </g>
                                 </g>
 {{/each}}
+                                <line x1="-{{../../../xAxisOffset}}px" y1="0" x2="-{{../../../xAxisOffset}}px" y2="{{../../../yAxisLength}}px" class="chart-axis" />
+
                                 <g transform="translate(-{{../../../chartPadding}}, {{minus ../../../yAxisLength ../../../yAxisOffset}})">
                                     <line x1="0" y1="0" x2="{{../../../xAxisLength}}px" y2="0" class="chart-axis" />
                                 </g>
