@@ -21,7 +21,7 @@
 'use strict';
 
 var check, path, fs, render, packageInfo, views, metrics, names,
-    chartWidth, chartHeight, chartVerticalMargin, chartHorizontalMargin,
+    chartWidth, chartHeight, chartHorizontalMargin, chartVerticalMargin,
     xAxisLength, yAxisLength;
 
 check = require('check-types');
@@ -43,8 +43,8 @@ names = {
 
 chartWidth = 320;
 chartHeight = 400;
-chartVerticalMargin = 20;
 chartHorizontalMargin = 10;
+chartVerticalMargin = 20;
 xAxisLength = chartWidth - chartHorizontalMargin;
 yAxisLength = chartHeight - chartVerticalMargin;
 
@@ -57,6 +57,8 @@ function map (options, results) {
         results: results.data.map(mapResult.bind(null, options.log)),
         chartWidth: chartWidth,
         chartHeight: chartHeight,
+        chartHorizontalMargin: chartHorizontalMargin,
+        chartVerticalMargin: chartVerticalMargin,
         xAxisLength: xAxisLength,
         yAxisLength: yAxisLength
     });
