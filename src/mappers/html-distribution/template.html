@@ -195,10 +195,10 @@
                                     <text text-anchor="middle" x="-1px" y="4px" class="chart-label">{{lowerBound}}</text>
                                     <text text-anchor="middle" x="{{add ../barWidth 1}}px" y="4px" class="chart-label">{{upperBound}}</text>
                                 </g>
+                            </g>
 {{/each}}
-                                <g transform="translate(-2, {{../../../yAxisLength}})">
-                                    <line x1="0" y1="0" x2="{{../../../xAxisLength}}px" y2="0" class="chart-axis" />
-                                </g>
+                            <g transform="translate(-2, {{../../../yAxisLength}})">
+                                <line x1="0" y1="0" x2="{{../../../xAxisLength}}px" y2="0" class="chart-axis" />
                             </g>
                         </svg>
 
