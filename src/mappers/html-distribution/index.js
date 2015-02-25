@@ -120,7 +120,7 @@ function mapMetric (result, view, metric) {
     Object.keys(runs).forEach(addToRanges);
 
     barWidth = getBarWidth(ranges.length);
-    unitsPerPixel = ranges.reduce(getMaxRange, 0) / yAxisLength;
+    unitsPerPixel = ranges.reduce(getMaxRange, 0) / dataHeight;
 
     return {
         name: names[metric],
@@ -162,11 +162,11 @@ function mapMetric (result, view, metric) {
         lowerBound = Math.floor(position * stdev + mean);
         upperBound = Math.floor((position + 1) * stdev + mean);
         barHeight = rangeValue / unitsPerPixel;
-        textOrientation = '';
+        textOrientation = '-';
         textClass = 'chart-label';
 
         if (barHeight > 20) {
-            textOrientation = '-';
+            textOrientation = '';
             textClass += ' chart-bar-label';
         }
 
