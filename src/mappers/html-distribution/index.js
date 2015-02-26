@@ -111,7 +111,7 @@ function mapMetric (result, view, metric) {
     ranges = [];
 
     runs = getRuns(result, metric);
-    Object.keys(runs).forEach(getData);
+    Object.keys(runs).forEach(setData);
 
     mean = sum / data.length;
     stdev = getStdev(data, mean);
@@ -128,7 +128,7 @@ function mapMetric (result, view, metric) {
         barWidth: barWidth
     };
 
-    function getData (runId) {
+    function setData (runId) {
         var datum = getDatum(runs[runId], view, metric);
 
         if (datum === -1) {
@@ -227,7 +227,7 @@ function initialiseRanges (ranges, length) {
 }
 
 function getRangeIndex (datum, mean, stdev, rangeCount) {
-    return Math.floor((mean - datum) / stdev) + rangeCount / 2;
+    return Math.floor((datum - mean) / stdev + rangeCount / 2);
 }
 
 function getBarWidth (rangeCount) {
