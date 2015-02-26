@@ -109,7 +109,7 @@ suite('options:', function () {
 
         test('cli array is exported', function () {
             assert.isArray(options.cli);
-            assert.lengthOf(options.cli, 14);
+            assert.lengthOf(options.cli, 15);
         });
 
         test('cli options seem correct', function () {
@@ -296,7 +296,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 14);
+                    assert.lengthOf(Object.keys(normalised), 15);
                 });
 
                 test('normalised.foo is undefined', function () {
@@ -390,7 +390,7 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 14);
+                        assert.lengthOf(Object.keys(normalised), 15);
                     });
 
                     test('normalised.foo is undefined', function () {
@@ -509,7 +509,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 14);
+                    assert.lengthOf(Object.keys(normalised), 15);
                 });
 
                 test('normalised.foo is undefined', function () {
@@ -614,7 +614,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 14);
+                    assert.lengthOf(Object.keys(normalised), 15);
                 });
 
                 test('normalised.config is undefined', function () {
@@ -771,7 +771,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 14);
+                    assert.lengthOf(Object.keys(normalised), 15);
                 });
 
                 test('normalised.uri is correct', function () {
