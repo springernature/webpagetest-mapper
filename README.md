@@ -108,9 +108,6 @@ per test.
 Each bar on the histogram
 represents a standard deviation
 from the mean.
-The mean is always
-at the center
-of the histogram.
 The bars
 for data
 less than the mean
@@ -235,6 +232,13 @@ Available options are:
 * `--email <address>`:
   The email address to notify
   when tests are finished.
+* `--wait <interval>`:
+  The number of seconds
+  to wait between
+  attempts to fetch
+  result data/
+  The default is `600`
+  (10 minutes).
 * `--output <path>`:
   File to write the mapped data to.
   The default is stdout.
@@ -349,6 +353,13 @@ supporting the following properties:
   The number of times
   to run each test.
   The default is `9`.
+* `wait`:
+  The number of seconds
+  to wait between
+  attempts to fetch
+  result data/
+  The default is `600`
+  (10 minutes).
 * `email`:
   The email address to notify
   when tests are finished.
@@ -522,7 +533,7 @@ with the command `npm test`.
 
 ## What versions of node.js does it support?
 
-0.10, 0.11
+0.10, 0.12
 
 ## What license is it released under?
 
