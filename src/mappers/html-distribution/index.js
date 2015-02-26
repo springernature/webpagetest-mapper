@@ -103,7 +103,8 @@ function mapView (result, view) {
 }
 
 function mapMetric (result, view, metric) {
-    var sum, data, ranges, runs, least, greatest, mean, stdev, barWidth, unitsPerPixel;
+    var sum, data, ranges, runs, least, greatest, mean, stdev,
+        filterableRangeIndices, barWidth, unitsPerPixel;
 
     sum = 0;
     data = [];
@@ -117,13 +118,14 @@ function mapMetric (result, view, metric) {
 
     initialiseRanges(ranges, getRangeCount(least, greatest, mean, stdev));
     data.forEach(addToRanges);
+    filterableRangeIndices = getFilterableRangeIndices(ranges);
 
-    barWidth = getBarWidth(ranges.length);
+    barWidth = getBarWidth(ranges.length - filterableRangeIndices.length);
     unitsPerPixel = ranges.reduce(getMaxRange, 0) / dataHeight;
 
     return {
         name: names[metric],
-        ranges: ranges.map(mapRange),
+        ranges: ranges.map(mapRange).filter(filterRange),
         barWidth: barWidth - chartPadding
     };
 
@@ -155,13 +157,14 @@ function mapMetric (result, view, metric) {
     }
 
     function mapRange (rangeValue, rangeIndex) {
-        var position, lowerBound, upperBound, barHeight, labelOffset, textClass;
+        var position, lowerBound, upperBound, barHeight, labelOffset, textClass, indexShift;
 
         position = rangeIndex - ranges.length / 2;
         lowerBound = Math.floor(position * stdev + mean);
         upperBound = Math.floor((position + 1) * stdev + mean);
         barHeight = rangeValue / unitsPerPixel;
         textClass = 'chart-label';
+        indexShift = filterableRangeIndices.reduce(getRangeIndexShift.bind(null, rangeIndex), 0);
 
         if (barHeight > 22) {
             labelOffset = 16;
@@ -171,7 +174,7 @@ function mapMetric (result, view, metric) {
         }
 
         return {
-            offsetX: rangeIndex * barWidth,
+            offsetX: (rangeIndex - indexShift) * barWidth,
             offsetY: dataHeight - barHeight,
             type: position < 0 ? 'less' : 'greater',
             barHeight: barHeight,
@@ -181,6 +184,14 @@ function mapMetric (result, view, metric) {
             lowerBound: lowerBound,
             upperBound: upperBound
         };
+    }
+
+    function filterRange (range, rangeIndex) {
+        if (rangeIndex in filterableRangeIndices) {
+            return false;
+        }
+
+        return true;
     }
 }
 
@@ -229,6 +240,30 @@ function getRangeIndex (datum, mean, stdev, rangeCount) {
     return Math.floor((datum - mean) / stdev + rangeCount / 2);
 }
 
+function getFilterableRangeIndices (ranges) {
+    var indices, i;
+
+    indices = [];
+
+    for (i = 0; i < ranges.length; i += 1) {
+        if (ranges[i] === 0) {
+            indices.push(i);
+        } else {
+            break;
+        }
+    }
+
+    for (i = ranges.length - 1; i >= 0; i -= 1) {
+        if (ranges[i] === 0) {
+            indices.push(i);
+        } else {
+            break;
+        }
+    }
+
+    return indices;
+}
+
 function getBarWidth (rangeCount) {
     return xAxisLength / rangeCount;
 }
@@ -239,5 +274,13 @@ function getMaxRange (max, range) {
     }
 
     return range;
+}
+
+function getRangeIndexShift (rangeIndex, shiftCount, filterableRangeIndex) {
+    if (filterableRangeIndex < rangeIndex) {
+        shiftCount += 1;
+    }
+
+    return shiftCount;
 }
 
