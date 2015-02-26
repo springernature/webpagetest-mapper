@@ -23,7 +23,7 @@
 var check, path, fs, render, packageInfo, views, metrics, names,
     chartWidth, chartHeight, chartMargin, chartPadding, chartFooter,
     axisWidth, xAxisLength, yAxisLength, xAxisOffset, yAxisOffset,
-    dataWidth, dataHeight;
+    dataHeight;
 
 check = require('check-types');
 path = require('path');
@@ -48,12 +48,11 @@ chartMargin = 30;
 chartPadding = 2;
 chartFooter = 20;
 axisWidth = 2;
-xAxisLength = chartWidth - chartMargin * 2 + chartPadding;
+xAxisLength = chartWidth - chartMargin * 2 - axisWidth;
 yAxisLength = chartHeight - chartFooter;
 xAxisOffset = chartPadding + axisWidth / 2;
 yAxisOffset = chartPadding / 2;
-dataWidth = chartWidth - chartMargin * 2 - chartPadding - axisWidth;
-dataHeight = chartHeight - chartFooter - chartPadding - axisWidth;
+dataHeight = yAxisLength - chartPadding - axisWidth;
 
 module.exports = {
     map: map
@@ -125,7 +124,7 @@ function mapMetric (result, view, metric) {
     return {
         name: names[metric],
         ranges: ranges.map(mapRange),
-        barWidth: barWidth
+        barWidth: barWidth - chartPadding
     };
 
     function setData (runId) {
@@ -172,7 +171,7 @@ function mapMetric (result, view, metric) {
         }
 
         return {
-            offsetX: rangeIndex * (barWidth + chartPadding),
+            offsetX: rangeIndex * barWidth,
             offsetY: dataHeight - barHeight,
             type: position < 0 ? 'less' : 'greater',
             barHeight: barHeight,
@@ -231,7 +230,7 @@ function getRangeIndex (datum, mean, stdev, rangeCount) {
 }
 
 function getBarWidth (rangeCount) {
-    return (dataWidth - chartPadding) / rangeCount;
+    return xAxisLength / rangeCount;
 }
 
 function getMaxRange (max, range) {
