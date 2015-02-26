@@ -49,7 +49,7 @@
                 <tb:table-rows>
 {{#each runs}}                    <tb:table-row tb:style-name="row">
                         <tb:table-cell tb:style-name="value-cell" odf:value-type="string" odf:string-value="{{id}}"/>
-{{#each metrics}}                        <tb:table-cell tb:style-name="value-cell" odf:value-type="float" odf:value="{{.}}"/>
+{{#each metrics}}                        <tb:table-cell tb:style-name="value-cell" odf:value-type="{{#if .}}float{{else}}string{{/if}}" odf:value="{{.}}"/>
 {{/each}}                    </tb:table-row>
 {{/each}}                    <tb:table-row tb:style-name="row">
                         <tb:table-cell tb:number-columns-repeated="9"/>

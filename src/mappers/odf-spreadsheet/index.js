@@ -20,8 +20,8 @@
 
 'use strict';
 
-var fs, path, JSZip, packageInfo, templates, render,
-    views, metrics, metricsLength;
+var fs, path, JSZip, packageInfo, templates,
+    render, views, metrics, metricsLength;
 
 fs = require('fs');
 path = require('path');
@@ -124,8 +124,18 @@ function mapRuns (result) {
             };
         }
 
-        runs[runIndex].metrics[metricIndex] = getRuns(metric)[runId][view][metric];
+        runs[runIndex].metrics[metricIndex] = getMetric(view, metric, runId);
         metricIndex = (metricIndex + 1) % metricsLength;
+    }
+
+    function getMetric (view, metric, runId) {
+        var view = getRuns(metric)[runId][view];
+
+        if (!view) {
+            return '';
+        }
+
+        return view[metric];
     }
 }
 
