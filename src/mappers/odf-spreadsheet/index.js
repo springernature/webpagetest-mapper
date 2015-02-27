@@ -129,13 +129,13 @@ function mapRuns (result) {
     }
 
     function getMetric (view, metric, runId) {
-        var view = getRuns(metric)[runId][view];
+        var viewObject = getRuns(metric)[runId][view];
 
-        if (!view) {
+        if (!viewObject) {
             return '';
         }
 
-        return view[metric];
+        return viewObject[metric];
     }
 }
 
