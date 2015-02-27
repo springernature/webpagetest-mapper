@@ -20,14 +20,13 @@
 
 'use strict';
 
-var check, path, fs, render, packageInfo, views, metrics, names,
+var check, path, render, packageInfo, views, metrics, names,
     chartWidth, chartHeight, chartMargin, chartPadding, chartFooter,
     axisWidth, xAxisLength, yAxisLength, xAxisOffset, yAxisOffset,
     dataHeight;
 
 check = require('check-types');
 path = require('path');
-fs = require('fs');
 render = require('../../templates').compile(path.join(__dirname, 'template.html'));
 packageInfo = require('../../../package.json');
 
@@ -60,6 +59,8 @@ module.exports = {
 
 function map (options, results) {
     return render({
+        application: packageInfo.name,
+        version: packageInfo.version,
         results: results.data.map(mapResult.bind(null, options.log)),
         chartWidth: chartWidth,
         chartHeight: chartHeight,
