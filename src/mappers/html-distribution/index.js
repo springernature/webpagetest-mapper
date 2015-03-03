@@ -188,11 +188,7 @@ function mapMetric (result, view, metric) {
     }
 
     function filterRange (range, rangeIndex) {
-        if (rangeIndex in filterableRangeIndices) {
-            return false;
-        }
-
-        return true;
+        return filterableRangeIndices.indexOf(rangeIndex) === -1;
     }
 }
 
