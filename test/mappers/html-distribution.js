@@ -145,9 +145,6 @@ suite('mappers/html-distribution:', function () {
 
             setup(function () {
                 result = mapper.map({
-                    count: 25,
-                    location: 'L3963:Firefox',
-                    connection: 'Cable',
                     log: spooks.obj({
                         archetype: { info: nop, warn: nop, error: nop },
                         log: log
@@ -155,563 +152,206 @@ suite('mappers/html-distribution:', function () {
                 }, {
                     data: [
                         {
-                            id: 'first-id',
+                            label: 'first-label',
                             name: 'first name',
-                            type: 'home',
-                            url: 'first URL',
                             TTFB: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 1,
-                                            render: 2,
-                                            loadTime: 3,
-                                            SpeedIndex: 4,
-                                            bytesIn: 5,
-                                            requests: 6,
-                                            connections: 7,
-                                            server_rtt: 8,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 10,
-                                            render: 9,
-                                            loadTime: 8,
-                                            SpeedIndex: 7,
-                                            bytesIn: 6,
-                                            requests: 5,
-                                            connections: 4,
-                                            server_rtt: 3,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first TTFB first firstView checklist',
-                                                    details: 'first TTFB first firstView details'
-                                                }
+                                                TTFB: 1
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first TTFB first repeatView checklist',
-                                                    details: 'first TTFB first repeatView details'
-                                                }
+                                                TTFB: 2
                                             }
                                         },
-                                        {
+                                        '2': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first TTFB second firstView checklist',
-                                                    details: 'first TTFB second firstView details'
-                                                }
+                                                TTFB: 3
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first TTFB second repeatView checklist',
-                                                    details: 'first TTFB second repeatView details'
-                                                }
+                                                TTFB: 4
+                                            }
+                                        },
+                                        '3': {
+                                            firstView: {
+                                                TTFB: 5
+                                            },
+                                            repeatView: {
+                                                TTFB: 6
+                                            }
+                                        },
+                                        '4': {
+                                            firstView: {
+                                                TTFB: 7
+                                            },
+                                            repeatView: {
+                                                TTFB: 8
+                                            }
+                                        },
+                                        '5': {
+                                            firstView: {
+                                                TTFB: 9
+                                            },
+                                            repeatView: {
+                                                TTFB: 10
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             render: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 10,
-                                            render: 20,
-                                            loadTime: 30,
-                                            SpeedIndex: 40,
-                                            bytesIn: 50,
-                                            requests: 60,
-                                            connections: 70,
-                                            server_rtt: 80,
-                                            score_gzip: 1,
-                                            score_compress: 2,
-                                            score_progressive_jpeg: 3,
-                                            score_cache: 4,
-                                            score_cdn: 5
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 100,
-                                            render: 90,
-                                            loadTime: 80,
-                                            SpeedIndex: 70,
-                                            bytesIn: 60,
-                                            requests: 50,
-                                            connections: 40,
-                                            server_rtt: 30,
-                                            score_gzip: 6,
-                                            score_compress: 7,
-                                            score_progressive_jpeg: 8,
-                                            score_cache: 9,
-                                            score_cdn: 10
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first render first firstView checklist',
-                                                    details: 'first render first firstView details'
-                                                }
+                                                render: 10
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first render first repeatView checklist',
-                                                    details: 'first render first repeatView details'
-                                                }
+                                                render: 5
                                             }
                                         },
-                                        {
+                                        '2': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first render second firstView checklist',
-                                                    details: 'first render second firstView details'
-                                                }
+                                                render: 10 
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first render second repeatView checklist',
-                                                    details: 'first render second repeatView details'
-                                                }
+                                                render: 5
+                                            }
+                                        },
+                                        '3': {
+                                            firstView: {
+                                                render: 10
+                                            },
+                                            repeatView: {
+                                                render: 5
+                                            }
+                                        },
+                                        '4': {
+                                            firstView: {
+                                                render: 10000
+                                            },
+                                            repeatView: {
+                                                render: 5000
+                                            }
+                                        },
+                                        '5': {
+                                            firstView: {
+                                                render: 10
+                                            },
+                                            repeatView: {
+                                                render: 5
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             loadTime: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 100,
-                                            render: 200,
-                                            loadTime: 300,
-                                            SpeedIndex: 400,
-                                            bytesIn: 500,
-                                            requests: 600,
-                                            connections: 700,
-                                            server_rtt: 800,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 1000,
-                                            render: 900,
-                                            loadTime: 800,
-                                            SpeedIndex: 700,
-                                            bytesIn: 600,
-                                            requests: 500,
-                                            connections: 400,
-                                            server_rtt: 300,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first loadTime first firstView checklist',
-                                                    details: 'first loadTime first firstView details'
-                                                }
+                                                loadTime: 42
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first loadTime first repeatView checklist',
-                                                    details: 'first loadTime first repeatView details'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            firstView: {
-                                                pages: {
-                                                    checklist: 'first loadTime second firstView checklist',
-                                                    details: 'first loadTime second firstView details'
-                                                }
-                                            },
-                                            repeatView: {
-                                                pages: {
-                                                    checklist: 'first loadTime second repeatView checklist',
-                                                    details: 'first loadTime second repeatView details'
-                                                }
+                                                loadTime: 77
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             SpeedIndex: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 10000,
-                                            render: 20000,
-                                            loadTime: 30000,
-                                            SpeedIndex: 40000,
-                                            bytesIn: 50000,
-                                            requests: 60000,
-                                            connections: 70000,
-                                            server_rtt: 80000,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 100000,
-                                            render: 90000,
-                                            loadTime: 80000,
-                                            SpeedIndex: 70000,
-                                            bytesIn: 60000,
-                                            requests: 50000,
-                                            connections: 40000,
-                                            server_rtt: 30000,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'first SpeedIndex first firstView checklist',
-                                                    details: 'first SpeedIndex first firstView details'
-                                                }
+                                                SpeedIndex: 42
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'first SpeedIndex first repeatView checklist',
-                                                    details: 'first SpeedIndex first repeatView details'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            firstView: {
-                                                pages: {
-                                                    checklist: 'first SpeedIndex second firstView checklist',
-                                                    details: 'first SpeedIndex second firstView details'
-                                                }
-                                            },
-                                            repeatView: {
-                                                pages: {
-                                                    checklist: 'first SpeedIndex second repeatView checklist',
-                                                    details: 'first SpeedIndex second repeatView details'
-                                                }
+                                                SpeedIndex: 77
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             }
                         },
                         {
-                            id: 'the-second-id',
-                            name: 'the second name',
-                            type: 'home',
-                            url: 'the second URL',
+                            label: 'another_sodding_label-the_second_one',
+                            name: 'this is the second name property',
                             TTFB: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 1,
-                                            render: 2,
-                                            loadTime: 3,
-                                            SpeedIndex: 4,
-                                            bytesIn: 5,
-                                            requests: 6,
-                                            connections: 7,
-                                            server_rtt: 8,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 10,
-                                            render: 9,
-                                            loadTime: 8,
-                                            SpeedIndex: 7,
-                                            bytesIn: 6,
-                                            requests: 5,
-                                            connections: 4,
-                                            server_rtt: 3,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'the second TTFB first firstView checklist',
-                                                    details: 'the second TTFB first firstView details'
-                                                }
+                                                TTFB: 17
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'the second TTFB first repeatView checklist',
-                                                    details: 'the second TTFB first repeatView details'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            firstView: {
-                                                pages: {
-                                                    checklist: 'the second TTFB second firstView checklist',
-                                                    details: 'the second TTFB second firstView details'
-                                                }
-                                            },
-                                            repeatView: {
-                                                pages: {
-                                                    checklist: 'the second TTFB second repeatView checklist',
-                                                    details: 'the second TTFB second repeatView details'
-                                                }
+                                                TTFB: 16
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             render: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 10,
-                                            render: 20,
-                                            loadTime: 30,
-                                            SpeedIndex: 40,
-                                            bytesIn: 50,
-                                            requests: 60,
-                                            connections: 70,
-                                            server_rtt: 80,
-                                            score_gzip: 1,
-                                            score_compress: 2,
-                                            score_progressive_jpeg: 3,
-                                            score_cache: 4,
-                                            score_cdn: 5
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 100,
-                                            render: 90,
-                                            loadTime: 80,
-                                            SpeedIndex: 70,
-                                            bytesIn: 60,
-                                            requests: 50,
-                                            connections: 40,
-                                            server_rtt: 30,
-                                            score_gzip: 6,
-                                            score_compress: 7,
-                                            score_progressive_jpeg: 8,
-                                            score_cache: 9,
-                                            score_cdn: 10
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'the second render first firstView checklist',
-                                                    details: 'the second render first firstView details'
-                                                }
+                                                render: 0
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'the second render first repeatView checklist',
-                                                    details: 'the second render first repeatView details'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            firstView: {
-                                                pages: {
-                                                    checklist: 'the second render second firstView checklist',
-                                                    details: 'the second render second firstView details'
-                                                }
-                                            },
-                                            repeatView: {
-                                                pages: {
-                                                    checklist: 'the second render second repeatView checklist',
-                                                    details: 'the second render second repeatView details'
-                                                }
+                                                render: 0
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             loadTime: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 100,
-                                            render: 200,
-                                            loadTime: 300,
-                                            SpeedIndex: 400,
-                                            bytesIn: 500,
-                                            requests: 600,
-                                            connections: 700,
-                                            server_rtt: 800,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 1000,
-                                            render: 900,
-                                            loadTime: 800,
-                                            SpeedIndex: 700,
-                                            bytesIn: 600,
-                                            requests: 500,
-                                            connections: 400,
-                                            server_rtt: 300,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'the second loadTime first firstView checklist',
-                                                    details: 'the second loadTime first firstView details'
-                                                }
+                                                loadTime: 3
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'the second loadTime first repeatView checklist',
-                                                    details: 'the second loadTime first repeatView details'
-                                                }
-                                            }
-                                        },
-                                        {
-                                            firstView: {
-                                                pages: {
-                                                    checklist: 'the second loadTime second firstView checklist',
-                                                    details: 'the second loadTime second firstView details'
-                                                }
-                                            },
-                                            repeatView: {
-                                                pages: {
-                                                    checklist: 'the second loadTime second repeatView checklist',
-                                                    details: 'the second loadTime second repeatView details'
-                                                }
+                                                loadTime: 3
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             },
                             SpeedIndex: {
                                 data: {
-                                    median: {
-                                        firstView: {
-                                            run: 0,
-                                            TTFB: 10000,
-                                            render: 20000,
-                                            loadTime: 30000,
-                                            SpeedIndex: 40000,
-                                            bytesIn: 50000,
-                                            requests: 60000,
-                                            connections: 70000,
-                                            server_rtt: 80000,
-                                            score_gzip: 49,
-                                            score_compress: 50,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 80,
-                                            score_cdn: 100
-                                        },
-                                        repeatView: {
-                                            run: 1,
-                                            TTFB: 100000,
-                                            render: 90000,
-                                            loadTime: 80000,
-                                            SpeedIndex: 70000,
-                                            bytesIn: 60000,
-                                            requests: 50000,
-                                            connections: 40000,
-                                            server_rtt: 30000,
-                                            score_gzip: 99,
-                                            score_compress: 80,
-                                            score_progressive_jpeg: 79,
-                                            score_cache: 50,
-                                            score_cdn: 49
-                                        }
-                                    },
-                                    runs: [
-                                        {
+                                    runs: {
+                                        '1': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'the second SpeedIndex first firstView checklist',
-                                                    details: 'the second SpeedIndex first firstView details'
-                                                }
+                                                SpeedIndex: 42
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'the second SpeedIndex first repeatView checklist',
-                                                    details: 'the second SpeedIndex first repeatView details'
-                                                }
+                                                SpeedIndex: 77
                                             }
                                         },
-                                        {
+                                        '2': {
                                             firstView: {
-                                                pages: {
-                                                    checklist: 'the second SpeedIndex second firstView checklist',
-                                                    details: 'the second SpeedIndex second firstView details'
-                                                }
+                                                SpeedIndex: 42 
                                             },
                                             repeatView: {
-                                                pages: {
-                                                    checklist: 'the second SpeedIndex second repeatView checklist',
-                                                    details: 'the second SpeedIndex second repeatView details'
-                                                }
+                                                SpeedIndex: 77
+                                            }
+                                        },
+                                        '3': {
+                                            firstView: {
+                                                SpeedIndex: 424242
+                                            },
+                                            repeatView: {
+                                                SpeedIndex: 1977
                                             }
                                         }
-                                    ]
+                                    }
                                 }
                             }
                         }
-                    ],
-                    times: { begin: new Date(), end: new Date() }
+                    ]
                 });
             });
 
@@ -747,95 +387,118 @@ suite('mappers/html-distribution:', function () {
                 assert.strictEqual(log.args.render[0][0].yAxisOffset, 1);
             });
 
-            // TODO: Sort out tests below here
             test('render was called correctly [first result]', function () {
                 assert.isObject(log.args.render[0][0].results[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0]), 6);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].id, 'first-label');
                 assert.strictEqual(log.args.render[0][0].results[0].name, 'first name');
-                assert.strictEqual(log.args.render[0][0].results[0].type, 'home');
-                assert.strictEqual(log.args.render[0][0].results[0].url, 'first URL');
-                assert.strictEqual(log.args.render[0][0].results[0].optimisationsUrl, 'first SpeedIndex first firstView checklist');
+                assert.isArray(log.args.render[0][0].results[0].views);
+                assert.lengthOf(log.args.render[0][0].results[0].views, 2);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView), 14);
+                assert.isObject(log.args.render[0][0].results[0].views[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0]), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].name, 'First view');
+                assert.isArray(log.args.render[0][0].results[0].views[0].metrics);
+                assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics, 4);
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].name, 'First-byte time');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].barWidth, 72.5);
+                assert.isArray(log.args.render[0][0].results[0].views[0].metrics[0].ranges);
+                assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics[0].ranges, 4);
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0]), 9);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.speedIndex);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.speedIndex), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.url, 'first SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.value, 40000);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].lowerBound, -1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].upperBound, 2);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.firstByte);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.firstByte), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.url, 'first TTFB first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.startRender);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.startRender), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.url, 'first render first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.value, 20);
+                // TODO: You are here, remember to iterate through the metrics, views and results
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.load);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.load), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.load.url, 'first loadTime first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.load.value, 300);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.bytes);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.bytes), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.bytes.url, 'first SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.bytes.value, 50000);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.requests);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.requests), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.requests.url, 'first SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.requests.value, 60000);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.connections);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.connections), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.connections.url, 'first SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.connections.value, 70000);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.targetFirstByte);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.targetFirstByte), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.targetFirstByte.rating, 'good');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.targetFirstByte.value, 100);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].upperBound, 5);
 
-                assert.isObject(log.args.render[0][0].results[0].firstView.persistent);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.persistent), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.persistent.rating, 'bad');
-                assert.isUndefined(log.args.render[0][0].results[0].firstView.persistent.value);
-
-                assert.isObject(log.args.render[0][0].results[0].firstView.gzip);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.gzip), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.gzip.rating, 'bad');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.gzip.value, 49);
-
-                assert.isObject(log.args.render[0][0].results[0].firstView.images);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.images), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.images.rating, 'okay');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.images.value, 50);
-
-                assert.isObject(log.args.render[0][0].results[0].firstView.progJpeg);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.progJpeg), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.progJpeg.rating, 'okay');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.progJpeg.value, 79);
-
-                assert.isObject(log.args.render[0][0].results[0].firstView.caching);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.caching), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.caching.rating, 'good');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.caching.value, 80);
-
-                assert.isObject(log.args.render[0][0].results[0].firstView.cdn);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.cdn), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.cdn.rating, 'good');
-                assert.strictEqual(log.args.render[0][0].results[0].firstView.cdn.value, 100);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView), 2);
-
-                assert.isObject(log.args.render[0][0].results[0].repeatView.speedIndex);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView.speedIndex), 2);
-                assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.url, 'first SpeedIndex second repeatView details');
-                assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.value, 70000);
-                assert.isObject(log.args.render[0][0].results[0].repeatView.load);
-                assert.strictEqual(log.args.render[0][0].results[0].repeatView.load.url, 'first loadTime second repeatView details');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].lowerBound, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].upperBound, 5);
             });
 
             test('render was called correctly [second result]', function () {
