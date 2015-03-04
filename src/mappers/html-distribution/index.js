@@ -138,7 +138,7 @@ function mapMetric (result, view, metric) {
         }
 
         check.assert.integer(datum);
-        check.assert.positive(datum);
+        check.assert.not.negative(datum);
 
         data.push(datum);
         sum += datum;
