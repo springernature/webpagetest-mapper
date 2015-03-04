@@ -122,7 +122,7 @@ function mapMetric (result, view, metric) {
     filterableRangeIndices = getFilterableRangeIndices(ranges);
 
     barWidth = getBarWidth(ranges.length - filterableRangeIndices.length);
-    unitsPerPixel = ranges.reduce(getMaxRange, 0) / dataHeight;
+    unitsPerPixel = ranges.reduce(greater, 0) / dataHeight;
 
     return {
         name: names[metric],
@@ -214,7 +214,11 @@ function getVariance (mean, vsum, datum) {
 }
 
 function getRangeCount (least, greatest, mean, stdev) {
-    return Math.ceil(greater(mean - least, greatest - mean) / stdev) * 2;
+    if (stdev === 0) {
+        return 2;
+    }
+
+    return Math.ceil((greater(mean - least, greatest - mean) + 1) / stdev) * 2;
 }
 
 function greater (a, b) {
@@ -234,6 +238,10 @@ function initialiseRanges (ranges, length) {
 }
 
 function getRangeIndex (datum, mean, stdev, rangeCount) {
+    if (stdev === 0) {
+        return 1;
+    }
+
     return Math.floor((datum - mean) / stdev + rangeCount / 2);
 }
 
@@ -263,14 +271,6 @@ function getFilterableRangeIndices (ranges) {
 
 function getBarWidth (rangeCount) {
     return xAxisLength / rangeCount;
-}
-
-function getMaxRange (max, range) {
-    if (max > range) {
-        return max;
-    }
-
-    return range;
 }
 
 function getRangeIndexShift (rangeIndex, shiftCount, filterableRangeIndex) {
