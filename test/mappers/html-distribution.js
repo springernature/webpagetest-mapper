@@ -265,10 +265,10 @@ suite('mappers/html-distribution:', function () {
                                     runs: {
                                         '1': {
                                             firstView: {
-                                                SpeedIndex: 42
+                                                SpeedIndex: 77
                                             },
                                             repeatView: {
-                                                SpeedIndex: 77
+                                                SpeedIndex: 42
                                             }
                                         }
                                     }
@@ -276,7 +276,7 @@ suite('mappers/html-distribution:', function () {
                             }
                         },
                         {
-                            label: 'another_sodding_label-the_second_one',
+                            label: 'another_label-the_second_one',
                             name: 'this is the second name property',
                             TTFB: {
                                 data: {
@@ -333,10 +333,10 @@ suite('mappers/html-distribution:', function () {
                                         },
                                         '2': {
                                             firstView: {
-                                                SpeedIndex: 42 
+                                                SpeedIndex: 77 
                                             },
                                             repeatView: {
-                                                SpeedIndex: 77
+                                                SpeedIndex: 42
                                             }
                                         },
                                         '3': {
@@ -372,10 +372,6 @@ suite('mappers/html-distribution:', function () {
 
                 assert.strictEqual(log.args.render[0][0].application, 'webpagetest-mapper');
                 assert.match(log.args.render[0][0].version, /^[0-9]+\.[0-9]+\.[0-9]+$/);
-
-                assert.isArray(log.args.render[0][0].results);
-                assert.lengthOf(log.args.render[0][0].results, 2);
-
                 assert.strictEqual(log.args.render[0][0].chartWidth, 360);
                 assert.strictEqual(log.args.render[0][0].chartHeight, 180);
                 assert.strictEqual(log.args.render[0][0].chartMargin, 30);
@@ -385,6 +381,9 @@ suite('mappers/html-distribution:', function () {
                 assert.strictEqual(log.args.render[0][0].yAxisLength, 160);
                 assert.strictEqual(log.args.render[0][0].xAxisOffset, 3);
                 assert.strictEqual(log.args.render[0][0].yAxisOffset, 1);
+
+                assert.isArray(log.args.render[0][0].results);
+                assert.lengthOf(log.args.render[0][0].results, 2);
             });
 
             test('render was called correctly [first result]', function () {
@@ -394,21 +393,28 @@ suite('mappers/html-distribution:', function () {
                 assert.strictEqual(log.args.render[0][0].results[0].name, 'first name');
                 assert.isArray(log.args.render[0][0].results[0].views);
                 assert.lengthOf(log.args.render[0][0].results[0].views, 2);
+            });
 
+            test('render was called correctly [first view, first result]', function () {
                 assert.isObject(log.args.render[0][0].results[0].views[0]);
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0]), 2);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].name, 'First view');
                 assert.isArray(log.args.render[0][0].results[0].views[0].metrics);
                 assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics, 4);
+            });
+
+            test('render was called correctly [first-byte time, first view, first result]', function () {
                 assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0]);
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0]), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].name, 'First-byte time');
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].barWidth, 72.5);
                 assert.isArray(log.args.render[0][0].results[0].views[0].metrics[0].ranges);
                 assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics[0].ranges, 4);
+            });
+
+            test('render was called correctly [first range, first-byte time, first view, first result]', function () {
                 assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0]);
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0]), 9);
-
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].offsetX, 0);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].offsetY, 78);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].type, 'less');
@@ -418,7 +424,11 @@ suite('mappers/html-distribution:', function () {
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].value, 1);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].lowerBound, -1);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[0].upperBound, 2);
+            });
 
+            test('render was called correctly [second range, first-byte time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1]), 9);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].offsetX, 74.5);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].offsetY, 78);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].type, 'less');
@@ -428,230 +438,489 @@ suite('mappers/html-distribution:', function () {
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].value, 1);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].lowerBound, 2);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[1].upperBound, 5);
+            });
 
-                // TODO: You are here, remember to iterate through the metrics, views and results
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].barHeight, 78);
+            test('render was called correctly [third range, first-byte time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetX, 149);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].barHeight, 156);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].labelOffset, 16);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].upperBound, 5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].value, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].lowerBound, 5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[2].upperBound, 7);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].offsetX, 74.5);
+            test('render was called correctly [fourth range, first-byte time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].offsetX, 223.5);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].type, 'greater');
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].barHeight, 78);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].labelOffset, 16);
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].textClass, 'chart-label chart-bar-label');
                 assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].upperBound, 5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].lowerBound, 7);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[3].upperBound, 10);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].barHeight, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].labelOffset, 16);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[4].upperBound, 5);
+            test('render was called correctly [start-render time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[1]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].name, 'Start-render time');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].barWidth, 72.5);
+                assert.isArray(log.args.render[0][0].results[0].views[0].metrics[1].ranges);
+                assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics[1].ranges, 4);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].barHeight, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].labelOffset, 16);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[5].upperBound, 5);
+            test('render was called correctly [first range, start-render time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].value, 4);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].lowerBound, -1988);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[0].upperBound, 2008);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].barHeight, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].labelOffset, 16);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[6].upperBound, 5);
+            test('render was called correctly [second range, start-render time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].offsetY, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].barHeight, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].labelOffset, -2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].textClass, 'chart-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].value, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].lowerBound, 2008);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[1].upperBound, 6004);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].barHeight, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].labelOffset, 16);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[7].upperBound, 5);
+            test('render was called correctly [third range, start-render time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].offsetX, 149);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].offsetY, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].barHeight, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].labelOffset, -2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].textClass, 'chart-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].value, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].lowerBound, 6004);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[2].upperBound, 10000);
+            });
 
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].offsetX, 74.5);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].offsetY, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].type, 'less');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].barHeight, 78);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].labelOffset, 16);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].value, 1);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].lowerBound, 2);
-                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[0].ranges[8].upperBound, 5);
+            test('render was called correctly [fourth range, start-render time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].offsetX, 223.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].offsetY, 117);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].barHeight, 39);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].lowerBound, 10000);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[1].ranges[3].upperBound, 13996);
+            });
+
+            test('render was called correctly [load event time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[2]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].name, 'Load event time');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[0].views[0].metrics[2].ranges);
+                assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics[2].ranges, 1);
+            });
+
+            test('render was called correctly [first range, load event time, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].lowerBound, 42);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[2].ranges[0].upperBound, 42);
+            });
+
+            test('render was called correctly [speed index, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[3]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].name, 'Speed index');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[0].views[0].metrics[3].ranges);
+                assert.lengthOf(log.args.render[0][0].results[0].views[0].metrics[3].ranges, 1);
+            });
+
+            test('render was called correctly [first range, speed index, first view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].lowerBound, 77);
+                assert.strictEqual(log.args.render[0][0].results[0].views[0].metrics[3].ranges[0].upperBound, 77);
+            });
+
+            test('render was called correctly [repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1]), 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].name, 'Repeat view');
+                assert.isArray(log.args.render[0][0].results[0].views[1].metrics);
+                assert.lengthOf(log.args.render[0][0].results[0].views[1].metrics, 4);
+            });
+
+            test('render was called correctly [first-byte time, repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1].metrics[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1].metrics[0]), 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].name, 'First-byte time');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].barWidth, 72.5);
+                assert.isArray(log.args.render[0][0].results[0].views[1].metrics[0].ranges);
+                assert.lengthOf(log.args.render[0][0].results[0].views[1].metrics[0].ranges, 4);
+            });
+
+            test('render was called correctly [first range, first-byte time, repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].lowerBound, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[0].upperBound, 3);
+            });
+
+            test('render was called correctly [second range, first-byte time, repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].offsetX, 74.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].lowerBound, 3);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[1].upperBound, 6);
+            });
+
+            test('render was called correctly [third range, first-byte time, repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].offsetX, 149);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].value, 2);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].lowerBound, 6);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[2].upperBound, 8);
+            });
+
+            test('render was called correctly [fourth range, first-byte time, repeat view, first result]', function () {
+                assert.isObject(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3]), 9);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].offsetX, 223.5);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].lowerBound, 8);
+                assert.strictEqual(log.args.render[0][0].results[0].views[1].metrics[0].ranges[3].upperBound, 11);
             });
 
             test('render was called correctly [second result]', function () {
                 assert.isObject(log.args.render[0][0].results[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[1]), 6);
-                assert.strictEqual(log.args.render[0][0].results[1].name, 'the second name');
-                assert.strictEqual(log.args.render[0][0].results[1].type, 'home');
-                assert.strictEqual(log.args.render[0][0].results[1].url, 'the second URL');
-                assert.strictEqual(log.args.render[0][0].results[1].optimisationsUrl, 'the second SpeedIndex first firstView checklist');
-                assert.isObject(log.args.render[0][0].results[1].firstView);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].firstView), 14);
-
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.speedIndex.url, 'the second SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.firstByte.url, 'the second TTFB first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.startRender.url, 'the second render first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.load.url, 'the second loadTime first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.bytes.url, 'the second SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.requests.url, 'the second SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].firstView.connections.url, 'the second SpeedIndex first firstView details');
-                assert.strictEqual(log.args.render[0][0].results[1].repeatView.speedIndex.url, 'the second SpeedIndex second repeatView details');
-                assert.strictEqual(log.args.render[0][0].results[1].repeatView.load.url, 'the second loadTime second repeatView details');
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].id, 'another_label-the_second_one');
+                assert.strictEqual(log.args.render[0][0].results[1].name, 'this is the second name property');
+                assert.isArray(log.args.render[0][0].results[1].views);
+                assert.lengthOf(log.args.render[0][0].results[1].views, 2);
             });
 
-            test('render was called correctly [first chart]', function () {
-                assert.isObject(log.args.render[0][0].charts[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0]), 5);
-
-                assert.strictEqual(log.args.render[0][0].charts[0].title, 'Speed index, first view');
-                assert.strictEqual(log.args.render[0][0].charts[0].height, 97);
-                assert.strictEqual(log.args.render[0][0].charts[0].yAxisHeight, 70);
-                assert.strictEqual(log.args.render[0][0].charts[0].label, 'First-view speed index (lower is better)');
-
-                assert.isArray(log.args.render[0][0].charts[0].tests);
-                assert.lengthOf(log.args.render[0][0].charts[0].tests, 2);
-
-                assert.isObject(log.args.render[0][0].charts[0].tests[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0].tests[0]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].offset, 0);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].name, 'first name');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].type, 'home');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].value, '40000');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[0].textAnchor, 'end');
-
-                assert.isObject(log.args.render[0][0].charts[0].tests[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0].tests[1]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].offset, 34);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].name, 'the second name');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].type, 'home');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].value, '40000');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].charts[0].tests[1].textAnchor, 'end');
+            test('render was called correctly [first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0]), 2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].name, 'First view');
+                assert.isArray(log.args.render[0][0].results[1].views[0].metrics);
+                assert.lengthOf(log.args.render[0][0].results[1].views[0].metrics, 4);
             });
 
-            test('render was called correctly [second chart]', function () {
-                assert.isObject(log.args.render[0][0].charts[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1]), 5);
-
-                assert.strictEqual(log.args.render[0][0].charts[1].title, 'Speed index, repeat view');
-                assert.strictEqual(log.args.render[0][0].charts[1].height, 97);
-                assert.strictEqual(log.args.render[0][0].charts[1].yAxisHeight, 70);
-                assert.strictEqual(log.args.render[0][0].charts[1].label, 'Repeat-view speed index (lower is better)');
-
-                assert.isArray(log.args.render[0][0].charts[1].tests);
-                assert.lengthOf(log.args.render[0][0].charts[1].tests, 2);
-
-                assert.isObject(log.args.render[0][0].charts[1].tests[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[0]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].offset, 0);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].name, 'first name');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].type, 'home');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].value, '70000');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textAnchor, 'end');
-
-                assert.isObject(log.args.render[0][0].charts[1].tests[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[1]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].offset, 34);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].name, 'the second name');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].type, 'home');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].value, '70000');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textClass, 'chart-label chart-bar-label');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textAnchor, 'end');
+            test('render was called correctly [first-byte time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[0]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].name, 'First-byte time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[0].metrics[0].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[0].metrics[0].ranges, 1);
             });
 
-            test('render was called correctly [third chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[2].title, 'Speed index, repeat-view improvement');
-                assert.strictEqual(log.args.render[0][0].charts[2].label, 'Repeat-view speed index as a percentage of first-view (lower is better)');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].barWidth, '692.00');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].value, '175%');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textAnchor, 'end');
-
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].barWidth, '692.00');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].value, '175%');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textAnchor, 'end');
+            test('render was called correctly [first range, first-byte time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].lowerBound, 17);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[0].ranges[0].upperBound, 17);
             });
 
-            test('render was called correctly [fourth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[3].title, 'First byte');
-                assert.strictEqual(log.args.render[0][0].charts[3].label, 'Time to first byte (milliseconds)');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].value, '1');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textAnchor, 'end');
-
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].value, '1');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textAnchor, 'end');
+            test('render was called correctly [start-render time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[1]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].name, 'Start-render time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[0].metrics[1].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[0].metrics[1].ranges, 1);
             });
 
-            test('render was called correctly [fifth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[4].title, 'Start render, difference from first byte');
-                assert.strictEqual(log.args.render[0][0].charts[4].label, 'Time from first byte until start render (milliseconds)');
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].value, '19');
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textAnchor, 'end');
-
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].value, '19');
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textAnchor, 'end');
+            test('render was called correctly [first range, start-render time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].lowerBound, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[1].ranges[0].upperBound, 0);
             });
 
-            test('render was called correctly [sixth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[5].title, 'Load, difference from first byte');
-                assert.strictEqual(log.args.render[0][0].charts[5].label, 'Time from first byte until load event (milliseconds)');
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].value, '299');
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textAnchor, 'end');
-
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].value, '299');
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textAnchor, 'end');
+            test('render was called correctly [load event time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[2]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].name, 'Load event time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[0].metrics[2].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[0].metrics[2].ranges, 1);
             });
 
-            test('render was called correctly [xAxis]', function () {
-                assert.strictEqual(log.args.render[0][0].xAxis.offset, 69);
-                assert.strictEqual(log.args.render[0][0].xAxis.width, 694);
-                assert.strictEqual(log.args.render[0][0].xAxis.labelPosition, 347);
+            test('render was called correctly [first range, load event time, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].lowerBound, 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[2].ranges[0].upperBound, 3);
+            });
+
+            test('render was called correctly [speed index, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[3]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].name, 'Speed index');
+                assert.isAbove(log.args.render[0][0].results[1].views[0].metrics[3].barWidth, 97.33);
+                assert.isBelow(log.args.render[0][0].results[1].views[0].metrics[3].barWidth, 97.34);
+                assert.isArray(log.args.render[0][0].results[1].views[0].metrics[3].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[0].metrics[3].ranges, 3);
+            });
+
+            test('render was called correctly [first range, speed index, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].value, 2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].lowerBound, -58508);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[0].upperBound, 141453);
+            });
+
+            test('render was called correctly [second range, speed index, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1]), 9);
+                assert.isAbove(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].offsetX, 99.33);
+                assert.isBelow(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].offsetX, 99.34);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].offsetY, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].barHeight, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].labelOffset, -2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].textClass, 'chart-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].value, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].lowerBound, 141453);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[1].upperBound, 341415);
+            });
+
+            test('render was called correctly [third range, speed index, first view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2]), 9);
+                assert.isAbove(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].offsetX, 198.66);
+                assert.isBelow(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].offsetX, 198.67);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].lowerBound, 341415);
+                assert.strictEqual(log.args.render[0][0].results[1].views[0].metrics[3].ranges[2].upperBound, 541376);
+            });
+
+            test('render was called correctly [repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1]), 2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].name, 'Repeat view');
+                assert.isArray(log.args.render[0][0].results[1].views[1].metrics);
+                assert.lengthOf(log.args.render[0][0].results[1].views[1].metrics, 4);
+            });
+
+            test('render was called correctly [first-byte time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[0]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].name, 'First-byte time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[1].metrics[0].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[1].metrics[0].ranges, 1);
+            });
+
+            test('render was called correctly [first range, first-byte time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].lowerBound, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[0].ranges[0].upperBound, 16);
+            });
+
+            test('render was called correctly [start-render time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[1]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].name, 'Start-render time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[1].metrics[1].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[1].metrics[1].ranges, 1);
+            });
+
+            test('render was called correctly [first range, start-render time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].lowerBound, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[1].ranges[0].upperBound, 0);
+            });
+
+            test('render was called correctly [load event time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[2]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].name, 'Load event time');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].barWidth, 296);
+                assert.isArray(log.args.render[0][0].results[1].views[1].metrics[2].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[1].metrics[2].ranges, 1);
+            });
+
+            test('render was called correctly [first range, load event time, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].lowerBound, 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[2].ranges[0].upperBound, 3);
+            });
+
+            test('render was called correctly [speed index, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[3]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[3]), 3);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].name, 'Speed index');
+                assert.isAbove(log.args.render[0][0].results[1].views[1].metrics[3].barWidth, 97.33);
+                assert.isBelow(log.args.render[0][0].results[1].views[1].metrics[3].barWidth, 97.34);
+                assert.isArray(log.args.render[0][0].results[1].views[1].metrics[3].ranges);
+                assert.lengthOf(log.args.render[0][0].results[1].views[1].metrics[3].ranges, 3);
+            });
+
+            test('render was called correctly [first range, speed index, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0]), 9);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].offsetX, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].offsetY, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].type, 'less');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].barHeight, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].value, 2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].lowerBound, -206);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[0].upperBound, 698);
+            });
+
+            test('render was called correctly [second range, speed index, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1]), 9);
+                assert.isAbove(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].offsetX, 99.33);
+                assert.isBelow(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].offsetX, 99.34);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].offsetY, 156);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].barHeight, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].labelOffset, -2);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].textClass, 'chart-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].value, 0);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].lowerBound, 698);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[1].upperBound, 1602);
+            });
+
+            test('render was called correctly [third range, speed index, repeat view, second result]', function () {
+                assert.isObject(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2]), 9);
+                assert.isAbove(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].offsetX, 198.66);
+                assert.isBelow(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].offsetX, 198.67);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].offsetY, 78);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].type, 'greater');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].barHeight, 78);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].labelOffset, 16);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].textClass, 'chart-label chart-bar-label');
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].value, 1);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].lowerBound, 1602);
+                assert.strictEqual(log.args.render[0][0].results[1].views[1].metrics[3].ranges[2].upperBound, 2506);
             });
         });
     });
