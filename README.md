@@ -8,7 +8,7 @@ into human-readable document formats.
 
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
-  * [html-summary](#html-summary)
+  * [html-comparison](#html-comparison)
   * [html-distribution](#html-distribution)
   * [odf-spreadsheet](#odf-spreadsheet)
 * [Can I specify other formats?](#can-i-specify-other-formats)
@@ -49,13 +49,13 @@ into any conceivable format.
 Three data mappers
 are provided
 out of the box:
-`html-summary`,
+`html-comparison`,
 `html-distribution` and
 `odf-spreadsheet`.
 
-### html-summary
+### html-comparison
 
-The `html-summary` mapper
+The `html-comparison` mapper
 generates an HTML document
 containing three sections:
 
@@ -91,9 +91,9 @@ to help readers
 track trends
 from section to section.
 
-[Click here for an example][eg-html-summary].
+[Click here for an example][eg-html-comparison].
 
-![Screenshot][scrn-html-summary]
+![Screenshot][scrn-html-comparison]
 
 ### html-distribution
 
@@ -258,7 +258,7 @@ Available options are:
   to perform the tests again.
 * `--mapper <path>`:
   The mapper to use.
-  The default is `html-summary`.
+  The default is `html-comparison`.
 * `--silent`:
   Disable logging.
   Overrides `syslog`.
@@ -419,7 +419,7 @@ the result of
 the specific mapper
 that is invoked.
 Of the built-in mappers,
-`html-summary` returns a string
+`html-comparison` returns a string
 containing the document markup and
 `odf-spreadsheet` returns a `Buffer` instance
 containing the binary content.
@@ -438,7 +438,7 @@ supporting the following properties:
   from file.
 * `mapper`:
   The mapper to use.
-  The default is `html-summary`.
+  The default is `html-comparison`.
 * `silent`:
   Disable logging.
   Overrides `syslog` and `log`.
@@ -544,8 +544,8 @@ Copyright © 2015 Nature Publishing Group
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
-[eg-html-summary]: examples/html-summary.html
-[scrn-html-summary]: examples/html-summary.png
+[eg-html-comparison]: examples/html-comparison.html
+[scrn-html-comparison]: examples/html-comparison.png
 [eg-html-distribution]: examples/html-distribution.html
 [scrn-html-distribution]: examples/html-distribution.png
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
