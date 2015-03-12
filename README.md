@@ -270,7 +270,9 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
-  [[Example]][eg-config]
+  Click [here][eg-config]
+  for an example
+  config file.
 
 ### From a node.js project
 
