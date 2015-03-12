@@ -22,6 +22,7 @@ into human-readable document formats.
           * [Example](#example-1)
       * [run (options)](#run-options)
           * [Example](#example-2)
+* [What is the format of the test definitions file?][testdefs]
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the dev environment?](#how-do-i-set-up-the-dev-environment)
 * [What versions of node.js does it support?](#what-versions-of-nodejs-does-it-support)
@@ -222,9 +223,9 @@ Available options are:
   The WebPageTest connection speed.
   The default is `Native Connection`.
 * `--tests <path>`:
-  Path to the test definitions file.
+  Path to the
+  [test definitions file][testdefs].
   The default is `tests.json`.
-  [[Example]][eg-test]
 * `--count <number>`:
   The number of times
   to run each test.
@@ -508,6 +509,52 @@ wpt.run({
 });
 ```
 
+## What is the format of the test definitions file?
+
+This is
+a very basic
+JDON file
+containing
+an array
+of test objects.
+
+Each test object
+supports three properties,
+`name`, `url` and `type`:
+
+* The `name` property
+  forms the basis of
+  the WebPageTest label
+  and is used
+  to identify tests
+  in the output
+  from all mappers.
+
+* The `url` property
+  is passed to WebPageTest
+  as the URL to test
+  and is also
+  linked to
+  in the output
+  from the `html-comparison` mapper.
+
+* The `type` property
+  is used
+  to differentiate tests
+  in the output
+  from the `html-comparison` mapper.
+  Currently
+  it supports the values
+  `home` and `away`,
+  but these are liable
+  to change
+  with feedback
+  from more widespread usage.
+
+Click [here][eg-test]
+for an example
+test definitions file.
+
 ## Is there a change log?
 
 [Yes][history].
@@ -541,6 +588,7 @@ with the command `npm test`.
 
 Copyright © 2015 Nature Publishing Group
 
+[testdefs]: #what-is-the-format-of-the-test-definitions-file
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
@@ -551,8 +599,8 @@ Copyright © 2015 Nature Publishing Group
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [scrn-odf-spreadsheet]: examples/odf-spreadsheet.png
 [mappers]: src/mappers
-[eg-test]: examples/tests.json
 [eg-config]: examples/.wptrc
+[eg-test]: examples/tests.json
 [history]: HISTORY.md
 [jshint]: https://github.com/jshint/node-jshint
 [mocha]: http://visionmedia.github.com/mocha
