@@ -513,7 +513,7 @@ wpt.run({
 
 This is
 a very basic
-JDON file
+JSON file
 containing
 an array
 of test objects.
