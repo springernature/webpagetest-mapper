@@ -546,7 +546,7 @@ supports three properties,
   Currently
   it supports the values
   `home` and `away`,
-  but these are liable
+  but these are open
   to change
   with feedback
   from more widespread usage.
