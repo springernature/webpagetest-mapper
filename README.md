@@ -237,7 +237,7 @@ Available options are:
   The number of seconds
   to wait between
   attempts to fetch
-  result data/
+  result data.
   The default is `600`
   (10 minutes).
 * `--output <path>`:
@@ -360,7 +360,7 @@ supporting the following properties:
   The number of seconds
   to wait between
   attempts to fetch
-  result data/
+  result data.
   The default is `600`
   (10 minutes).
 * `email`:
