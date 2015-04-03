@@ -555,8 +555,8 @@ Copyright © 2015 Nature Publishing Group
 [eg-config]: examples/.wptrc
 [history]: HISTORY.md
 [jshint]: https://github.com/jshint/node-jshint
-[mocha]: http://visionmedia.github.com/mocha
-[chai]: http://chaijs.com/
+[mocha]: https://github.com/mochajs/mocha
+[chai]: https://github.com/chaijs
 [mockery]: https://github.com/mfncooper/mockery
 [spooks]: https://github.com/philbooth/spooks.js
 [license]: COPYING
