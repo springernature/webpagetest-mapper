@@ -329,7 +329,7 @@ function clone (thing) {
     Object.keys(thing).forEach(function (key) {
         var property = thing[key];
 
-        if (check.object(property) || check.array(property)) {
+        if (check.either.object(property).or.array(property)) {
             cloned[key] = clone(property);
         } else {
             cloned[key] = property;

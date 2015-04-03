@@ -37,7 +37,7 @@ defaults = {
     output: undefined,
     dump: undefined,
     results: undefined,
-    mapper: 'html-summary',
+    mapper: 'html-comparison',
     silent: undefined,
     log: { info: nop, warn: nop, error: nop }
 };
@@ -190,8 +190,7 @@ function getLog (options) {
     }
 
     if (options.syslog) {
-        initialiseSyslog(options.syslog);
-        return console;
+        return getSyslog(options.syslog);
     }
 
     if (options.log) {
@@ -206,18 +205,11 @@ function getLog (options) {
     return require('get-off-my-log').initialise('webpagetest-mapper', console.log);
 }
 
-function initialiseSyslog (facility) {
+function getSyslog (facility) {
     try {
-        require('rconsole');
-
-        console.set({
-            facility: facility,
-            title: 'webpagetest-mapper',
-            stdout: true,
-            stderr: true,
-            showLine: false,
-            showFile: false,
-            showTime: true
+        return new (require('ain2'))({
+            tag: 'webpagetest-mapper',
+            facility: facility
         });
     } catch (error) {
         throw new Error('failed to initialise syslog, ' + error.message);

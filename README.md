@@ -8,7 +8,7 @@ into human-readable document formats.
 
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
-  * [html-summary](#html-summary)
+  * [html-comparison](#html-comparison)
   * [html-distribution](#html-distribution)
   * [odf-spreadsheet](#odf-spreadsheet)
 * [Can I specify other formats?](#can-i-specify-other-formats)
@@ -22,6 +22,7 @@ into human-readable document formats.
           * [Example](#example-1)
       * [run (options)](#run-options)
           * [Example](#example-2)
+* [What is the format of the test definitions file?][testdefs]
 * [Is there a change log?](#is-there-a-change-log)
 * [How do I set up the dev environment?](#how-do-i-set-up-the-dev-environment)
 * [What versions of node.js does it support?](#what-versions-of-nodejs-does-it-support)
@@ -49,13 +50,13 @@ into any conceivable format.
 Three data mappers
 are provided
 out of the box:
-`html-summary`,
+`html-comparison`,
 `html-distribution` and
 `odf-spreadsheet`.
 
-### html-summary
+### html-comparison
 
-The `html-summary` mapper
+The `html-comparison` mapper
 generates an HTML document
 containing three sections:
 
@@ -91,9 +92,9 @@ to help readers
 track trends
 from section to section.
 
-[Click here for an example][eg-html-summary].
+[Click here for an example][eg-html-comparison].
 
-![Screenshot][scrn-html-summary]
+![Screenshot][scrn-html-comparison]
 
 ### html-distribution
 
@@ -222,9 +223,9 @@ Available options are:
   The WebPageTest connection speed.
   The default is `Native Connection`.
 * `--tests <path>`:
-  Path to the test definitions file.
+  Path to the
+  [test definitions file][testdefs].
   The default is `tests.json`.
-  [[Example]][eg-test]
 * `--count <number>`:
   The number of times
   to run each test.
@@ -236,7 +237,7 @@ Available options are:
   The number of seconds
   to wait between
   attempts to fetch
-  result data/
+  result data.
   The default is `600`
   (10 minutes).
 * `--output <path>`:
@@ -258,7 +259,7 @@ Available options are:
   to perform the tests again.
 * `--mapper <path>`:
   The mapper to use.
-  The default is `html-summary`.
+  The default is `html-comparison`.
 * `--silent`:
   Disable logging.
   Overrides `syslog`.
@@ -269,7 +270,9 @@ Available options are:
   Attempt to read configuration options
   from a JSON file.
   The default is `.wptrc`.
-  [[Example]][eg-config]
+  Click [here][eg-config]
+  for an example
+  config file.
 
 ### From a node.js project
 
@@ -357,7 +360,7 @@ supporting the following properties:
   The number of seconds
   to wait between
   attempts to fetch
-  result data/
+  result data.
   The default is `600`
   (10 minutes).
 * `email`:
@@ -419,7 +422,7 @@ the result of
 the specific mapper
 that is invoked.
 Of the built-in mappers,
-`html-summary` returns a string
+`html-comparison` returns a string
 containing the document markup and
 `odf-spreadsheet` returns a `Buffer` instance
 containing the binary content.
@@ -438,7 +441,7 @@ supporting the following properties:
   from file.
 * `mapper`:
   The mapper to use.
-  The default is `html-summary`.
+  The default is `html-comparison`.
 * `silent`:
   Disable logging.
   Overrides `syslog` and `log`.
@@ -508,6 +511,52 @@ wpt.run({
 });
 ```
 
+## What is the format of the test definitions file?
+
+This is
+a very basic
+JSON file
+containing
+an array
+of test objects.
+
+Each test object
+supports three properties,
+`name`, `url` and `type`:
+
+* The `name` property
+  forms the basis of
+  the WebPageTest label
+  and is used
+  to identify tests
+  in the output
+  from all mappers.
+
+* The `url` property
+  is passed to WebPageTest
+  as the URL to test
+  and is also
+  linked to
+  in the output
+  from the `html-comparison` mapper.
+
+* The `type` property
+  is used
+  to differentiate tests
+  in the output
+  from the `html-comparison` mapper.
+  Currently
+  it supports the values
+  `home` and `away`,
+  but these are open
+  to change
+  with feedback
+  from more widespread usage.
+
+Click [here][eg-test]
+for an example
+test definitions file.
+
 ## Is there a change log?
 
 [Yes][history].
@@ -541,18 +590,19 @@ with the command `npm test`.
 
 Copyright © 2015 Nature Publishing Group
 
+[testdefs]: #what-is-the-format-of-the-test-definitions-file
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
-[eg-html-summary]: examples/html-summary.html
-[scrn-html-summary]: examples/html-summary.png
+[eg-html-comparison]: examples/html-comparison.html
+[scrn-html-comparison]: examples/html-comparison.png
 [eg-html-distribution]: examples/html-distribution.html
 [scrn-html-distribution]: examples/html-distribution.png
 [eg-odf-spreadsheet]: examples/odf-spreadsheet.ods
 [scrn-odf-spreadsheet]: examples/odf-spreadsheet.png
 [mappers]: src/mappers
-[eg-test]: examples/tests.json
 [eg-config]: examples/.wptrc
+[eg-test]: examples/tests.json
 [history]: HISTORY.md
 [jshint]: https://github.com/jshint/node-jshint
 [mocha]: https://github.com/mochajs/mocha

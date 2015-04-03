@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along with
 // webpagetest-mapper. If not, see <http://www.gnu.org/licenses/>.
 
-/*globals module, require, setTimeout */
+/*globals module, require, setTimeout, Promise */
 
 'use strict';
 

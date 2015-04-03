@@ -23,13 +23,13 @@ assert = require('chai').assert;
 mockery = require('mockery');
 spooks = require('spooks');
 
-modulePath = '../../src/mappers/html-summary';
+modulePath = '../../src/mappers/html-comparison';
 
 mockery.registerAllowable(modulePath);
 mockery.registerAllowable('check-types');
 mockery.registerAllowable('../../../package.json');
 
-suite('mappers/html-summary:', function () {
+suite('mappers/html-comparison:', function () {
     var log, results;
 
     setup(function () {
@@ -154,7 +154,7 @@ suite('mappers/html-summary:', function () {
 
         test('path.join was called correctly', function () {
             assert.lengthOf(log.args.join[0], 2);
-            assert.match(log.args.join[0][0], /\/src\/mappers\/html-summary$/);
+            assert.match(log.args.join[0][0], /\/src\/mappers\/html-comparison$/);
             assert.strictEqual(log.args.join[0][1], 'template.html');
         });
 
