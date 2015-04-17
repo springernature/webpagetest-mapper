@@ -5,6 +5,7 @@
 Maps JSON result data
 from [marcelduran/webpagetest-api][api]
 into human-readable document formats.
+[Read more][cruft].
 
 * [Why would I want that?](#why-would-i-want-that)
 * [What formats does it support?](#what-formats-does-it-support)
@@ -594,6 +595,7 @@ Copyright © 2015 Nature Publishing Group
 [ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
 [ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
+[cruft]: http://cruft.io/posts/introducing-webpagetest-mapper/
 [eg-html-comparison]: examples/html-comparison.html
 [scrn-html-comparison]: examples/html-comparison.png
 [eg-html-distribution]: examples/html-distribution.html
