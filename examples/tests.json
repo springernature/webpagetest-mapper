@@ -10,13 +10,13 @@
         "type": "home"
     },
     {
-        "name": "Science homepage",
-        "url": "http://www.sciencemag.org/",
+        "name": "CNN homepage",
+        "url": "http://edition.cnn.com/",
         "type": "away"
     },
     {
-        "name": "Science article",
-        "url": "http://www.sciencemag.org/content/347/6217/1258524.full",
+        "name": "CNN article",
+        "url": "http://edition.cnn.com/2015/04/16/entertainment/feat-star-wars-force-awakens-trailer/index.html",
         "type": "away"
     }
 ]
