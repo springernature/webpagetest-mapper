@@ -789,8 +789,8 @@ suite('mappers/html-comparison:', function () {
             });
 
             test('render was called correctly [times]', function () {
-                assert.match(log.args.render[0][0].times.begin, /^[0-9]{2}:[0-9]{2}:[0-9]{2}$/);
-                assert.match(log.args.render[0][0].times.end, /^[0-9]{2}:[0-9]{2}:[0-9]{2} on [a-zA-Z0-9 ,]+$/);
+                assert.match(log.args.render[0][0].times.begin, /^[0-9]+:[0-9]+:[0-9]+( (A|P)M)?$/);
+                assert.match(log.args.render[0][0].times.end, /^[0-9]+:[0-9]+:[0-9]+( (A|P)M)? on [a-zA-Z0-9 ,\-\/]+$/);
             });
 
             test('render was called correctly [first result]', function () {
