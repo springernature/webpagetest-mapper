@@ -26,6 +26,10 @@ handlebars = require('handlebars');
 check = require('check-types');
 
 handlebars.registerHelper('formatInteger', function (number) {
+    if (!number) {
+        return number;
+    }
+
     return number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 });
 handlebars.registerHelper('add', function (lhs, rhs) {
@@ -45,6 +49,10 @@ handlebars.registerHelper('percent', function (number) {
     return number + '%';
 });
 handlebars.registerHelper('lowercase', function (string) {
+    if (!string) {
+        return string;
+    }
+
     return string.toLowerCase();
 });
 
