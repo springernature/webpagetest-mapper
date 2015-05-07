@@ -912,11 +912,19 @@ suite('options:', function () {
                 });
             });
 
-            test('error message is correct', function () {
+            test('error message is correct for bad tests option', function () {
+                try {
+                    options.normalise({});
+                } catch (error) {
+                    assert.strictEqual(error.message, 'invalid option `tests`');
+                }
+            });
+
+            test('error message is correct for bad results option', function () {
                 try {
                     options.normalise({ results: 'wibble' });
                 } catch (error) {
-                    assert.strictEqual(error.message, 'invalid option `tests`');
+                    assert.strictEqual(error.message, 'invalid option `results`');
                 }
             });
         });
