@@ -109,15 +109,15 @@ suite('options:', function () {
 
         test('cli array is exported', function () {
             assert.isArray(options.cli);
-            assert.lengthOf(options.cli, 15);
+            assert.lengthOf(options.cli, 16);
         });
 
         test('cli options seem correct', function () {
             options.cli.forEach(function (option) {
                 assert.isString(option.format);
-                assert.match(option.format, /^-[a-z], --[a-z]+( <[a-zA-Z]+>)?$/);
+                assert.match(option.format, /^-[a-z], --[a-zA-Z]+( <[a-zA-Z]+>)?$/);
                 assert.isString(option.description);
-                assert.match(option.description, /^[a-z]+ [a-zA-Z0-9 ,`:\.\/-]+$/);
+                assert.match(option.description, /^[a-z-]+ [a-zA-Z0-9 ,`:\.\/-]+$/);
 
                 if (option.coercion !== undefined) {
                     assert.isFunction(option.coercion);
@@ -296,7 +296,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 15);
+                    assert.lengthOf(Object.keys(normalised), 16);
                 });
 
                 test('normalised.foo is undefined', function () {
@@ -330,6 +330,10 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.resultIds is correct', function () {
+                    assert.isUndefined(normalised.resultIds);
                 });
 
                 test('normalised.mapper is correct', function () {
@@ -390,7 +394,7 @@ suite('options:', function () {
                     });
 
                     test('normalised object has correct number of keys', function () {
-                        assert.lengthOf(Object.keys(normalised), 15);
+                        assert.lengthOf(Object.keys(normalised), 16);
                     });
 
                     test('normalised.foo is undefined', function () {
@@ -420,6 +424,10 @@ suite('options:', function () {
 
                     test('normalised.count is correct', function () {
                         assert.strictEqual(normalised.count, 9);
+                    });
+
+                    test('normalised.resultIds is correct', function () {
+                        assert.isUndefined(normalised.resultIds);
                     });
 
                     test('normalised.mapper is correct', function () {
@@ -460,6 +468,7 @@ suite('options:', function () {
                         tests: 'qux',
                         count: 'wibble',
                         results: 'wobble',
+                        resultIds: 'a,bc,de-fg,hijk/12',
                         mapper: 'odf-spreadsheet',
                         silent: true,
                         log: nop,
@@ -509,7 +518,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 15);
+                    assert.lengthOf(Object.keys(normalised), 16);
                 });
 
                 test('normalised.foo is undefined', function () {
@@ -539,6 +548,27 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 'wibble');
+                });
+
+                test('normalised.resultIds is correct', function () {
+                    assert.isArray(normalised.resultIds);
+                    assert.lengthOf(normalised.resultIds, 4);
+
+                    assert.isObject(normalised.resultIds[0]);
+                    assert.lengthOf(Object.keys(normalised.resultIds[0]), 1);
+                    assert.strictEqual(normalised.resultIds[0].id, 'a');
+
+                    assert.isObject(normalised.resultIds[1]);
+                    assert.lengthOf(Object.keys(normalised.resultIds[1]), 1);
+                    assert.strictEqual(normalised.resultIds[1].id, 'bc');
+
+                    assert.isObject(normalised.resultIds[2]);
+                    assert.lengthOf(Object.keys(normalised.resultIds[2]), 1);
+                    assert.strictEqual(normalised.resultIds[2].id, 'de-fg');
+
+                    assert.isObject(normalised.resultIds[3]);
+                    assert.lengthOf(Object.keys(normalised.resultIds[3]), 1);
+                    assert.strictEqual(normalised.resultIds[3].id, 'hijk/12');
                 });
 
                 test('normalised.mapper is correct', function () {
@@ -614,7 +644,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 15);
+                    assert.lengthOf(Object.keys(normalised), 16);
                 });
 
                 test('normalised.config is undefined', function () {
@@ -771,7 +801,7 @@ suite('options:', function () {
                 });
 
                 test('normalised object has correct number of keys', function () {
-                    assert.lengthOf(Object.keys(normalised), 15);
+                    assert.lengthOf(Object.keys(normalised), 16);
                 });
 
                 test('normalised.uri is correct', function () {
@@ -793,6 +823,10 @@ suite('options:', function () {
 
                 test('normalised.count is correct', function () {
                     assert.strictEqual(normalised.count, 9);
+                });
+
+                test('normalised.resultIds is correct', function () {
+                    assert.isUndefined(normalised.resultIds);
                 });
 
                 test('normalised.mapper is correct', function () {
