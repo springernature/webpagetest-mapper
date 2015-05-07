@@ -64,7 +64,7 @@ function runTests (options) {
             name: test.name,
             type: test.type,
             url: test.url,
-            label: test.label,
+            label: test.label
         };
 
         if (error) {
@@ -202,6 +202,12 @@ function getResults (options, resultIds) {
             log.error('failed to fetch ' + message + '; ' + (error.message || error.statusText));
         } else {
             log.info('finished fetching ' + message);
+
+            ensureProperty(results[index], 'name', result.data.label || result.data.id);
+            ensureProperty(results[index], 'type', 'home');
+            ensureProperty(results[index], 'url', result.data.url);
+            ensureProperty(results[index], 'label', result.data.label);
+
             results[index][metric] = result;
         }
 
@@ -211,6 +217,12 @@ function getResults (options, resultIds) {
             results.forEach(shrink);
             done(results);
         }
+    }
+}
+
+function ensureProperty (object, key, value) {
+    if (!object[key]) {
+        object[key] = value;
     }
 }
 
