@@ -37,6 +37,7 @@ defaults = {
     output: undefined,
     dump: undefined,
     results: undefined,
+    resultIds: undefined,
     mapper: 'html-comparison',
     silent: undefined,
     log: { info: nop, warn: nop, error: nop }
