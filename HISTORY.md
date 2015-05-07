@@ -1,5 +1,9 @@
 # History
 
+## 0.1.0
+
+* Implement `--resultIds`.
+
 ## 0.0.3
 
 * Fix crash stemming from template helpers operating on undefined data.
