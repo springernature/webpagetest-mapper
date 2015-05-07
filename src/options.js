@@ -95,6 +95,10 @@ module.exports = {
             description: 'read intermediate results from a file, skips running the tests'
         },
         {
+            format: '-i, --resultIds <ids>',
+            description: 'comma-separated list of result ids to map, skips running the tests'
+        },
+        {
             format: '-m, --mapper <path>',
             description: 'the mapper to use, defaults to `' + defaults.mapper + '`'
         },
@@ -144,6 +148,7 @@ function normalise (options) {
 
     normalised.tests = getTests(normalised);
     normalised.results = getResults(normalised);
+    normalised.resultIds = getResultIds(normalised);
     normalised.mapper = getMapper(normalised);
 
     return normalised;
@@ -235,6 +240,14 @@ function getResults (options) {
     }
 
     return results;
+}
+
+function getResultIds (options) {
+    if (check.unemptyString(options.resultIds)) {
+        return options.resultIds.split(',').map(function (resultId) {
+            return { id: resultId };
+        });
+    }
 }
 
 function getMapper (options) {

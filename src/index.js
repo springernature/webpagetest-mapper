@@ -82,6 +82,8 @@ function run (options) {
  * @option count      {number}  Number of times to run each test, defaults to `9`.
  * @option email      {string}  Email address to send notifications to.
  * @option dump       {string}  Dump intermediate results to file.
+ * @option resultIds  {array}   Bypass running the tests and fetch the specified
+ *                              results instead.
  * @option silent     {boolean} Disable logging, overrides `syslog` and `log`.
  * @option syslog     {string}  Send logs to syslog, overrides `log`.
  * @option log        {object}  Logging implementation, needs `log.info()`,
@@ -96,7 +98,12 @@ function fetch (options) {
 
     try {
         options = normalise(options);
-        wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
+
+        if (options.resultIds) {
+            wpt.getResults(options, options.resultIds).then(after);
+        } else {
+            wpt.runTests(options).then(wpt.getResults.bind(null, options)).then(after);
+        }
     } catch (error) {
         reject(error);
     }
