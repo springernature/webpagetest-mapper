@@ -37,6 +37,7 @@ defaults = {
     output: undefined,
     dump: undefined,
     results: undefined,
+    resultIds: undefined,
     mapper: 'html-comparison',
     silent: undefined,
     log: { info: nop, warn: nop, error: nop }
@@ -95,6 +96,10 @@ module.exports = {
             description: 'read intermediate results from a file, skips running the tests'
         },
         {
+            format: '-i, --resultIds <ids>',
+            description: 'comma-separated list of result ids to map, skips running the tests'
+        },
+        {
             format: '-m, --mapper <path>',
             description: 'the mapper to use, defaults to `' + defaults.mapper + '`'
         },
@@ -144,6 +149,7 @@ function normalise (options) {
 
     normalised.tests = getTests(normalised);
     normalised.results = getResults(normalised);
+    normalised.resultIds = getResultIds(normalised);
     normalised.mapper = getMapper(normalised);
 
     return normalised;
@@ -179,7 +185,9 @@ function populateObject (object, defaultValues) {
 function getTests (options) {
     var tests = readJSON(options.tests, defaults.tests);
 
-    check.assert.array(tests, 'invalid option `tests`');
+    if (!options.results && !options.resultIds) {
+        check.assert.array(tests, 'invalid option `tests`');
+    }
 
     return tests;
 }
@@ -235,6 +243,14 @@ function getResults (options) {
     }
 
     return results;
+}
+
+function getResultIds (options) {
+    if (check.unemptyString(options.resultIds)) {
+        return options.resultIds.split(',').map(function (resultId) {
+            return { id: resultId };
+        });
+    }
 }
 
 function getMapper (options) {
