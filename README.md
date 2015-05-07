@@ -258,6 +258,15 @@ Available options are:
   if you have already used `--dump`
   and don't want to invoke WebPageTest
   to perform the tests again.
+* `--resultIds <ids>`:
+  Fetch results from WebPageTest
+  using the comma-separated list
+  of result ids
+  and skip running the tests.
+  Use this option
+  when you want to map data
+  from pre-existing
+  WebPageTest runs.
 * `--mapper <path>`:
   The mapper to use.
   The default is `html-comparison`.
@@ -367,6 +376,10 @@ supporting the following properties:
 * `email`:
   The email address to notify
   when tests are finished.
+* `resultIds`:
+  Array of WebPageTest result ids
+  to use instead of
+  actually running the tests.
 * `dump`:
   Dump intermediate results
   to file.
