@@ -1,5 +1,9 @@
 # History
 
+## 0.1.1
+
+* Catch errors from odd data formats during shrinkage.
+
 ## 0.1.0
 
 * Implement `--resultIds`.
