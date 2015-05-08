@@ -227,16 +227,20 @@ function ensureProperty (object, key, value) {
 }
 
 function shrink (result) {
-    medianMetrics.forEach(function (key) {
-        var metric = result[key];
+    try {
+        medianMetrics.forEach(function (key) {
+            var metric = result[key];
 
-        if (metric) {
-            shrinkMetric(metric);
-            shrinkData(metric.data);
-            shrinkRuns(metric.data.runs);
-            shrinkRun(metric.data.median);
-        }
-    });
+            if (metric) {
+                shrinkMetric(metric);
+                shrinkData(metric.data);
+                shrinkRuns(metric.data.runs);
+                shrinkRun(metric.data.median);
+            }
+        });
+    } catch (error) {
+        /*jshint noempty:false */
+    }
 }
 
 function shrinkMetric (metric) {
