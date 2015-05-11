@@ -42,10 +42,15 @@
                 max-width: 720px;
             }
 
-            h1, h2, h3
+            h1, h2, h3, h4
             {
                 display: block;
                 font-weight: bold;
+            }
+
+            h1, h2
+            {
+                clear: left;
             }
 
             h1, h2
@@ -55,18 +60,23 @@
 
             h1
             {
-                margin: 2em 0 1em;
-                font-size: 3.2em;
+                margin: 1.4em 0 1em;
+                font-size: 2.8em;
             }
 
             h2
             {
-                margin: 1em 0 0.5em;
-                font-size: 2.4em;
-                clear: left;
+                margin: 0.6em 0 0.4em;
+                font-size: 2.2em;
             }
 
             h3
+            {
+                margin: 0.4em 0 0.4em;
+                font-size: 1.8em;
+            }
+
+            h4
             {
                 margin: 0 0 0.4em;
                 font-size: 1.4em;
@@ -193,12 +203,12 @@
                 <h2>{{name}}</h2>
 
 {{#each views}}                <section>
-                    <h2>{{name}}</h2>
+                    <h3>{{name}}</h3>
 
 {{#each metrics}}                    <section class="section-svg">
-                        <h3>{{name}}</h3>
+                        <h4>{{name}}</h4>
 
-                    <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
+                        <svg width="{{../../../chartWidth}}px" height="{{../../../chartHeight}}px">
                             <title>{{name}} histogram for {{../../name}} {{lowercase ../name}}</title>
 
                             <g transform="translate({{../../../chartMargin}}, 0)">
