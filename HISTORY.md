@@ -1,5 +1,9 @@
 # History
 
+## 0.1.1 (coming soon)
+
+* Fix headings in the distribution mapper.
+
 ## 0.1.0
 
 * Implement `--resultIds`.
