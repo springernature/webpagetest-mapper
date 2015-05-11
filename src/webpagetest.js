@@ -155,28 +155,28 @@ function formatNumber (number) {
 }
 
 function getResults (options, resultIds) {
-    var log, wpt, length, results, count, promise, done;
+    var log, wpt, results, count, length, promise, done;
 
     log = options.log;
     wpt = initialise(options);
-    length = resultIds.length * medianMetrics.length;
-    results = new Array(resultIds.length);
+    results = [];
     count = 0;
+    length = resultIds.length * medianMetrics.length;
     promise = new Promise(function (resolve) { done = resolve; });
 
     resultIds.forEach(function (resultId, index) {
-        results[index] = resultId;
-
         if (resultId.error) {
+            log.info('discarding failed test ' + index + ' [' + resultId.name + ']');
             length -= medianMetrics.length;
         } else {
-            medianMetrics.forEach(getResult.bind(null, resultId, index));
+            results.push(resultId);
+            medianMetrics.forEach(getResult.bind(null, resultId));
         }
     });
 
     return promise;
 
-    function getResult (resultId, index, metric) {
+    function getResult (resultId, metric) {
         var message;
 
         message = metric + ' result ' + resultId.id + ' [' + resultId.name + ']';
@@ -189,13 +189,13 @@ function getResults (options, resultIds) {
             pageSpeed: false,
             requests: false,
             medianMetric: metric
-        }, after.bind(null, message, resultId, index, metric));
+        }, after.bind(null, message, resultId, metric));
     }
 
-    function after (message, resultId, index, metric, error, result) {
+    function after (message, resultId, metric, error, result) {
         if (result.statusCode < 200) {
             log.info('still waiting for ' + message);
-            return setTimeout(getResult.bind(null, resultId, index, metric), options.wait * 1000);
+            return setTimeout(getResult.bind(null, resultId, metric), options.wait * 1000);
         }
 
         if (error) {
@@ -203,12 +203,12 @@ function getResults (options, resultIds) {
         } else {
             log.info('finished fetching ' + message);
 
-            ensureProperty(results[index], 'name', result.data.label || result.data.id);
-            ensureProperty(results[index], 'type', 'home');
-            ensureProperty(results[index], 'url', result.data.url);
-            ensureProperty(results[index], 'label', result.data.label);
+            ensureProperty(resultId, 'name', result.data.label || result.data.id);
+            ensureProperty(resultId, 'type', 'home');
+            ensureProperty(resultId, 'url', result.data.url);
+            ensureProperty(resultId, 'label', result.data.label);
 
-            results[index][metric] = result;
+            resultId[metric] = result;
         }
 
         count += 1;
