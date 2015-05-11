@@ -1,8 +1,12 @@
 # History
 
-## 0.1.1 (coming soon)
+## 0.1.2 (coming soon)
 
 * Fix headings in the distribution mapper.
+
+## 0.1.1
+
+* Catch errors from odd data formats during shrinkage.
 
 ## 0.1.0
 
