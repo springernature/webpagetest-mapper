@@ -455,7 +455,7 @@ suite('webpagetest:', function () {
                 webpagetest.getResults({
                     uri: 'foo',
                     key: 'bar',
-                    log: { info: nop, warn: nop, error: nop },
+                    log: { info: nop, warn: nop, error: nop }
                 }, [
                     { name: 'a', url: 'b', type: 'away', label: 'c', id: 'd' },
                     { name: 'e', url: 'f', type: 'home', label: 'g', id: 'h' }
