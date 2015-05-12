@@ -1,8 +1,9 @@
 # History
 
-## 0.1.2 (coming soon)
+## 0.1.2
 
 * Fix headings in the distribution mapper.
+* Remove failed tests from the result array.
 
 ## 0.1.1
 
