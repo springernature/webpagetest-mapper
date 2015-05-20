@@ -245,19 +245,23 @@ Available options are:
   File to write the mapped data to.
   The default is stdout.
 * `--dump <path>`:
-  Dump intermediate results to a file
+  Path to a file,
+  in which to dump
+  intermediate results
   for later processing.
   Use this option
   if you need to run
   the same result data
   through more than one mapper.
 * `--results <path>`:
-  Read intermediate results from a file,
-  and skip running the tests.
-  Use this option
-  if you have already used `--dump`
-  and don't want to invoke WebPageTest
-  to perform the tests again.
+  Path to the
+  intermediate results file,
+  previously dumped
+  using `--dump`.
+  This option skips
+  actually running the tests
+  and re-uses result JSON
+  from earlier runs.
 * `--resultIds <ids>`:
   Fetch results from WebPageTest
   using the comma-separated list
