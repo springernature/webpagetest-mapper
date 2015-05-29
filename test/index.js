@@ -36,12 +36,14 @@ suite('index:', function () {
         results = {
             normalise: [],
             runTests: [],
-            getResults: []
+            getResults: [],
+            resolve: [],
+            write: []
         };
 
         mockery.enable({ useCleanCache: true });
-        mockery.registerMock('fs', spooks.obj({
-            archetype: { writeFileSync: nop },
+        mockery.registerMock('bfj', spooks.obj({
+            archetype: { write: nop },
             log: log,
             results: results
         }));
@@ -73,7 +75,7 @@ suite('index:', function () {
         mockery.deregisterMock('./webpagetest');
         mockery.deregisterMock('./options');
         mockery.deregisterMock('path');
-        mockery.deregisterMock('fs');
+        mockery.deregisterMock('bfj');
         mockery.disable();
 
         log = results = undefined;
@@ -222,8 +224,8 @@ suite('index:', function () {
                     assert.instanceOf(result.times.end, Date);
                 });
 
-                test('fs.writeFileSync was not called', function () {
-                    assert.strictEqual(log.counts.writeFileSync, 0);
+                test('bfj.write was not called', function () {
+                    assert.strictEqual(log.counts.write, 0);
                 });
             });
         });
@@ -244,6 +246,8 @@ suite('index:', function () {
                     getResults.resolve = resolve;
                     getResults.reject = reject;
                 });
+                results.resolve[0] = 'wibble';
+                results.write[0] = Promise.resolve();
 
                 resolved = rejected = false;
 
@@ -348,8 +352,19 @@ suite('index:', function () {
                     assert.instanceOf(result.times.end, Date);
                 });
 
-                test('fs.writeFileSync was called once', function () {
-                    assert.strictEqual(log.counts.writeFileSync, 1);
+                test('bfj.write was called once', function () {
+                    assert.strictEqual(log.counts.write, 1);
+                    assert.strictEqual(log.these.write[0], require('bfj'));
+                });
+
+                test('bfj.write was called correctly', function () {
+                    assert.lengthOf(log.args.write[0], 3);
+                    assert.strictEqual(log.args.write[0][0], 'wibble');
+                    assert.strictEqual(log.args.write[0][1], result);
+                    assert.isObject(log.args.write[0][2]);
+                    assert.lengthOf(Object.keys(log.args.write[0][2]), 2);
+                    assert.strictEqual(log.args.write[0][2].encoding, 'utf8');
+                    assert.strictEqual(log.args.write[0][2].mode, 420);
                 });
             });
         });
