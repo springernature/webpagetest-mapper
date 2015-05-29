@@ -1,5 +1,9 @@
 # History
 
+## 0.2.0
+
+* Write dump file asynchronously.
+
 ## 0.1.2
 
 * Fix headings in the distribution mapper.
