@@ -1,6 +1,6 @@
 # History
 
-## 0.2.0
+## 0.2.2
 
 * Write dump file asynchronously.
 
