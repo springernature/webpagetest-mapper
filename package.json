@@ -1,6 +1,6 @@
 {
     "name": "webpagetest-mapper",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "description": "Map WebPageTest result data into human-readable document formats.",
     "homepage": "https://github.com/nature/webpagetest-mapper",
     "bugs": "https://github.com/nature/webpagetest-mapper/issues",
@@ -21,11 +21,11 @@
         "get-off-my-log": "0.1.x",
         "handlebars": "3.0.x",
         "es6-promise": "2.0.x",
-        "jszip": "2.4.x"
+        "jszip": "2.4.x",
+        "bfj": "1.1.x"
     },
     "optionalDependencies": {
-        "ain2": "1.5.x",
-        "bfj": "1.1.x"
+        "ain2": "1.5.x"
     },
     "devDependencies": {
         "jshint": "2.6.x",
