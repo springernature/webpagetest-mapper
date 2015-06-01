@@ -24,7 +24,8 @@
         "jszip": "2.4.x"
     },
     "optionalDependencies": {
-        "ain2": "1.5.x"
+        "ain2": "1.5.x",
+        "bfj": "1.0.x"
     },
     "devDependencies": {
         "jshint": "2.6.x",

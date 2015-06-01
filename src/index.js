@@ -19,10 +19,10 @@
 
 'use strict';
 
-var fs, path, normalise, get, wpt;
+var bfj, path, normalise, get, wpt;
 
 require('es6-promise').polyfill();
-fs = require('fs');
+bfj = require('bfj');
 path = require('path');
 normalise = require('./options').normalise;
 get = require('./options').get;
@@ -131,40 +131,15 @@ function fetch (options) {
 function dump (options, results) {
     var log, target;
 
-    try {
-        log = options.log;
-        target = path.resolve(options.dump);
+    log = options.log;
+    target = path.resolve(options.dump);
 
-        serialiseTimes(results);
+    log.info('dumping intermediates to `' + target + '`');
 
-        log.info('dumping intermediates to `' + target + '`');
-
-        fs.writeFileSync(
-            target,
-            JSON.stringify(results),
-            { encoding: 'utf8', mode: 420 }
-        );
-
-        deserialiseTimes(results);
-    } catch (error) {
-        log.error('failed to dump intermediates, ' + error.message);
-    }
-}
-
-function serialiseTimes (results) {
-    forEachTime(results, function (object, key) {
-        object[key] = object[key].toISOString();
-    });
-}
-
-function forEachTime (results, action) {
-    [ 'begin', 'end' ].forEach(action.bind(null, results.times));
-}
-
-function deserialiseTimes (results) {
-    forEachTime(results, function (object, key) {
-        object[key] = new Date(object[key]);
-    });
+    bfj.write(target, results, { encoding: 'utf8', mode: 420 }).
+        catch(function (error) {
+            log.error('failed to dump intermediates, ' + error.message);
+        });
 }
 
 /**
