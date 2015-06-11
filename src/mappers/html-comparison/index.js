@@ -425,6 +425,10 @@ function getSimpleValue (view, chartKey, result) {
     return getViewResult(view, result)[chartKey].value;
 }
 
+function expressValueInRtts(result, value) {
+    return Math.ceil(value / result.server_rtt);
+}
+
 function getMaximumValue (view, chartKey, derivative, results) {
     return results.reduce(function (maximum, result) {
         var current;
