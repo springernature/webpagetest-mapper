@@ -33,12 +33,21 @@ charts = [
     {
         view: 'first',
         key: 'speedIndex',
+        sectionTitle: 'Speed index, first view',
         title: 'Speed index, first view',
         label: 'First-view speed index (lower is better)'
     },
     {
+        view: 'first',
+        key: 'speedIndex',
+        metric: 'rtt',
+        title: 'Speed index, first view as RTTs',
+        label: 'First-view speed index as a function of RTT'
+    },
+    {
         view: 'repeat',
         key: 'speedIndex',
+        sectionTitle: 'Speed index, repeat view',
         title: 'Speed index, repeat view',
         label: 'Repeat-view speed index (lower is better)'
     },
@@ -47,27 +56,53 @@ charts = [
         key: 'speedIndex',
         derivative: 'percentage',
         title: 'Speed index, repeat-view improvement',
-        label: 'Repeat-view speed index as a percentage of first-view (lower is better)'
+        label: 'Repeat-view speed index as a percentage of first-view'
     },
     {
         view: 'first',
         key: 'firstByte',
-        title: 'First byte',
+        sectionTitle: 'First byte',
+        title: 'First byte in milliseconds',
         label: 'Time to first byte (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: 'firstByte',
+        metric: 'rtt',
+        title: 'First byte in RTTs',
+        label: 'Time to first byte (RTTs)'
     },
     {
         view: 'first',
         key: [ 'startRender', 'firstByte' ],
         derivative: 'difference',
-        title: 'Start render, difference from first byte',
+        sectionTitle: 'Start render, difference from first byte',
+        title: 'Start render, difference from first byte in milliseconds',
         label: 'Time from first byte until start render (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: [ 'startRender', 'firstByte' ],
+        derivative: 'difference',
+        metric: 'rtt',
+        title: 'Start render, difference from first byte in RTTs',
+        label: 'Time from first byte until start render (RTTs)'
     },
     {
         view: 'first',
         key: [ 'load', 'firstByte' ],
         derivative: 'difference',
-        title: 'Load, difference from first byte',
+        sectionTitle: 'Load, difference from first byte',
+        title: 'Load, difference from first byte in milliseconds',
         label: 'Time from first byte until load event (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: [ 'load', 'firstByte' ],
+        derivative: 'difference',
+        metric: 'rtt',
+        title: 'Load, difference from first byte in RTTs',
+        label: 'Time from first byte until load event (RTTs)'
     }
 ];
 
@@ -345,14 +380,17 @@ function mapChart (results, chart) {
         height: results.length * (barHeight + barPadding) + chartPadding,
         yAxisHeight: results.length * (barHeight + barPadding) + barPadding,
         tests: results.sort(
-            compareResults.bind(null, chart.view, chart.key, chart.derivative)
+            compareResults.bind(null, chart.view, chart.key, chart.derivative, chart.metric)
         ).map(
             mapChartResult.bind(
                 null,
                 chart.view,
                 chart.key,
                 chart.derivative,
-                getMaximumValue(chart.view, chart.key, chart.derivative, results) / (chartWidth - chartMargin)
+                chart.metric,
+                getMaximumValue(
+                    chart.view, chart.key, chart.derivative, chart.metric, results
+                ) / (chartWidth - chartMargin)
             )
         ),
         label: chart.label
@@ -362,7 +400,7 @@ function mapChart (results, chart) {
 barPadding = 2;
 chartPadding = 29;
 
-function compareResults (view, chartKey, derivative, first, second) {
+function compareResults (view, chartKey, derivative, metric, first, second) {
     if (first.error) {
         return 1;
     }
@@ -371,15 +409,24 @@ function compareResults (view, chartKey, derivative, first, second) {
         return -1;
     }
 
-    return getValue(view, chartKey, derivative, first) - getValue(view, chartKey, derivative, second);
+    return getValue(view, chartKey, derivative, metric, first) -
+        getValue(view, chartKey, derivative, metric, second);
 }
 
-function getValue (view, chartKey, derivative, result) {
+function getValue (view, chartKey, derivative, metric, result) {
+    var value;
+
     if (derivative) {
-        return getDerivativeValue(view, chartKey, result, derivative);
+        value = getDerivativeValue(view, chartKey, result, derivative);
+    } else {
+        value = getSimpleValue(view, chartKey, result);
     }
 
-    return getSimpleValue(view, chartKey, result);
+    if (metric === 'rtt') {
+        return expressValueInRtts(result, value);
+    }
+
+    return value;
 }
 
 function getDerivativeValue (view, chartKey, result, derivative) {
@@ -426,10 +473,12 @@ function getSimpleValue (view, chartKey, result) {
 }
 
 function expressValueInRtts(result, value) {
+    /*jshint camelcase:false */
+
     return Math.ceil(value / result.server_rtt);
 }
 
-function getMaximumValue (view, chartKey, derivative, results) {
+function getMaximumValue (view, chartKey, derivative, metric, results) {
     return results.reduce(function (maximum, result) {
         var current;
 
@@ -437,7 +486,7 @@ function getMaximumValue (view, chartKey, derivative, results) {
             return maximum;
         }
 
-        current = getValue(view, chartKey, derivative, result);
+        current = getValue(view, chartKey, derivative, metric, result);
 
         if (current > maximum) {
             return current;
@@ -447,15 +496,15 @@ function getMaximumValue (view, chartKey, derivative, results) {
     }, 0);
 }
 
-function mapChartResult (view, chartKey, derivative, millisecondsPerPixel, result, index) {
+function mapChartResult (view, chartKey, derivative, metric, unitsPerPixel, result, index) {
     var value, barWidth, textOrientation, textClass, textAnchor;
 
     if (result.error) {
         return result;
     }
 
-    value = getValue(view, chartKey, derivative, result);
-    barWidth = value / millisecondsPerPixel;
+    value = getValue(view, chartKey, derivative, metric, result);
+    barWidth = value / unitsPerPixel;
 
     if (barWidth % 1 !== 0) {
         barWidth = barWidth.toFixed(2);

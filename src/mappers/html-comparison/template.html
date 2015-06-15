@@ -347,9 +347,9 @@
                 <h2>Charts</h2>
 
 {{#each charts}}
-                <section>
-                    <h3>{{title}}</h3>
-
+{{#if sectionTitle}}                <section>
+                    <h3>{{sectionTitle}}</h3>
+{{/if}}
                     <svg width="{{../chartWidth}}px" height="{{height}}px">
                         <title>{{title}}</title>
 
@@ -371,8 +371,8 @@
                             </g>
 {{/with}}                        </g>
                     </svg>
-                </section>
-{{/each}}            </section>
+{{#unless sectionTitle}}                </section>
+{{/unless}}{{/each}}            </section>
 
             <section id="optimisations">
                 <h2>Optimisations</h2>
