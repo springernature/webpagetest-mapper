@@ -160,12 +160,7 @@ function mapResults (options, results) {
         chartWidth: chartWidth,
         chartMargin: chartMargin,
         barHeight: barHeight,
-        labelOffset: labelOffset,
-        xAxis: {
-            offset: mapped.length * (barHeight + barPadding) + 1,
-            width: chartWidth - chartMargin + 2,
-            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
-        }
+        labelOffset: labelOffset
     };
 }
 
@@ -404,7 +399,12 @@ function mapChart (results, chart) {
                 ) / (chartWidth - chartMargin)
             )
         ),
-        label: chart.label
+        label: chart.label,
+        xAxis: {
+            offset: filteredResults.length * (barHeight + barPadding) + 1,
+            width: chartWidth - chartMargin + 2,
+            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
+        }
     };
 }
 
