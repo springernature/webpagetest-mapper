@@ -381,12 +381,16 @@ function clone (thing) {
 }
 
 function mapChart (results, chart) {
+    var filteredResults = results.filter(
+        filterResults.bind(null, chart.view, chart.key, chart.derivative, chart.metric)
+    );
+
     return {
         title: chart.title,
         sectionTitle: chart.sectionTitle,
-        height: results.length * (barHeight + barPadding) + chartPadding,
-        yAxisHeight: results.length * (barHeight + barPadding) + barPadding,
-        tests: results.sort(
+        height: filteredResults.length * (barHeight + barPadding) + chartPadding,
+        yAxisHeight: filteredResults.length * (barHeight + barPadding) + barPadding,
+        tests: filteredResults.sort(
             compareResults.bind(null, chart.view, chart.key, chart.derivative, chart.metric)
         ).map(
             mapChartResult.bind(
@@ -407,17 +411,8 @@ function mapChart (results, chart) {
 barPadding = 2;
 chartPadding = 29;
 
-function compareResults (view, chartKey, derivative, metric, first, second) {
-    if (first.error) {
-        return 1;
-    }
-
-    if (second.error) {
-        return -1;
-    }
-
-    return getValue(view, chartKey, derivative, metric, first) -
-        getValue(view, chartKey, derivative, metric, second);
+function filterResults (view, chartKey, derivative, metric, result) {
+    return getValue(view, chartKey, derivative, metric, result) >= 0;
 }
 
 function getValue (view, chartKey, derivative, metric, result) {
@@ -477,7 +472,7 @@ function getViewResult (view, result) {
 
 function expressValueInRtt (datum) {
     if (!datum.rtt) {
-        return datum.value;
+        return -1;
     }
 
     return Math.ceil(datum.value / datum.rtt);
@@ -491,6 +486,19 @@ function getSimpleValue (view, chartKey, metric, result) {
     }
 
     return datum.value;
+}
+
+function compareResults (view, chartKey, derivative, metric, first, second) {
+    if (first.error) {
+        return 1;
+    }
+
+    if (second.error) {
+        return -1;
+    }
+
+    return getValue(view, chartKey, derivative, metric, first) -
+        getValue(view, chartKey, derivative, metric, second);
 }
 
 function getMaximumValue (view, chartKey, derivative, metric, results) {
