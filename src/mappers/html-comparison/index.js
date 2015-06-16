@@ -377,6 +377,7 @@ function clone (thing) {
 function mapChart (results, chart) {
     return {
         title: chart.title,
+        sectionTitle: chart.sectionTitle,
         height: results.length * (barHeight + barPadding) + chartPadding,
         yAxisHeight: results.length * (barHeight + barPadding) + barPadding,
         tests: results.sort(
