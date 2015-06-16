@@ -105,13 +105,14 @@ suite('templates:', function () {
         });
 
         test('six helpers were registered', function () {
-            assert.strictEqual(log.counts.registerHelper, 6);
+            assert.strictEqual(log.counts.registerHelper, 7);
             assert.strictEqual(log.these.registerHelper[0], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[1], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[2], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[3], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[4], require('handlebars'));
             assert.strictEqual(log.these.registerHelper[5], require('handlebars'));
+            assert.strictEqual(log.these.registerHelper[6], require('handlebars'));
         });
 
         test('first helper was registered correctly', function () {
@@ -182,6 +183,19 @@ suite('templates:', function () {
             assert.strictEqual(log.args.registerHelper[5][1]('FOO'), 'foo');
             assert.strictEqual(log.args.registerHelper[5][1]('bar'), 'bar');
             assert.strictEqual(log.args.registerHelper[5][1]('baZ'), 'baz');
+        });
+
+        test('seventh helper was registered correctly', function () {
+            assert.lengthOf(log.args.registerHelper[6], 2);
+            assert.strictEqual(log.args.registerHelper[6][0], 'debug');
+            assert.isFunction(log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[0][1], log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[1][1], log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[2][1], log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[3][1], log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[4][1], log.args.registerHelper[6][1]);
+            assert.notStrictEqual(log.args.registerHelper[5][1], log.args.registerHelper[6][1]);
+            assert.isUndefined(log.args.registerHelper[6][1]('foo'));
         });
 
         test('fs.readFileSync was not called', function () {
