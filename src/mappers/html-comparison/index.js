@@ -476,7 +476,11 @@ function getViewResult (view, result) {
 }
 
 function expressValueInRtt (datum) {
-    return datum.value / datum.rtt;
+    if (!datum.rtt) {
+        return datum.value;
+    }
+
+    return Math.ceil(datum.value / datum.rtt);
 }
 
 function getSimpleValue (view, chartKey, metric, result) {
