@@ -209,19 +209,23 @@ function mapResult (log, result) {
             firstView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex
+                    value: getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex,
+                    rtt: getMedianRun(result, 'SpeedIndex', 'first').server_rtt
                 },
                 firstByte: {
                     url: getWaterfallUrl(result, 'TTFB', 'first'),
-                    value: getMedianRun(result, 'TTFB', 'first').TTFB
+                    value: getMedianRun(result, 'TTFB', 'first').TTFB,
+                    rtt: getMedianRun(result, 'TTFB', 'first').server_rtt
                 },
                 startRender: {
                     url: getWaterfallUrl(result, 'render', 'first'),
-                    value: getMedianRun(result, 'render', 'first').render
+                    value: getMedianRun(result, 'render', 'first').render,
+                    rtt: getMedianRun(result, 'render', 'first').server_rtt
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'first'),
-                    value: getMedianRun(result, 'loadTime', 'first').loadTime
+                    value: getMedianRun(result, 'loadTime', 'first').loadTime,
+                    rtt: getMedianRun(result, 'loadTime', 'first').server_rtt
                 },
                 bytes: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
@@ -267,11 +271,13 @@ function mapResult (log, result) {
             repeatView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'repeat'),
-                    value: getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex
+                    value: getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex,
+                    rtt: getMedianRun(result, 'SpeedIndex', 'repeat').server_rtt
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'repeat'),
-                    value: getMedianRun(result, 'loadTime', 'repeat').loadTime
+                    value: getMedianRun(result, 'loadTime', 'repeat').loadTime,
+                    rtt: getMedianRun(result, 'loadTime', 'repeat').server_rtt
                 }
             }
         };
@@ -415,36 +421,29 @@ function compareResults (view, chartKey, derivative, metric, first, second) {
 }
 
 function getValue (view, chartKey, derivative, metric, result) {
-    var value;
-
     if (derivative) {
-        value = getDerivativeValue(view, chartKey, result, derivative);
-    } else {
-        value = getSimpleValue(view, chartKey, result);
+        return getDerivativeValue(view, chartKey, derivative, metric, result);
     }
 
-    if (metric === 'rtt') {
-        return expressValueInRtts(result, value);
-    }
+    return getSimpleValue(view, chartKey, metric, result);
 
-    return value;
 }
 
-function getDerivativeValue (view, chartKey, result, derivative) {
-    var operands = getDerivativeOperands(view, chartKey, result);
+function getDerivativeValue (view, chartKey, derivative, metric, result) {
+    var operands = getDerivativeOperands(view, chartKey, metric, result);
 
     if (derivative === 'difference') {
-        return operands.lhs.value - operands.rhs.value;
+        return operands.lhs - operands.rhs;
     }
 
     if (derivative === 'percentage') {
-        return Math.round((operands.lhs.value / operands.rhs.value) * 100);
+        return Math.round((operands.lhs / operands.rhs) * 100);
     }
 
     throw new Error('unrecognised derivative `' + derivative + '`');
 }
 
-function getDerivativeOperands (view, chartKey, result) {
+function getDerivativeOperands (view, chartKey, metric, result) {
     var lhs, rhs;
 
     if (Array.isArray(view)) {
@@ -462,21 +461,32 @@ function getDerivativeOperands (view, chartKey, result) {
         rhs = rhs[chartKey];
     }
 
-    return { lhs: lhs, rhs: rhs };
+    if (metric === 'rtt') {
+        return {
+            lhs: expressValueInRtt(lhs),
+            rhs: expressValueInRtt(rhs)
+        };
+    }
+
+    return { lhs: lhs.value, rhs: rhs.value };
 }
 
 function getViewResult (view, result) {
     return result[view + 'View'];
 }
 
-function getSimpleValue (view, chartKey, result) {
-    return getViewResult(view, result)[chartKey].value;
+function expressValueInRtt (datum) {
+    return datum.value / datum.rtt;
 }
 
-function expressValueInRtts(result, value) {
-    /*jshint camelcase:false */
+function getSimpleValue (view, chartKey, metric, result) {
+    var datum = getViewResult(view, result)[chartKey];
 
-    return Math.ceil(value / result.server_rtt);
+    if (metric === 'rtt') {
+        return expressValueInRtt(datum);
+    }
+
+    return datum.value;
 }
 
 function getMaximumValue (view, chartKey, derivative, metric, results) {
