@@ -760,7 +760,7 @@ suite('mappers/html-comparison:', function () {
                 assert.lengthOf(log.args.render[0], 1);
 
                 assert.isObject(log.args.render[0][0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0]), 15);
+                assert.lengthOf(Object.keys(log.args.render[0][0]), 14);
 
                 assert.strictEqual(log.args.render[0][0].application, 'webpagetest-mapper');
                 assert.match(log.args.render[0][0].version, /^[0-9]+\.[0-9]+\.[0-9]+$/);
@@ -777,15 +777,12 @@ suite('mappers/html-comparison:', function () {
                 assert.lengthOf(log.args.render[0][0].results, 2);
 
                 assert.isArray(log.args.render[0][0].charts);
-                assert.lengthOf(log.args.render[0][0].charts, 6);
+                assert.lengthOf(log.args.render[0][0].charts, 10);
 
                 assert.strictEqual(log.args.render[0][0].chartWidth, 832);
                 assert.strictEqual(log.args.render[0][0].chartMargin, 140);
                 assert.strictEqual(log.args.render[0][0].barHeight, 32);
                 assert.strictEqual(log.args.render[0][0].labelOffset, 16);
-
-                assert.isObject(log.args.render[0][0].xAxis);
-                assert.lengthOf(Object.keys(log.args.render[0][0].xAxis), 3);
             });
 
             test('render was called correctly [times]', function () {
@@ -805,24 +802,28 @@ suite('mappers/html-comparison:', function () {
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView), 14);
 
                 assert.isObject(log.args.render[0][0].results[0].firstView.speedIndex);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.speedIndex), 2);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.speedIndex), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.url, 'first SpeedIndex first firstView details');
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.value, 40000);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.speedIndex.rtt, 80000);
 
                 assert.isObject(log.args.render[0][0].results[0].firstView.firstByte);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.firstByte), 2);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.firstByte), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.url, 'first TTFB first firstView details');
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.value, 1);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.firstByte.rtt, 8);
 
                 assert.isObject(log.args.render[0][0].results[0].firstView.startRender);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.startRender), 2);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.startRender), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.url, 'first render first firstView details');
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.value, 20);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.startRender.rtt, 80);
 
                 assert.isObject(log.args.render[0][0].results[0].firstView.load);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.load), 2);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.load), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.load.url, 'first loadTime first firstView details');
                 assert.strictEqual(log.args.render[0][0].results[0].firstView.load.value, 300);
+                assert.strictEqual(log.args.render[0][0].results[0].firstView.load.rtt, 800);
 
                 assert.isObject(log.args.render[0][0].results[0].firstView.bytes);
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].firstView.bytes), 2);
@@ -876,9 +877,10 @@ suite('mappers/html-comparison:', function () {
                 assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView), 2);
 
                 assert.isObject(log.args.render[0][0].results[0].repeatView.speedIndex);
-                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView.speedIndex), 2);
+                assert.lengthOf(Object.keys(log.args.render[0][0].results[0].repeatView.speedIndex), 3);
                 assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.url, 'first SpeedIndex second repeatView details');
                 assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.value, 70000);
+                assert.strictEqual(log.args.render[0][0].results[0].repeatView.speedIndex.rtt, 30000);
                 assert.isObject(log.args.render[0][0].results[0].repeatView.load);
                 assert.strictEqual(log.args.render[0][0].results[0].repeatView.load.url, 'first loadTime second repeatView details');
             });
@@ -906,12 +908,19 @@ suite('mappers/html-comparison:', function () {
 
             test('render was called correctly [first chart]', function () {
                 assert.isObject(log.args.render[0][0].charts[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0]), 5);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0]), 7);
 
+                assert.strictEqual(log.args.render[0][0].charts[0].sectionTitle, 'Speed index, first view');
                 assert.strictEqual(log.args.render[0][0].charts[0].title, 'Speed index, first view');
                 assert.strictEqual(log.args.render[0][0].charts[0].height, 97);
                 assert.strictEqual(log.args.render[0][0].charts[0].yAxisHeight, 70);
                 assert.strictEqual(log.args.render[0][0].charts[0].label, 'First-view speed index (lower is better)');
+
+                assert.isObject(log.args.render[0][0].charts[0].xAxis);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[0].xAxis), 3);
+                assert.strictEqual(log.args.render[0][0].charts[0].xAxis.offset, 69);
+                assert.strictEqual(log.args.render[0][0].charts[0].xAxis.width, 694);
+                assert.strictEqual(log.args.render[0][0].charts[0].xAxis.labelPosition, 347);
 
                 assert.isArray(log.args.render[0][0].charts[0].tests);
                 assert.lengthOf(log.args.render[0][0].charts[0].tests, 2);
@@ -940,100 +949,156 @@ suite('mappers/html-comparison:', function () {
             });
 
             test('render was called correctly [second chart]', function () {
-                assert.isObject(log.args.render[0][0].charts[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1]), 5);
-
-                assert.strictEqual(log.args.render[0][0].charts[1].title, 'Speed index, repeat view');
+                assert.isUndefined(log.args.render[0][0].charts[1].sectionTitle);
+                assert.strictEqual(log.args.render[0][0].charts[1].title, 'Speed index, first view as RTTs');
                 assert.strictEqual(log.args.render[0][0].charts[1].height, 97);
                 assert.strictEqual(log.args.render[0][0].charts[1].yAxisHeight, 70);
-                assert.strictEqual(log.args.render[0][0].charts[1].label, 'Repeat-view speed index (lower is better)');
+                assert.strictEqual(log.args.render[0][0].charts[1].label, 'First-view speed index as a function of RTT');
+                assert.strictEqual(log.args.render[0][0].charts[1].xAxis.offset, 69);
 
-                assert.isArray(log.args.render[0][0].charts[1].tests);
-                assert.lengthOf(log.args.render[0][0].charts[1].tests, 2);
-
-                assert.isObject(log.args.render[0][0].charts[1].tests[0]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[0]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].offset, 0);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].name, 'first name');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].type, 'home');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].value, '70000');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textClass, 'chart-label chart-bar-label');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[0].textAnchor, 'end');
 
-                assert.isObject(log.args.render[0][0].charts[1].tests[1]);
-                assert.lengthOf(Object.keys(log.args.render[0][0].charts[1].tests[1]), 8);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].offset, 34);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].name, 'the second name');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].type, 'home');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].value, '70000');
+                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textOrientation, '-');
-                assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textClass, 'chart-label chart-bar-label');
                 assert.strictEqual(log.args.render[0][0].charts[1].tests[1].textAnchor, 'end');
             });
 
             test('render was called correctly [third chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[2].title, 'Speed index, repeat-view improvement');
-                assert.strictEqual(log.args.render[0][0].charts[2].label, 'Repeat-view speed index as a percentage of first-view (lower is better)');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].barWidth, '692.00');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].value, '175%');
+                assert.isObject(log.args.render[0][0].charts[2]);
+                assert.lengthOf(Object.keys(log.args.render[0][0].charts[2]), 7);
+
+                assert.strictEqual(log.args.render[0][0].charts[2].sectionTitle, 'Speed index, repeat view');
+                assert.strictEqual(log.args.render[0][0].charts[2].title, 'Speed index, repeat view');
+                assert.strictEqual(log.args.render[0][0].charts[2].height, 97);
+                assert.strictEqual(log.args.render[0][0].charts[2].yAxisHeight, 70);
+                assert.strictEqual(log.args.render[0][0].charts[2].label, 'Repeat-view speed index (lower is better)');
+                assert.strictEqual(log.args.render[0][0].charts[2].xAxis.offset, 69);
+
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[0].value, '70000');
                 assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[2].tests[0].textAnchor, 'end');
 
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].barWidth, '692.00');
-                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].value, '175%');
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[2].tests[1].value, '70000');
                 assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[2].tests[1].textAnchor, 'end');
             });
 
             test('render was called correctly [fourth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[3].title, 'First byte');
-                assert.strictEqual(log.args.render[0][0].charts[3].label, 'Time to first byte (milliseconds)');
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].value, '1');
+                assert.strictEqual(log.args.render[0][0].charts[3].title, 'Speed index, repeat-view improvement');
+                assert.strictEqual(log.args.render[0][0].charts[3].label, 'Repeat-view speed index as a percentage of first-view');
+                assert.strictEqual(log.args.render[0][0].charts[3].xAxis.offset, 69);
+
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].barWidth, '692.00');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[0].value, '175%');
                 assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[3].tests[0].textAnchor, 'end');
 
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].value, '1');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].barWidth, '692.00');
+                assert.strictEqual(log.args.render[0][0].charts[3].tests[1].value, '175%');
                 assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[3].tests[1].textAnchor, 'end');
             });
 
             test('render was called correctly [fifth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[4].title, 'Start render, difference from first byte');
-                assert.strictEqual(log.args.render[0][0].charts[4].label, 'Time from first byte until start render (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[4].title, 'First byte in milliseconds');
+                assert.strictEqual(log.args.render[0][0].charts[4].label, 'Time to first byte (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[4].xAxis.offset, 69);
+
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[0].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[0].textAnchor, 'end');
 
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[4].tests[1].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[4].tests[1].textAnchor, 'end');
             });
 
             test('render was called correctly [sixth chart]', function () {
-                assert.strictEqual(log.args.render[0][0].charts[5].title, 'Load, difference from first byte');
-                assert.strictEqual(log.args.render[0][0].charts[5].label, 'Time from first byte until load event (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[5].title, 'First byte in RTTs');
+                assert.strictEqual(log.args.render[0][0].charts[5].label, 'Time to first byte (RTTs)');
+                assert.strictEqual(log.args.render[0][0].charts[5].xAxis.offset, 69);
+
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[0].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[0].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[0].textAnchor, 'end');
 
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[1].barWidth, 692);
-                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[5].tests[1].value, '1');
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textOrientation, '-');
                 assert.strictEqual(log.args.render[0][0].charts[5].tests[1].textAnchor, 'end');
             });
 
-            test('render was called correctly [xAxis]', function () {
-                assert.strictEqual(log.args.render[0][0].xAxis.offset, 69);
-                assert.strictEqual(log.args.render[0][0].xAxis.width, 694);
-                assert.strictEqual(log.args.render[0][0].xAxis.labelPosition, 347);
+            test('render was called correctly [seventh chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[6].title, 'Start render, difference from first byte in milliseconds');
+                assert.strictEqual(log.args.render[0][0].charts[6].label, 'Time from first byte until start render (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[6].xAxis.offset, 69);
+
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[0].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[1].value, '19');
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[6].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [eighth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[7].title, 'Start render, difference from first byte in RTTs');
+                assert.strictEqual(log.args.render[0][0].charts[7].label, 'Time from first byte until start render (RTTs)');
+                assert.strictEqual(log.args.render[0][0].charts[7].xAxis.offset, 69);
+
+                assert.isTrue(isNaN(log.args.render[0][0].charts[7].tests[0].barWidth));
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[0].value, '0');
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[0].textAnchor, 'end');
+
+                assert.isTrue(isNaN(log.args.render[0][0].charts[7].tests[1].barWidth));
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[1].value, '0');
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[7].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [ninth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[8].title, 'Load, difference from first byte in milliseconds');
+                assert.strictEqual(log.args.render[0][0].charts[8].label, 'Time from first byte until load event (milliseconds)');
+                assert.strictEqual(log.args.render[0][0].charts[8].xAxis.offset, 69);
+
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[0].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[0].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[0].textAnchor, 'end');
+
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[1].barWidth, 692);
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[1].value, '299');
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[8].tests[1].textAnchor, 'end');
+            });
+
+            test('render was called correctly [tenth chart]', function () {
+                assert.strictEqual(log.args.render[0][0].charts[9].title, 'Load, difference from first byte in RTTs');
+                assert.strictEqual(log.args.render[0][0].charts[9].label, 'Time from first byte until load event (RTTs)');
+                assert.strictEqual(log.args.render[0][0].charts[9].xAxis.offset, 69);
+
+                assert.isTrue(isNaN(log.args.render[0][0].charts[9].tests[0].barWidth));
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[0].value, '0');
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[0].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[0].textAnchor, 'end');
+
+                assert.isTrue(isNaN(log.args.render[0][0].charts[9].tests[1].barWidth));
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[1].value, '0');
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[1].textOrientation, '-');
+                assert.strictEqual(log.args.render[0][0].charts[9].tests[1].textAnchor, 'end');
             });
         });
     });
