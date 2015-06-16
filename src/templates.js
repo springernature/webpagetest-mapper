@@ -55,6 +55,19 @@ handlebars.registerHelper('lowercase', function (string) {
 
     return string.toLowerCase();
 });
+handlebars.registerHelper('debug', function (value) {
+    console.log('######################################################################');
+    console.log('#####               ##################################################');
+    console.log('#####   D E B U G   ##################################################');
+    console.log('#####               ##################################################');
+    console.log('######################################################################');
+    console.log('template context:');
+    console.log(this);
+    if (arguments.length === 2) {
+        console.log('template value:');
+        console.log(value);
+    }
+});
 
 module.exports = {
     compile: compile
