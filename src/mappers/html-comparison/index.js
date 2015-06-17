@@ -33,12 +33,21 @@ charts = [
     {
         view: 'first',
         key: 'speedIndex',
+        sectionTitle: 'Speed index, first view',
         title: 'Speed index, first view',
         label: 'First-view speed index (lower is better)'
     },
     {
+        view: 'first',
+        key: 'speedIndex',
+        metric: 'rtt',
+        title: 'Speed index, first view as RTTs',
+        label: 'First-view speed index as a function of RTT'
+    },
+    {
         view: 'repeat',
         key: 'speedIndex',
+        sectionTitle: 'Speed index, repeat view',
         title: 'Speed index, repeat view',
         label: 'Repeat-view speed index (lower is better)'
     },
@@ -47,27 +56,53 @@ charts = [
         key: 'speedIndex',
         derivative: 'percentage',
         title: 'Speed index, repeat-view improvement',
-        label: 'Repeat-view speed index as a percentage of first-view (lower is better)'
+        label: 'Repeat-view speed index as a percentage of first-view'
     },
     {
         view: 'first',
         key: 'firstByte',
-        title: 'First byte',
+        sectionTitle: 'First byte',
+        title: 'First byte in milliseconds',
         label: 'Time to first byte (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: 'firstByte',
+        metric: 'rtt',
+        title: 'First byte in RTTs',
+        label: 'Time to first byte (RTTs)'
     },
     {
         view: 'first',
         key: [ 'startRender', 'firstByte' ],
         derivative: 'difference',
-        title: 'Start render, difference from first byte',
+        sectionTitle: 'Start render, difference from first byte',
+        title: 'Start render, difference from first byte in milliseconds',
         label: 'Time from first byte until start render (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: [ 'startRender', 'firstByte' ],
+        derivative: 'difference',
+        metric: 'rtt',
+        title: 'Start render, difference from first byte in RTTs',
+        label: 'Time from first byte until start render (RTTs)'
     },
     {
         view: 'first',
         key: [ 'load', 'firstByte' ],
         derivative: 'difference',
-        title: 'Load, difference from first byte',
+        sectionTitle: 'Load, difference from first byte',
+        title: 'Load, difference from first byte in milliseconds',
         label: 'Time from first byte until load event (milliseconds)'
+    },
+    {
+        view: 'first',
+        key: [ 'load', 'firstByte' ],
+        derivative: 'difference',
+        metric: 'rtt',
+        title: 'Load, difference from first byte in RTTs',
+        label: 'Time from first byte until load event (RTTs)'
     }
 ];
 
@@ -125,12 +160,7 @@ function mapResults (options, results) {
         chartWidth: chartWidth,
         chartMargin: chartMargin,
         barHeight: barHeight,
-        labelOffset: labelOffset,
-        xAxis: {
-            offset: mapped.length * (barHeight + barPadding) + 1,
-            width: chartWidth - chartMargin + 2,
-            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
-        }
+        labelOffset: labelOffset
     };
 }
 
@@ -174,19 +204,23 @@ function mapResult (log, result) {
             firstView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
-                    value: getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex
+                    value: getMedianRun(result, 'SpeedIndex', 'first').SpeedIndex,
+                    rtt: getMedianRun(result, 'SpeedIndex', 'first').server_rtt
                 },
                 firstByte: {
                     url: getWaterfallUrl(result, 'TTFB', 'first'),
-                    value: getMedianRun(result, 'TTFB', 'first').TTFB
+                    value: getMedianRun(result, 'TTFB', 'first').TTFB,
+                    rtt: getMedianRun(result, 'TTFB', 'first').server_rtt
                 },
                 startRender: {
                     url: getWaterfallUrl(result, 'render', 'first'),
-                    value: getMedianRun(result, 'render', 'first').render
+                    value: getMedianRun(result, 'render', 'first').render,
+                    rtt: getMedianRun(result, 'render', 'first').server_rtt
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'first'),
-                    value: getMedianRun(result, 'loadTime', 'first').loadTime
+                    value: getMedianRun(result, 'loadTime', 'first').loadTime,
+                    rtt: getMedianRun(result, 'loadTime', 'first').server_rtt
                 },
                 bytes: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'first'),
@@ -232,11 +266,13 @@ function mapResult (log, result) {
             repeatView: {
                 speedIndex: {
                     url: getWaterfallUrl(result, 'SpeedIndex', 'repeat'),
-                    value: getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex
+                    value: getMedianRun(result, 'SpeedIndex', 'repeat').SpeedIndex,
+                    rtt: getMedianRun(result, 'SpeedIndex', 'repeat').server_rtt
                 },
                 load: {
                     url: getWaterfallUrl(result, 'loadTime', 'repeat'),
-                    value: getMedianRun(result, 'loadTime', 'repeat').loadTime
+                    value: getMedianRun(result, 'loadTime', 'repeat').loadTime,
+                    rtt: getMedianRun(result, 'loadTime', 'repeat').server_rtt
                 }
             }
         };
@@ -340,63 +376,69 @@ function clone (thing) {
 }
 
 function mapChart (results, chart) {
+    var filteredResults = results.filter(
+        filterResults.bind(null, chart.view, chart.key, chart.derivative, chart.metric)
+    );
+
     return {
         title: chart.title,
-        height: results.length * (barHeight + barPadding) + chartPadding,
-        yAxisHeight: results.length * (barHeight + barPadding) + barPadding,
-        tests: results.sort(
-            compareResults.bind(null, chart.view, chart.key, chart.derivative)
+        sectionTitle: chart.sectionTitle,
+        height: filteredResults.length * (barHeight + barPadding) + chartPadding,
+        yAxisHeight: filteredResults.length * (barHeight + barPadding) + barPadding,
+        tests: filteredResults.sort(
+            compareResults.bind(null, chart.view, chart.key, chart.derivative, chart.metric)
         ).map(
             mapChartResult.bind(
                 null,
                 chart.view,
                 chart.key,
                 chart.derivative,
-                getMaximumValue(chart.view, chart.key, chart.derivative, results) / (chartWidth - chartMargin)
+                chart.metric,
+                getMaximumValue(
+                    chart.view, chart.key, chart.derivative, chart.metric, results
+                ) / (chartWidth - chartMargin)
             )
         ),
-        label: chart.label
+        label: chart.label,
+        xAxis: {
+            offset: filteredResults.length * (barHeight + barPadding) + 1,
+            width: chartWidth - chartMargin + 2,
+            labelPosition: Math.round((chartWidth - chartMargin + 2) / 2)
+        }
     };
 }
 
 barPadding = 2;
 chartPadding = 29;
 
-function compareResults (view, chartKey, derivative, first, second) {
-    if (first.error) {
-        return 1;
-    }
-
-    if (second.error) {
-        return -1;
-    }
-
-    return getValue(view, chartKey, derivative, first) - getValue(view, chartKey, derivative, second);
+function filterResults (view, chartKey, derivative, metric, result) {
+    return getValue(view, chartKey, derivative, metric, result) >= 0;
 }
 
-function getValue (view, chartKey, derivative, result) {
+function getValue (view, chartKey, derivative, metric, result) {
     if (derivative) {
-        return getDerivativeValue(view, chartKey, result, derivative);
+        return getDerivativeValue(view, chartKey, derivative, metric, result);
     }
 
-    return getSimpleValue(view, chartKey, result);
+    return getSimpleValue(view, chartKey, metric, result);
+
 }
 
-function getDerivativeValue (view, chartKey, result, derivative) {
-    var operands = getDerivativeOperands(view, chartKey, result);
+function getDerivativeValue (view, chartKey, derivative, metric, result) {
+    var operands = getDerivativeOperands(view, chartKey, metric, result);
 
     if (derivative === 'difference') {
-        return operands.lhs.value - operands.rhs.value;
+        return operands.lhs - operands.rhs;
     }
 
     if (derivative === 'percentage') {
-        return Math.round((operands.lhs.value / operands.rhs.value) * 100);
+        return Math.round((operands.lhs / operands.rhs) * 100);
     }
 
     throw new Error('unrecognised derivative `' + derivative + '`');
 }
 
-function getDerivativeOperands (view, chartKey, result) {
+function getDerivativeOperands (view, chartKey, metric, result) {
     var lhs, rhs;
 
     if (Array.isArray(view)) {
@@ -414,18 +456,52 @@ function getDerivativeOperands (view, chartKey, result) {
         rhs = rhs[chartKey];
     }
 
-    return { lhs: lhs, rhs: rhs };
+    if (metric === 'rtt') {
+        return {
+            lhs: expressValueInRtt(lhs),
+            rhs: expressValueInRtt(rhs)
+        };
+    }
+
+    return { lhs: lhs.value, rhs: rhs.value };
 }
 
 function getViewResult (view, result) {
     return result[view + 'View'];
 }
 
-function getSimpleValue (view, chartKey, result) {
-    return getViewResult(view, result)[chartKey].value;
+function expressValueInRtt (datum) {
+    if (!datum.rtt) {
+        return -1;
+    }
+
+    return Math.ceil(datum.value / datum.rtt);
 }
 
-function getMaximumValue (view, chartKey, derivative, results) {
+function getSimpleValue (view, chartKey, metric, result) {
+    var datum = getViewResult(view, result)[chartKey];
+
+    if (metric === 'rtt') {
+        return expressValueInRtt(datum);
+    }
+
+    return datum.value;
+}
+
+function compareResults (view, chartKey, derivative, metric, first, second) {
+    if (first.error) {
+        return 1;
+    }
+
+    if (second.error) {
+        return -1;
+    }
+
+    return getValue(view, chartKey, derivative, metric, first) -
+        getValue(view, chartKey, derivative, metric, second);
+}
+
+function getMaximumValue (view, chartKey, derivative, metric, results) {
     return results.reduce(function (maximum, result) {
         var current;
 
@@ -433,7 +509,7 @@ function getMaximumValue (view, chartKey, derivative, results) {
             return maximum;
         }
 
-        current = getValue(view, chartKey, derivative, result);
+        current = getValue(view, chartKey, derivative, metric, result);
 
         if (current > maximum) {
             return current;
@@ -443,15 +519,15 @@ function getMaximumValue (view, chartKey, derivative, results) {
     }, 0);
 }
 
-function mapChartResult (view, chartKey, derivative, millisecondsPerPixel, result, index) {
+function mapChartResult (view, chartKey, derivative, metric, unitsPerPixel, result, index) {
     var value, barWidth, textOrientation, textClass, textAnchor;
 
     if (result.error) {
         return result;
     }
 
-    value = getValue(view, chartKey, derivative, result);
-    barWidth = value / millisecondsPerPixel;
+    value = getValue(view, chartKey, derivative, metric, result);
+    barWidth = value / unitsPerPixel;
 
     if (barWidth % 1 !== 0) {
         barWidth = barWidth.toFixed(2);

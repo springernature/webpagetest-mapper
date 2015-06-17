@@ -15,7 +15,7 @@
 // You should have received a copy of the GNU General Public License along with
 // webpagetest-mapper. If not, see <http://www.gnu.org/licenses/>.
 
-/*globals require, module */
+/*globals require, module, console */
 
 'use strict';
 
@@ -54,6 +54,19 @@ handlebars.registerHelper('lowercase', function (string) {
     }
 
     return string.toLowerCase();
+});
+handlebars.registerHelper('debug', function (value) {
+    console.log('######################################################################');
+    console.log('#####               ##################################################');
+    console.log('#####   D E B U G   ##################################################');
+    console.log('#####               ##################################################');
+    console.log('######################################################################');
+    console.log('template context:');
+    console.log(this);
+    if (arguments.length === 2) {
+        console.log('template value:');
+        console.log(value);
+    }
 });
 
 module.exports = {
