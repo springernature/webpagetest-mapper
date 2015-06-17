@@ -1,5 +1,9 @@
 # History
 
+## 0.3.0
+
+* Express values in terms of RTT in the html-comparison mapper.
+
 ## 0.2.2
 
 * Write dump file asynchronously.
