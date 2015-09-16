@@ -600,7 +600,7 @@ with the command `npm test`.
 
 ## What versions of node.js does it support?
 
-0.10, 0.12, latest stable io.js
+0.10 - 4.0
 
 ## What license is it released under?
 
