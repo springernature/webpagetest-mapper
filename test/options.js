@@ -599,8 +599,8 @@ suite('options:', function () {
                     assert.isTrue(normalised.normalised);
                 });
             });
-			
-			suite('normalise with tests array:', function () {
+
+            suite('normalise with tests array:', function () {
                 var normalised;
 
                 setup(function () {
@@ -618,9 +618,9 @@ suite('options:', function () {
                     assert.strictEqual(log.counts.resolve, 1);
                 });
 
-				test('normalised.tests is the correct array', function () {
-					assert.deepEqual(normalised.tests, ["a", "b", "c", "d"]);
-				});
+                test('normalised.tests is the correct array', function () {
+                    assert.deepEqual(normalised.tests, ["a", "b", "c", "d"]);
+                });
 
             });
 
