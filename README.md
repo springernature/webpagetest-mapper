@@ -364,7 +364,7 @@ supporting the following properties:
   The WebPageTest connection speed.
   The default is `Native Connection`.
 * `tests`:
-  Path to the test definitions file.
+  Path to the test definitions file or an array of test definitions.
   The default is `tests.json`.
 * `count`:
   The number of times
