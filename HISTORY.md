@@ -2,7 +2,7 @@
 
 ## 0.4.0
 
-* Allow the `tests` featch option to be passed as an array
+* Allow the `tests` fetch option to be passed as an array
 
 ## 0.3.0
 
