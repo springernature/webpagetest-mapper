@@ -1,5 +1,9 @@
 # History
 
+## 0.4.0
+
+* Allow the `tests` featch option to be passed as an array
+
 ## 0.3.0
 
 * Express values in terms of RTT in the html-comparison mapper.
