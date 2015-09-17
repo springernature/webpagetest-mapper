@@ -599,6 +599,30 @@ suite('options:', function () {
                     assert.isTrue(normalised.normalised);
                 });
             });
+			
+			suite('normalise with tests array:', function () {
+                var normalised;
+
+                setup(function () {
+                    results.readFileSync[2] = '{"data":[],"options":{},"times":{"begin":"2015-01-04T14:55:08.577Z","end":"2015-01-04T14:55:08.578Z"}}';
+                    normalised = options.normalise({
+                        tests: ["a", "b", "c", "d"]
+                    });
+                });
+
+                teardown(function () {
+                    normalised = undefined;
+                });
+
+                test('path.resolve was only called once', function () {
+                    assert.strictEqual(log.counts.resolve, 1);
+                });
+				
+				test('normalised.tests is an array', function () {
+					assert.deepEqual(normalised.tests, ["a", "b", "c", "d"]);
+                });
+
+            });
 
             suite('normalise with config:', function () {
                 var normalised;
