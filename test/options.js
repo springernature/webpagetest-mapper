@@ -617,10 +617,10 @@ suite('options:', function () {
                 test('path.resolve was only called once', function () {
                     assert.strictEqual(log.counts.resolve, 1);
                 });
-				
-				test('normalised.tests is an array', function () {
+
+				test('normalised.tests is the correct array', function () {
 					assert.deepEqual(normalised.tests, ["a", "b", "c", "d"]);
-                });
+				});
 
             });
 
