@@ -600,7 +600,7 @@ with the command `npm test`.
 
 ## What versions of node.js does it support?
 
-0.10 - 4.0
+0.12 or greater
 
 ## What license is it released under?
 
