@@ -22,7 +22,6 @@ var assert, mockery, spooks, modulePath;
 assert = require('chai').assert;
 mockery = require('mockery');
 spooks = require('spooks');
-require('es6-promise').polyfill();
 
 modulePath = '../src/webpagetest';
 
