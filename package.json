@@ -1,6 +1,6 @@
 {
     "name": "webpagetest-mapper",
-    "version": "0.4.0",
+    "version": "1.0.0",
     "description": "Map WebPageTest result data into human-readable document formats.",
     "homepage": "https://github.com/nature/webpagetest-mapper",
     "bugs": "https://github.com/nature/webpagetest-mapper/issues",
