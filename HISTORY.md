@@ -1,5 +1,10 @@
 # History
 
+## 1.0.0
+
+* Cease support for `node` `0.10`
+* Updating `bfj` dependency to `1.2.x` 
+
 ## 0.4.0
 
 * Allow the `tests` fetch option to be passed as an array
