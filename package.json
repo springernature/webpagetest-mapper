@@ -21,7 +21,7 @@
         "get-off-my-log": "0.1.x",
         "handlebars": "3.0.x",
         "jszip": "2.4.x",
-        "bfj": "1.1.x"
+        "bfj": "1.2.x"
     },
     "optionalDependencies": {
         "ain2": "1.5.x"
