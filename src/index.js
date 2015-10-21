@@ -21,7 +21,6 @@
 
 var bfj, path, normalise, get, wpt;
 
-require('es6-promise').polyfill();
 bfj = require('bfj');
 path = require('path');
 normalise = require('./options').normalise;

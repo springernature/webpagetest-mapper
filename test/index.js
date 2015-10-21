@@ -26,7 +26,6 @@ spooks = require('spooks');
 modulePath = '../src/index';
 
 mockery.registerAllowable(modulePath);
-mockery.registerAllowable('es6-promise');
 
 suite('index:', function () {
     var log, results;
