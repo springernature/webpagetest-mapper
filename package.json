@@ -2,8 +2,8 @@
     "name": "webpagetest-mapper",
     "version": "1.0.0",
     "description": "Map WebPageTest result data into human-readable document formats.",
-    "homepage": "https://github.com/nature/webpagetest-mapper",
-    "bugs": "https://github.com/nature/webpagetest-mapper/issues",
+    "homepage": "https://github.com/springernature/webpagetest-mapper",
+    "bugs": "https://github.com/springernature/webpagetest-mapper/issues",
     "license": "GPL-3.0+",
     "author": "Nature Publishing Group (https://github.com/nature)",
     "main": "./src",
@@ -12,7 +12,7 @@
     },
     "repository": {
         "type": "git",
-        "url": "https://github.com/nature/webpagetest-mapper.git"
+        "url": "https://github.com/springernature/webpagetest-mapper.git"
     },
     "dependencies": {
         "commander": "2.7.x",

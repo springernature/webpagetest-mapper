@@ -25,6 +25,5 @@
 
 [readme]: README.md
 [authors]: AUTHORS
-[newissue]: https://github.com/nature/webpagetest-mapper/issues/new
-[issues]: https://github.com/nature/webpagetest-mapper/issues
-
+[newissue]: https://github.com/springernature/webpagetest-mapper/issues/new
+[issues]: https://github.com/springernature/webpagetest-mapper/issues

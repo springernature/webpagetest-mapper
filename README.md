@@ -609,8 +609,8 @@ with the command `npm test`.
 Copyright © 2015 Nature Publishing Group
 
 [testdefs]: #what-is-the-format-of-the-test-definitions-file
-[ci-image]: https://secure.travis-ci.org/nature/webpagetest-mapper.png?branch=master
-[ci-status]: http://travis-ci.org/#!/nature/webpagetest-mapper
+[ci-image]: https://secure.travis-ci.org/springernature/webpagetest-mapper.png?branch=master
+[ci-status]: http://travis-ci.org/#!/springernature/webpagetest-mapper
 [api]: https://github.com/marcelduran/webpagetest-api
 [cruft]: http://cruft.io/posts/introducing-webpagetest-mapper/
 [eg-html-comparison]: examples/html-comparison.html
