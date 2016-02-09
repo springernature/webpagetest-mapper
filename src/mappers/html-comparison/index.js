@@ -1,4 +1,4 @@
-// Copyright © 2015 Nature Publishing Group
+// Copyright © 2015 Springer Nature
 //
 // This file is part of webpagetest-mapper.
 //

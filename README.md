@@ -606,7 +606,7 @@ with the command `npm test`.
 
 [GPL 3+][license]
 
-Copyright © 2015 Nature Publishing Group
+Copyright © 2015 Springer Nature
 
 [testdefs]: #what-is-the-format-of-the-test-definitions-file
 [ci-image]: https://secure.travis-ci.org/springernature/webpagetest-mapper.png?branch=master

@@ -5,7 +5,7 @@
     "homepage": "https://github.com/springernature/webpagetest-mapper",
     "bugs": "https://github.com/springernature/webpagetest-mapper/issues",
     "license": "GPL-3.0+",
-    "author": "Nature Publishing Group (https://github.com/nature)",
+    "author": "Springer Nature (https://github.com/springernature)",
     "main": "./src",
     "bin": {
         "wptmap": "./src/cli.js"
