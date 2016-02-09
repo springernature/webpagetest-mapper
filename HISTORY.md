@@ -1,5 +1,10 @@
 # History
 
+## 1.0.1
+
+* Update repository references to springernature
+* Update the license
+
 ## 1.0.0
 
 * Cease support for `node` `0.10`
