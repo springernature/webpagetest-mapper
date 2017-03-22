@@ -1,41 +1,41 @@
 {
-    "name": "webpagetest-mapper",
-    "version": "1.0.1",
-    "description": "Map WebPageTest result data into human-readable document formats.",
-    "homepage": "https://github.com/springernature/webpagetest-mapper",
-    "bugs": "https://github.com/springernature/webpagetest-mapper/issues",
-    "license": "GPL-3.0+",
-    "author": "Springer Nature (https://github.com/springernature)",
-    "main": "./src",
-    "bin": {
-        "wptmap": "./src/cli.js"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/springernature/webpagetest-mapper.git"
-    },
-    "dependencies": {
-        "commander": "2.7.x",
-        "check-types": "3.1.x",
-        "webpagetest": "0.3.x",
-        "get-off-my-log": "0.1.x",
-        "handlebars": "~4.0.6",
-        "jszip": "2.4.x",
-        "bfj": "1.2.x"
-    },
-    "optionalDependencies": {
-        "ain2": "1.5.x"
-    },
-    "devDependencies": {
-        "jshint": "2.6.x",
-        "mocha": "2.2.x",
-        "chai": "2.1.x",
-        "mockery": "1.4.x",
-        "spooks": "2.0.x"
-    },
-    "scripts": {
-        "test": "mocha --ui tdd --reporter spec --recursive --colors test",
-        "lint": "jshint src"
-    }
+  "name": "webpagetest-mapper",
+  "version": "1.0.1",
+  "description": "Map WebPageTest result data into human-readable document formats.",
+  "homepage": "https://github.com/springernature/webpagetest-mapper",
+  "bugs": "https://github.com/springernature/webpagetest-mapper/issues",
+  "license": "GPL-3.0+",
+  "author": "Springer Nature (https://github.com/springernature)",
+  "main": "./src",
+  "bin": {
+    "wptmap": "./src/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/springernature/webpagetest-mapper.git"
+  },
+  "dependencies": {
+    "commander": "2.7.x",
+    "check-types": "3.1.x",
+    "webpagetest": "0.3.x",
+    "get-off-my-log": "0.1.x",
+    "handlebars": "~4.0.6",
+    "jszip": "2.4.x",
+    "bfj": "1.2.x"
+  },
+  "optionalDependencies": {
+    "ain2": "1.5.x"
+  },
+  "devDependencies": {
+    "jshint": "2.6.x",
+    "mocha": "2.2.x",
+    "chai": "2.1.x",
+    "mockery": "1.4.x",
+    "spooks": "2.0.x"
+  },
+  "scripts": {
+    "test": "mocha --ui tdd --reporter spec --recursive --colors test",
+    "lint": "jshint src"
+  }
 }
 
